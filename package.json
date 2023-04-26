@@ -1,0 +1,20 @@
+{
+  "name": "backend-51380",
+  "version": "1.0.0",
+  "description": "Coderhouse Backend 2023",
+  "main": "products.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gglibaak/backend-51380.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gglibaak/backend-51380/issues"
+  },
+  "homepage": "https://github.com/gglibaak/backend-51380#readme"
+}

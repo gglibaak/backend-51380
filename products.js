@@ -73,8 +73,8 @@ class ProductManager {
       return "Product not found.";
     }
 
-    const updated = { id, ...updatedProduct };
-    this.products.splice(prodIndex, 1, updated);
+    
+    this.products[prodIndex] = { ...this.products[prodIndex], ...updatedProduct }
 
     await fs.promises.writeFile(
       this.path,
@@ -133,7 +133,7 @@ const testProductCrud = async (mode) => {
   try {
     switch (mode) {
       case 1:
-        const result = await newProduct.addProduct(product);
+        const result = await newProduct.addProduct(product2);
         console.log(result);
         break;
       case 2:
@@ -145,7 +145,7 @@ const testProductCrud = async (mode) => {
         console.log(result3);
         break;
       case 4:
-        const result4 = await newProduct.updateProduct(1, product3);
+        const result4 = await newProduct.updateProduct(1, product2);
         console.log(result4);
         break;
 
@@ -171,4 +171,4 @@ const testProductCrud = async (mode) => {
 //      4 - Actualizar producto, en el primer parametro el producto ya existenten en la lista, en el segundo parametro, la nueva información.
 //      5 - Eliminar producto con un ID especifico.
 
-testProductCrud(2);
+testProductCrud(4);

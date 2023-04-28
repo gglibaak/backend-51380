@@ -3,7 +3,7 @@ const express = require('express');
 const PORT = 8080
 const app = express();
 
-const ProductManager = require("./model/ProductManager");
+const ProductManager = require("./ProductManager");
 const data = new ProductManager("productsDB");
 
 const serverConnectd = app.listen(PORT, ()=> console.log(`📢 Server listening on port: ${PORT}`));

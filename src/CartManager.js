@@ -1,9 +1,9 @@
 const fs = require("fs");
 
-class ProductManager {
+class CartManager {
   constructor(fileName) {
     this.path = `./${fileName}.json`;
-    this.products = [...productList];
+    this.products = [];
   }
 
   async getData() {
@@ -105,40 +105,4 @@ class ProductManager {
   }
 }
 
-  const productList = [
-    {
-      id: 1,
-      title: "Fender Stratocaster El Diablo 1956",
-      description: "Guitar",
-      price: 8500,
-      thumbnail: "https://guitar.com/guitar.jpg",
-      code: "a101",
-      stock: 10,
-      category: "Electric Guitar",
-      status: true
-    },
-    {
-      id: 2,
-      title: "Fender Bass 1967",
-      description: "Guitar Bass",
-      price: 6300,
-      thumbnail: "https://guitar.com/bass.jpg",
-      code: "a102",
-      stock: 5,
-      category: "Electric Bass Guitar",
-      status: true
-    },
-    {
-      id: 3,
-      title: "Gibson Dove 2002",
-      description: "Guitar Acoustic",
-      price: 5350,
-      thumbnail: "https://guitar.com/guitaracoustic.jpg",
-      code: "a103",
-      stock: 25,
-      category: "Acoustic Guitar",
-      status: true
-    },
-  ];  
-
-  module.exports = ProductManager;
+  module.exports = CartManager;

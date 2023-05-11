@@ -1,39 +1,25 @@
 const express = require('express');
+const productRoutes = require('./routers/products.routes')
+const cartRoutes = require('./routers/carts.routes')
 
 const PORT = 8080
 const app = express();
-
-const ProductManager = require("./ProductManager");
-const data = new ProductManager("productsDB");
 
 const serverConnectd = app.listen(PORT, ()=> console.log(`📢 Server listening on port: ${PORT}`));
 
 serverConnectd.on('error', error => console.log(`Server error: ${error}`))
 
+//middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res)=> res.send('<h1> 🌐 Express Server Online</h1>'))
 
-app.get("/products", async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit);
-    const products = await data.getProducts();
-    const slicedProducts = limit ? products.slice(0, limit) : products;
-    res.status(200).send(slicedProducts);
-  } catch (err) {
-    console.log(err);
-  }
-});
+// Routes
+app.use('/api', productRoutes);
+app.use('/api', cartRoutes);
 
-app.get("/products/:pid", async (req, res) => {
-  try {
-    const filteredId = parseInt(req.params.pid);
-    const dataFiltered = await data.getProductById(filteredId);
-
-    res.status(200).send(dataFiltered);
-  } catch (err) {
-    console.log(err);
-  }
-});
+app.get("*", (req, res) =>
+  res.status(404).send("<h3> ⛔ We cannot access the requested route</h3>")
+);
 

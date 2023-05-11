@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "title": "Fender Stratocaster El Diablo 1956",
+    "description": "Guitar",
+    "price": 8500,
+    "thumbnail": "https://guitar.com/guitar.jpg",
+    "code": "a101",
+    "stock": 10,
+    "category": "Electric Guitar",
+    "status": true
+  },
+  {
+    "id": 2,
+    "title": "Fender Bass 1967",
+    "description": "Guitar Bass",
+    "price": 6300,
+    "thumbnail": "https://guitar.com/bass.jpg",
+    "code": "a102",
+    "stock": 5,
+    "category": "Electric Bass Guitar",
+    "status": true
+  },
+  {
+    "id": 3,
+    "title": "Gibson Dove 2002",
+    "description": "Guitar Acoustic",
+    "price": 5350,
+    "thumbnail": "https://guitar.com/guitaracoustic.jpg",
+    "code": "a103",
+    "stock": 25,
+    "category": "Acoustic Guitar",
+    "status": true
+  },
+  {
+    "id": 4,
+    "title": "Prueba",
+    "description": "esto es una prueba",
+    "price": 2400,
+    "thumbnail": "http:google.com/foto",
+    "code": "a998",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  },
+  {
+    "id": 5,
+    "title": "Prueba2",
+    "description": "esto es una prueba",
+    "price": 2400,
+    "thumbnail": "http:google.com/foto",
+    "code": "a999",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  },
+  {
+    "id": 6,
+    "title": "Prueba3",
+    "description": "esto es una prueba",
+    "price": 2400,
+    "thumbnail": "http:google.com/foto",
+    "code": "a1000",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  },
+  {
+    "id": 7,
+    "title": "Prueba4",
+    "description": "esto es una prueba",
+    "price": 2401,
+    "thumbnail": "http:google.com/foto",
+    "code": "a1001",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  },
+  {
+    "id": 8,
+    "title": "Prueba5",
+    "description": "esto es una prueba",
+    "price": 2402,
+    "thumbnail": "http:google.com/foto",
+    "code": "a1002",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  },
+  {
+    "id": 9,
+    "title": "Prueba6",
+    "description": "esto es una prueba",
+    "price": 2402,
+    "thumbnail": "http:google.com/foto",
+    "code": "a1003",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  },
+  {
+    "id": 10,
+    "title": "Prueba7",
+    "description": "esto es una prueba",
+    "price": 2402,
+    "thumbnail": "http:google.com/foto",
+    "code": "a1004",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  },
+  {
+    "id": 11,
+    "title": "Prueba8",
+    "description": "esto es una prueba",
+    "price": 2403,
+    "thumbnail": "http:google.com/foto",
+    "code": "a1005",
+    "stock": 8,
+    "category": "prueba",
+    "status": true
+  }
+]

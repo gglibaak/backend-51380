@@ -100,11 +100,11 @@
   },
   {
     "id": 10,
-    "title": "Prueba7",
+    "title": "Prueba ACTUALIZADO",
     "description": "esto es una prueba",
-    "price": 2402,
+    "price": 2403,
     "thumbnail": "http:google.com/foto",
-    "code": "a1004",
+    "code": "a1008",
     "stock": 8,
     "category": "prueba",
     "status": true

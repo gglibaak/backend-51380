@@ -3,106 +3,74 @@ const fs = require("fs");
 class CartManager {
   constructor(fileName) {
     this.path = `./${fileName}.json`;
-    this.products = [];
+    this.carts = [];
   }
 
   async getData() {
     fs.existsSync(this.path)
-      ? (this.products = JSON.parse(
+      ? (this.carts = JSON.parse(
           await fs.promises.readFile(this.path, "utf-8")
         ))
-      : await fs.promises.writeFile(this.path, JSON.stringify(this.products));
+      : await fs.promises.writeFile(this.path, JSON.stringify(this.carts));
 
-    return this.products;
+    return this.carts;
   }
 
-  async addProduct(product) {
+  async addCart(cart) {
     await this.getData();
-
-    if (
-      !product.title ||
-      !product.description ||
-      !product.price ||
-      !product.thumbnail ||
-      !product.code ||
-      !product.stock ||
-      !product.category
-    ) {
-      return "The content of the fields is wrong.";
-    }
-
-    if (this.products.some((item) => item.code === product.code)) {
-      return "Product already exists.";
-    }
 
     const maxId =
-      this.products.length > 0
-        ? Math.max(...this.products.map((p) => p.id))
-        : 0;
+      this.carts.length > 0 ? Math.max(...this.carts.map((p) => p.id)) : 0;
     this.id = maxId + 1;
 
-    let newProduct = { id: this.id, ...product, status: true };
-    this.products.push(newProduct);
+    let newCart = { id: this.id, ...cart };
+    this.carts.push(newCart);
 
-    await fs.promises.writeFile(
-      this.path,
-      JSON.stringify(this.products, null, 2)
-    );
+    await fs.promises.writeFile(this.path, JSON.stringify(this.carts, null, 2));
 
-    return "Product added successfully.";
+    return "Cart added successfully.";
   }
 
-  async getProducts() {
+  async getCarts() {
     await this.getData();
-    return this.products;
+    return this.carts;
   }
 
-  async getProductById(id) {
+  async getCartById(id) {
     await this.getData();
-    let prodFound = this.products.find((p) => p.id === id);
+    let prodFound = this.carts.find((p) => p.id === id);
     if (!prodFound) {
       return "Product not found.";
     }
     return prodFound;
   }
 
-  async updateProduct(id, updatedProduct) {
+  async updateCart(cartId, productId) {
     await this.getData();
-    let prodIndex = this.products.findIndex((p) => p.id === id);
+    let cartIndex = this.carts.findIndex((p) => p.id === cartId);
+    const cartFiltered = this.carts.find((c) => c.id == cartId);
 
-    if (prodIndex === -1) {
-      return "Product not found.";
+    if (cartIndex === -1) {
+      return "Cart not found.";
     }
 
-    this.products[prodIndex] = {
-      ...this.products[prodIndex],
-      ...updatedProduct,
-    };
-
-    await fs.promises.writeFile(
-      this.path,
-      JSON.stringify(this.products, null, 2)
+    const productIndex = cartFiltered.products.findIndex(
+      (p) => p.id === productId
     );
 
-    return "Product updated successfully.";
-  }
-
-  async deleteProduct(id) {
-    await this.getData();
-    const prodIndex = this.products.findIndex((p) => p.id === id);
-
-    if (prodIndex === -1) {
-      return "Product not found.";
+    if (productIndex !== -1) {
+      cartFiltered.products[productIndex].quantity += 1;
+    } else {
+      cartFiltered.products.push({ id: productId, quantity: 1 });
     }
 
-    this.products.splice(prodIndex, 1);
-    await fs.promises.writeFile(
-      this.path,
-      JSON.stringify(this.products, null, 2)
-    );
+    const indexCart = this.carts.indexOf(cartFiltered);
+    this.carts.splice(indexCart, 1, cartFiltered);
 
-    return "Product deleted successfully.";
+    await fs.promises.writeFile(this.path, JSON.stringify(this.carts, null, 2));
+
+    return cartFiltered;
   }
 }
 
-  module.exports = CartManager;
+module.exports = CartManager;

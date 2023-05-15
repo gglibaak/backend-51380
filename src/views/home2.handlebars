@@ -1,0 +1,22 @@
+<h2 class="text-center my-4">Lista de Productos con Handlebars v2</h2>
+<div class="row">
+  {{#each products}}
+    <div class="col-sm-2">
+      <div class="card" style="width: 16rem;">
+        <img class="card-img-top" src="{{thumbnail}}" alt="Card image cap" />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{title}}</h5>
+          <p>ID:{{id}}</p>
+          <p>{{description}}</p>
+          <p>Price: ${{price}}</p>
+          <p>Code: {{code}}</p>
+          <p>Stock: {{stock}}</p>
+          <p>Category: {{category}}</p>
+          <div class="mt-auto d-flex justify-content-center">
+            <a href="#" class="btn btn-primary w-100">Comprar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>

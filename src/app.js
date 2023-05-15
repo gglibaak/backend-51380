@@ -44,26 +44,22 @@ app.get("*", (req, res) =>
   res.status(404).send("<h3> ⛔ We cannot access the requested route</h3>")
 );
 
-// Socket Events
-io.on("connection", async (socket) => {
+
+io.on("connection", (socket) => {
   console.log(`New Client Connection with ID: ${socket.id}`);
 
-  // Envío de lista de productos al cliente
-  const productsList = await data.getProducts();
-  socket.emit("products", productsList);
-
-  // Escuchando y Enviando
   socket.on("new-product", async (newProd) => {
     try {
       await data.addProduct({ ...newProd });
 
-      // Actualizando lista despues de agregar producto nuevo
+    // Actualizando lista despues de agregar producto nuevo
       const productsList = await data.getProducts();
-
-      // Enviando lista a los clientes
-      io.emit("products", productsList);
+   
+    io.emit("products", { productsList });
+      
     } catch (error) {
       console.log(error);
     }
+    
   });
 });

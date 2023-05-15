@@ -8,9 +8,7 @@ realTimeProdRoutes.get("/", async (req, res) => {
   try {
 
     const products = await dataProd.getProducts();
-    // return res.render("realTimeProducts", { products: products });
-    return res.render("realTimeProducts", { products });
-    // return res.render("realTimeProducts", { });
+    return res.render("realTimeProducts", { products: products });
 
   } catch (error) {
     res.status(500).json({ succes: "false", msg: "Error", payload: {} });

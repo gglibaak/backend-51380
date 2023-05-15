@@ -78,46 +78,24 @@
   },
   {
     "id": 8,
-    "title": "Prueba5",
-    "description": "esto es una prueba",
-    "price": 2402,
+    "title": "papa",
+    "description": "12",
+    "price": 12321,
     "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a1002",
-    "stock": 8,
-    "category": "prueba",
+    "code": "a2323",
+    "stock": 2,
+    "category": "asdas",
     "status": true
   },
   {
     "id": 9,
-    "title": "Prueba6",
-    "description": "esto es una prueba",
-    "price": 2402,
+    "title": "Item test",
+    "description": "Test",
+    "price": 12,
     "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a1003",
-    "stock": 8,
-    "category": "prueba",
-    "status": true
-  },
-  {
-    "id": 10,
-    "title": "Prueba ACTUALIZADO 2",
-    "description": "esto es una prueba",
-    "price": 2403,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a1008",
-    "stock": 8,
-    "category": "prueba",
-    "status": true
-  },
-  {
-    "id": 11,
-    "title": "Prueba8",
-    "description": "esto es una prueba",
-    "price": 2403,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a1005",
-    "stock": 8,
-    "category": "prueba",
+    "code": "a8995",
+    "stock": 1,
+    "category": "Guitar",
     "status": true
   }
 ]

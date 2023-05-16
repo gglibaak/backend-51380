@@ -40,10 +40,6 @@ app.use('/api', cartRoutes);
 app.use('/', hbsRoutes);
 app.use('/realtimeproducts', realTimeProdRoutes);
 
-app.get("*", (req, res) =>
-  res.status(404).send("<h3> ⛔ We cannot access the requested route</h3>")
-);
-
 
 io.on("connection", (socket) => {
   console.log(`New Client Connection with ID: ${socket.id}`);
@@ -54,12 +50,16 @@ io.on("connection", (socket) => {
 
     // Actualizando lista despues de agregar producto nuevo
       const productsList = await data.getProducts();
-   
+
     io.emit("products", { productsList });
-      
+
     } catch (error) {
       console.log(error);
     }
-    
+
   });
 });
+
+app.get("*", (req, res) =>
+  res.status(404).send("<h3> ⛔ We cannot access the requested route</h3>")
+);

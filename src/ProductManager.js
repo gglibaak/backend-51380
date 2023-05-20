@@ -23,7 +23,7 @@ class ProductManager {
       !product.title ||
       !product.description ||
       !product.price ||
-      !product.thumbnail ||
+      !product.thumbnails ||
       !product.code ||
       !product.stock ||
       !product.category
@@ -111,7 +111,7 @@ class ProductManager {
       title: "Fender Stratocaster El Diablo 1956",
       description: "Guitar",
       price: 8500,
-      thumbnail: "https://guitar.com/guitar.jpg",
+      thumbnails: ["https://guitar.com/guitar.jpg"],
       code: "a101",
       stock: 10,
       category: "Electric Guitar",
@@ -122,7 +122,7 @@ class ProductManager {
       title: "Fender Bass 1967",
       description: "Guitar Bass",
       price: 6300,
-      thumbnail: "https://guitar.com/bass.jpg",
+      thumbnails: ["https://guitar.com/bass.jpg"],
       code: "a102",
       stock: 5,
       category: "Electric Bass Guitar",
@@ -133,7 +133,7 @@ class ProductManager {
       title: "Gibson Dove 2002",
       description: "Guitar Acoustic",
       price: 5350,
-      thumbnail: "https://guitar.com/guitaracoustic.jpg",
+      thumbnails: ["https://guitar.com/guitaracoustic.jpg"],
       code: "a103",
       stock: 25,
       category: "Acoustic Guitar",

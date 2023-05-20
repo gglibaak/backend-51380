@@ -4,7 +4,9 @@
     "title": "Fender Stratocaster El Diablo 1956",
     "description": "Guitar",
     "price": 8500,
-    "thumbnail": "https://i.postimg.cc/ydVjPCwk/5.jpg",
+    "thumbnails": [
+      "https://i.postimg.cc/ydVjPCwk/5.jpg"
+    ],
     "code": "a101",
     "stock": 10,
     "category": "Electric Guitar",
@@ -12,10 +14,12 @@
   },
   {
     "id": 2,
-    "title": "Fender Bass 1967",
+    "title": "Fender Bass 1969",
     "description": "Guitar Bass",
     "price": 6300,
-    "thumbnail": "https://i.postimg.cc/ncskTkwY/7.jpg",
+    "thumbnails": [
+      "https://i.postimg.cc/ncskTkwY/7.jpg"
+    ],
     "code": "a102",
     "stock": 5,
     "category": "Electric Bass Guitar",
@@ -26,76 +30,99 @@
     "title": "Gibson Dove 2002",
     "description": "Guitar Acoustic",
     "price": 5350,
-    "thumbnail": "https://i.postimg.cc/nz0kSwJT/9.jpg",
+    "thumbnails": [
+      "https://i.postimg.cc/nz0kSwJT/9.jpg"
+    ],
     "code": "a103",
     "stock": 25,
     "category": "Acoustic Guitar",
     "status": true
   },
   {
-    "id": 4,
-    "title": "Prueba",
-    "description": "esto es una prueba",
-    "price": 2400,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a998",
+    "id": 3,
+    "title": "Gibson Les Paul VOS 1958",
+    "description": "Guitar Electric",
+    "price": 6500,
+    "thumbnails": [
+      "https://i.postimg.cc/4y2Wy22n/1.jpg"
+    ],
+    "code": "a104",
     "stock": 8,
-    "category": "prueba",
+    "category": "Electric Guitar",
+    "status": true
+  },
+  {
+    "id": 4,
+    "title": "Fender Stratocaster CS 1969",
+    "description": "Guitar Electric",
+    "price": 4300,
+    "thumbnails": [
+      "https://i.postimg.cc/WbK9PKJH/4.jpg"
+    ],
+    "code": "a105",
+    "stock": 7,
+    "category": "Electric Guitar",
     "status": true
   },
   {
     "id": 5,
-    "title": "Prueba2",
-    "description": "esto es una prueba",
-    "price": 2400,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a999",
-    "stock": 8,
-    "category": "prueba",
+    "title": "Gibson Firebird III 1965",
+    "description": "Guitar Electric",
+    "price": 3300,
+    "thumbnails": [
+      "https://i.postimg.cc/qvyGH7rN/3.jpg"
+    ],
+    "code": "a106",
+    "stock": 7,
+    "category": "Electric Guitar",
     "status": true
   },
   {
     "id": 6,
-    "title": "Prueba3",
-    "description": "esto es una prueba",
-    "price": 2400,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a1000",
-    "stock": 8,
-    "category": "prueba",
+    "title": "Gibson Thunderbird IV",
+    "description": "Guitar Bass Electric",
+    "price": 5600,
+    "thumbnails": [
+      "https://i.postimg.cc/P5wSf4Wr/8.jpg"
+    ],
+    "code": "a107",
+    "stock": 7,
+    "category": "Electric Bass Guitar",
     "status": true
   },
   {
     "id": 7,
-    "title": "Prueba4",
-    "description": "esto es una prueba",
-    "price": 2401,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a1001",
-    "stock": 8,
-    "category": "prueba",
+    "title": "Fender Telecaster CS 1961",
+    "description": "Guitar Electric",
+    "price": 4500,
+    "thumbnails": [
+      "https://i.postimg.cc/VvvFxBsw/6.jpg"
+    ],
+    "code": "a108",
+    "stock": 7,
+    "category": "Electric Guitar",
     "status": true
   },
   {
     "id": 8,
-    "title": "Prueba 5",
-    "description": "test",
-    "price": 123,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a1900",
-    "stock": 69,
-    "category": "prueba ",
-    "status": true
-  },
-  {
-    "id": 9,
-    "title": "Prueba 6",
-    "description": "test",
-    "price": 5223,
-    "thumbnail": "https://i.postimg.cc/hjBs23HV/test.jpg",
-    "code": "a2366",
-    "stock": 45,
-    "category": "Guitar",
+    "title": "Gibson Les Paul Black Beauty 1998",
+    "description": "Guitar Electric",
+    "price": 3500,
+    "thumbnails": [
+      "https://i.postimg.cc/SRPGk2jM/2.jpg"
+    ],
+    "code": "a109",
+    "stock": 7,
+    "category": "Electric Guitar",
     "status": true
   }
+
+
+  
+  
+
+
+
+
+
 ]

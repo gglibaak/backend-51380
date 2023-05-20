@@ -32,13 +32,13 @@ productRoutes.post("/products", async (req, res) => {
   try {
     const products = await data.getProducts();
     const newProduct = req.body;
-    const { title, description, price, thumbnail, code, stock, category } =
+    const { title, description, price, thumbnails, code, stock, category } =
       req.body;
     if (
       !title ||
       !description ||
       !price ||
-      !thumbnail ||
+      !thumbnails ||
       !code ||
       !stock ||
       !category
@@ -75,13 +75,13 @@ productRoutes.put("/products/:pid", async (req, res) => {
     const products = await data.getProducts();
     const id = parseInt(req.params.pid);
     const infoUpdateProd = req.body;
-    const { title, description, price, thumbnail, code, stock, category } =
+    const { title, description, price, thumbnails, code, stock, category } =
       req.body;
     if (
       !title ||
       !description ||
       !price ||
-      !thumbnail ||
+      !thumbnails ||
       !code ||
       !stock ||
       !category

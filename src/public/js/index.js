@@ -7,7 +7,7 @@ const inputPrice = document.getElementById("form-price");
 const inputCode = document.getElementById("form-code");
 const inputStock = document.getElementById("form-stock");
 const inputCategory = document.getElementById("form-category");
-const inputThumbnail = document.getElementById("form-thumbnail");
+const inputThumbnails = document.getElementById("form-thumbnails");
 
 // // Escuchando servidor
 socket.on("products", (products) => {
@@ -28,7 +28,7 @@ socket.on("products", (products) => {
         <td>${product.code}</td>
         <td>${product.stock}</td>
         <td>${product.category}</td>
-        <td><img src="${product.thumbnail}" alt="${product.id}" title="Foto de ${product.title}" style="width: 50px; min-height: 100%; max-height: 50px;"></td>
+        <td><img src="${product.thumbnails}" alt="${product.id}" title="Foto de ${product.title}" style="width: 50px; min-height: 100%; max-height: 50px;"></td>
         <td><button type="button" class="btn btn-danger " onclick="deleteProduct(${product.id})">X</button></td>
       </tr>
     `
@@ -56,7 +56,7 @@ formProducts.onsubmit = (e) => {
     title: inputTitle.value,
     description: inputDescript.value,
     price: +inputPrice.value,
-    thumbnail: inputThumbnail.value,
+    thumbnails: [inputThumbnails.value],
     code: inputCode.value,
     stock: +inputStock.value,
     category: inputCategory.value,

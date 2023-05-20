@@ -7,11 +7,9 @@ const cartRoutes = require("./routers/carts.routes");
 const hbsRoutes = require("./routers/handlebars.routes");
 const realTimeProdRoutes = require("./routers/realtimeprods.routes");
 
-const ProductManager = require("./ProductManager");
-const data = new ProductManager("productsDB");
-
 const handlerbars = require("express-handlebars");
 const path = require("path");
+const websockets = require("./websockets");
 
 const PORT = 8080;
 const app = express();
@@ -40,35 +38,7 @@ app.use("/api", cartRoutes);
 app.use("/", hbsRoutes);
 app.use("/realtimeproducts", realTimeProdRoutes);
 
-io.on("connection", (socket) => {
-  console.log(`New Client Connection with ID: ${socket.id}`);
-
-  socket.on("new-product", async (newProd) => {
-    try {
-      await data.addProduct({ ...newProd });
-      // Actualizando lista despues de agregar producto nuevo
-      const productsList = await data.getProducts();
-
-      io.emit("products", productsList);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-  socket.on("delete-product", async (delProd) => {
-    try {
-      let id = parseInt(delProd)
-      // console.log(id)
-      // console.log(typeof id)
-      await data.deleteProduct(id);
-      // Actualizando lista despues de agregar producto nuevo
-      const productsList = await data.getProducts();
-
-      io.emit("products", productsList);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-});
+websockets(io);
 
 app.get("*", (req, res) =>
   res.status(404).send("<h3> ⛔ We cannot access the requested route</h3>")

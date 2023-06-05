@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/gglibaak/backend-51380#readme",
   "dependencies": {
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.7",
+    "mongoose": "^7.2.2",
     "socket.io": "^4.6.1"
   },
   "devDependencies": {

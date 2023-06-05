@@ -10,8 +10,9 @@ const realTimeProdRoutes = require("./routers/realtimeprods.routes");
 const handlerbars = require("express-handlebars");
 const path = require("path");
 const websockets = require("./websockets");
+const connectMongo = require("./utils/mongo.connect");
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
@@ -21,6 +22,9 @@ const serverConnected = httpServer.listen(PORT, () =>
 );
 
 serverConnected.on("error", (error) => console.log(`Server error: ${error}`));
+
+// Conexión a DB Atlas.
+connectMongo();
 
 //middlewares
 app.use(express.json());

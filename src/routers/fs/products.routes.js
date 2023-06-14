@@ -1,5 +1,5 @@
 const express = require("express");
-const ProductManager = require("../ProductManager");
+const ProductManager = require("../../dao/fs/ProductManager");
 const data = new ProductManager("productsDB");
 
 const productRoutes = express.Router();

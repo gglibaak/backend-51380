@@ -2,7 +2,7 @@ const express = require("express");
 const { Server: HttpServer } = require("http");
 const { Server: SocketServer } = require("socket.io");
 
-const productRoutes = require("./routers/products.routes");
+const productRoutes = require("./routers/mongo/products.routes");
 const cartRoutes = require("./routers/carts.routes");
 const hbsRoutes = require("./routers/handlebars.routes");
 const realTimeProdRoutes = require("./routers/realtimeprods.routes");
@@ -11,6 +11,7 @@ const handlerbars = require("express-handlebars");
 const path = require("path");
 const websockets = require("./websockets");
 const connectMongo = require("./utils/mongo.connect");
+
 
 const PORT = process.env.PORT || 8080;
 const app = express();

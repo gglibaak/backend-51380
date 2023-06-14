@@ -1,4 +1,4 @@
-const ProductManager = require("./ProductManager");
+const ProductManager = require("./dao/fs/ProductManager");
 const data = new ProductManager("productsDB");
 
 module.exports = (io) => {

@@ -37,23 +37,23 @@ class MongoCarts {
       if (cartId === undefined || prodId === undefined) {
         const newCart = await CartModel.create({});
         return { status: 200, result: { succes: true, payload: newCart } };
+      } else {
+        if (
+          !mongoose.Types.ObjectId.isValid(prodId) ||
+          !mongoose.Types.ObjectId.isValid(cartId)
+        ) {
+          return {
+            status: 400,
+            result: {
+              success: false,
+              error: `🛑 Invalid product or card ID.`,
+            },
+          };
+        }
       }
 
       const productFiltered = await ProductModel.findOne({ _id: prodId });
       const cartFiltered = await CartModel.findOne({ _id: cartId });
-
-      if (
-        !mongoose.Types.ObjectId.isValid(prodId) ||
-        !mongoose.Types.ObjectId.isValid(cartId)
-      ) {
-        return {
-          status: 400,
-          result: {
-            success: false,
-            error: `🛑 Invalid product or card ID.`,
-          },
-        };
-      }
 
       if (!productFiltered || !cartFiltered) {
         return {

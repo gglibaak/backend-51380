@@ -82,7 +82,7 @@ class MongoProducts {
 
   async updateProduct(id, newDataProduct) {
     try {
-        const { title, description, price, thumbnails, code, stock, category } =
+      const { title, description, price, thumbnails, code, stock, category } =
         newDataProduct;
 
       if (
@@ -100,8 +100,7 @@ class MongoProducts {
         };
       }
 
-      
-      if (!await ProductModel.findOne({ _id: id })) {
+      if (!(await ProductModel.findOne({ _id: id }))) {
         return {
           status: 400,
           result: {
@@ -114,23 +113,27 @@ class MongoProducts {
       const response = await ProductModel.updateOne(
         { _id: id },
         { title, description, price, thumbnails, code, stock, category }
-      )
+      );
 
-      return { status: 200, result: { succes: true, payload: response } };
-        
+      return {
+        status: 200,
+        result: {
+          succes: true,
+          payload: { ...newDataProduct, mongo: response },
+        },
+      };
     } catch (err) {
-        console.log(err);
-        return {
-          status: 500,
-          result: { succes: false, msg: "Internal Server Error", payload: {} },
-        };
-      }
-
+      console.log(err);
+      return {
+        status: 500,
+        result: { succes: false, msg: "Internal Server Error", payload: {} },
+      };
+    }
   }
 
   async deleteProduct(id) {
     try {
-      if (!await ProductModel.findOne({ _id: id })) {
+      if (!(await ProductModel.findOne({ _id: id }))) {
         return {
           status: 400,
           result: {
@@ -142,8 +145,13 @@ class MongoProducts {
 
       const response = await ProductModel.deleteOne({ _id: id });
 
-      return { status: 200, result: { succes: true, payload: response } };
-      
+      return {
+        status: 200,
+        result: {
+          succes: true,
+          payload: { deleteItemId: id, mongo: response },
+        },
+      };
     } catch (err) {
       console.log(err);
       return {
@@ -152,7 +160,6 @@ class MongoProducts {
       };
     }
   }
-
 }
 
 module.exports = MongoProducts;

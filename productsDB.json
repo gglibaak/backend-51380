@@ -115,5 +115,18 @@
     "stock": 7,
     "category": "Electric Guitar",
     "status": true
+  },
+  {
+    "id": 9,
+    "title": "pepe",
+    "description": "asd",
+    "price": 1232,
+    "thumbnails": [
+      "https://i.postimg.cc/hjBs23HV/test.jpg"
+    ],
+    "code": "a22",
+    "stock": 22,
+    "category": "Guitar",
+    "status": true
   }
 ]

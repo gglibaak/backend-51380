@@ -1,8 +1,7 @@
-const { connect } = require('mongoose');
-require('dotenv').config()
+const { connect } = require("mongoose");
+require("dotenv").config();
 
 const uri = process.env.MONGO_URL;
-
 
 async function connectMongo() {
   try {
@@ -15,4 +14,3 @@ async function connectMongo() {
 }
 
 module.exports = connectMongo;
-

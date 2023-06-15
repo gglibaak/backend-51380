@@ -2,17 +2,20 @@ const express = require("express");
 const ProductManager = require("../dao/fs/ProductManager");
 const dataProd = new ProductManager("productsDB");
 
-const realTimeProdRoutes = express.Router();
+const hbsRoutes = express.Router();
 
-realTimeProdRoutes.get("/", async (req, res) => {
+hbsRoutes.get("/", async (req, res) => {
   try {
-
+    const version = parseInt(req.query.v);
     const products = await dataProd.getProducts();
-    return res.render("realTimeProducts", { products: products });
+    return res.render(
+      version === 2 ? "home2" : "home",
 
+      { products: products }
+    );
   } catch (error) {
     res.status(500).json({ succes: "false", msg: "Error", payload: {} });
   }
 });
 
-module.exports = realTimeProdRoutes;
+module.exports = hbsRoutes;

@@ -3,15 +3,13 @@ const { Server: HttpServer } = require("http");
 const { Server: SocketServer } = require("socket.io");
 
 const productRoutes = require("./routers/mongo/products.routes");
-const cartRoutes = require("./routers/carts.routes");
-const hbsRoutes = require("./routers/handlebars.routes");
-const realTimeProdRoutes = require("./routers/realtimeprods.routes");
-
+const cartRoutes = require("./routers/mongo/carts.routes");
+const hbsRoutes = require("./routers/mongo/handlebars.routes");
+const realTimeProdRoutes = require("./routers/mongo/realtimeprods.routes");
 const handlerbars = require("express-handlebars");
 const path = require("path");
-const websockets = require("./websockets");
+const websockets = require("./mongo.websockets");
 const connectMongo = require("./utils/mongo.connect");
-
 
 const PORT = process.env.PORT || 8080;
 const app = express();

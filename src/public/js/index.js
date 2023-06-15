@@ -15,6 +15,10 @@ socket.on("products", (products) => {
   // renderProducts(products);
 
   // Como se solicitó segun lo entendido en en el after
+
+  //Usado en para FileSystem
+  // <td><button type="button" class="btn btn-danger " onclick="deleteProduct(${product.id})">X</button></td>
+
   const productList = document.querySelector(".productListUpdated");
   productList.innerHTML = `
     ${products
@@ -29,7 +33,7 @@ socket.on("products", (products) => {
         <td>${product.stock}</td>
         <td>${product.category}</td>
         <td><img src="${product.thumbnails}" alt="${product.id}" title="Foto de ${product.title}" style="width: 50px; min-height: 100%; max-height: 50px;"></td>
-        <td><button type="button" class="btn btn-danger " onclick="deleteProduct(${product.id})">X</button></td>
+        <td><button type="button" class="btn btn-danger" onclick="deleteProduct('${product.id}')">X</button></td>
       </tr>
     `
       )
@@ -66,5 +70,6 @@ formProducts.onsubmit = (e) => {
 };
 
 deleteProduct = (productId) => {
-  socket.emit("delete-product", productId);
+  // socket.emit("delete-product", productId); // Usado para FyleSystem
+  socket.emit("delete-product", productId.toString());
 };

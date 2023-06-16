@@ -6,6 +6,7 @@ const productRoutes = require("./routers/mongo/products.routes");
 const cartRoutes = require("./routers/mongo/carts.routes");
 const hbsRoutes = require("./routers/mongo/handlebars.routes");
 const realTimeProdRoutes = require("./routers/mongo/realtimeprods.routes");
+const chatRoutes = require("./routers/mongo/chat.routes");
 const handlerbars = require("express-handlebars");
 const path = require("path");
 const websockets = require("./mongo.websockets");
@@ -40,6 +41,7 @@ app.use("/api", productRoutes);
 app.use("/api", cartRoutes);
 app.use("/", hbsRoutes);
 app.use("/realtimeproducts", realTimeProdRoutes);
+app.use("/chat", chatRoutes);
 
 websockets(io);
 

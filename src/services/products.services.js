@@ -14,6 +14,7 @@ class MongoProducts {
       const statusFilter = status ? { status: statusIsAvailable } : {};
 
       const options = {
+        lean: true,
         limit: limit || 10,
         page: page || 1,
         sort: sort === "desc" ? "-price" : sort === "asc" ? "price" : {},
@@ -35,10 +36,10 @@ class MongoProducts {
         hasPrevPage: response.hasPrevPage,
         hasNextPage: response.hasNextPage,
         prevLink: response.hasPrevPage
-          ? `/api/products?limit=${limit}&page=${response.prevPage}`
+          ? `/api/products?limit=${limit || 10}&page=${response.prevPage}`
           : null,
         nextLink: response.hasNextPage
-          ? `/api/products?limit=${limit}&page=${response.nextPage}`
+          ? `/api/products?limit=${limit || 10}&page=${response.nextPage}`
           : null,
       };
 

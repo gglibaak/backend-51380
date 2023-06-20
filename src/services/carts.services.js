@@ -18,7 +18,17 @@ class MongoCarts {
 
   async getCartsById(id) {
     try {
-      const cartFiltered = await CartModel.findOne({ _id: id });
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return {
+          status: 400,
+          result: {
+            status: "error",
+            error: `🛑 Invalid cart ID.`,
+          },
+        };
+      }
+
+      const cartFiltered = await CartModel.findOne({ _id: id }).lean();
 
       return {
         status: 200,
@@ -46,7 +56,7 @@ class MongoCarts {
           return {
             status: 400,
             result: {
-              success: false,
+              status: "error",
               error: `🛑 Invalid product or card ID.`,
             },
           };
@@ -60,7 +70,7 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            succes: false,
+            status: "error",
             error: `🛑 Product or Cart not found.`,
           },
         };

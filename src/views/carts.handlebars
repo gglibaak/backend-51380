@@ -1,0 +1,69 @@
+<h2 class="text-center my-4 pt-5">Detalles del Carrito</h2>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="http://localhost:8080/products">Coder
+      Ecommerce</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#main_nav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main_nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a
+            class="nav-link"
+            href="http://localhost:8080/products"
+          >
+            Volver al Home 🏠
+          </a></li>
+        <li class="nav-item"><a class="nav-link" href="#"> Registrarse </a></li>
+        <li class="nav-item"><a class="nav-link" href="#"> Log In </a></li>
+      </ul>
+    </div>
+  </div>
+
+</nav>
+{{#if cart.result.payload.products}}
+  <div
+    class="table-responsive mx-auto my-4 text-center"
+    style="max-width: 800px;"
+  >
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each cart.result.payload.products}}
+          <tr>
+            <td>{{this.id.title}}</td>
+            <td>{{this.id.category}}</td>
+            <td>{{this.quantity}}</td>
+            <td>{{this.id.price}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <button
+      type="button"
+      class="btn btn-danger my-4"
+      onclick="deleteCartItems('{{cart.result.payload._id}}')"
+    >Comprar Producto</button>
+  </div>
+{{else}}
+  <div class="text-center my-4">
+    <p>No hay productos en el carrito</p>
+  </div>
+{{/if}}
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/toastify-js"
+></script>
+<script src="/public/js/index2.js"></script>

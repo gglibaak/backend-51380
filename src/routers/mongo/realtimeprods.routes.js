@@ -21,7 +21,7 @@ realTimeProdRoutes.get("/", async (req, res) => {
     });
     return res.render("realTimeProducts", { products: simplifiedProduct });
   } catch (error) {
-    res.status(500).json({ succes: "false", msg: "Error", payload: {} });
+    res.status(500).json({ status: "error", msg: "Error", payload: {} });
   }
 });
 

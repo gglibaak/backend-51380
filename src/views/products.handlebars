@@ -1,0 +1,82 @@
+<h2 class="text-center my-4 pt-5">Productos</h2>
+<div class="container my-5">
+  <div class="row">
+    <div class="col text-center">
+      <div class="d-flex justify-content-between">
+        <p><b>Total de Páginas:</b> {{products.result.totalPages}}</p>
+        <p><b>Página Previa:</b> {{products.result.prevPage}}</p>
+        <p><b>Próxima Página:</b> {{products.result.nextPage}}</p>
+        <p><b>Página Actual:</b> {{products.result.page}}</p>
+        <p><b>Tiene Página Previa:</b> {{products.result.hasPrevPage}}</p>
+        <p><b>Tiene Próxima Página:</b> {{products.result.hasNextPage}}</p>
+      </div>
+      <div class="text-center">
+        {{#if prevLink}}
+          <a href="{{prevLink}}" class="btn btn-primary">Página Anterior</a>
+        {{/if}}
+        {{#if nextLink}}
+          <a href="{{nextLink}}" class="btn btn-primary">Siguiente Página</a>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="http://localhost:8080/products">Coder
+      Ecommerce</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#main_nav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main_nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link cart-link" href="#">
+            Ver Cart 🛒
+          </a></li>
+        <li class="nav-item"><a class="nav-link" href="#"> Registrarse </a></li>
+        <li class="nav-item"><a class="nav-link" href="#"> Log In </a></li>
+      </ul>
+    </div>
+  </div>
+
+</nav>
+<div class="row justify-content-center mx-5">
+  {{#each products.result.payload}}
+    <div class="col-sm-2 mb-4">
+      <div class="card h-100" style="width: 16rem;">
+        <img
+          class="card-img-top"
+          src="{{this.thumbnails}}"
+          alt="Card image cap"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{this.title}}</h5>
+          <p>ID: {{this.id}}</p>
+          <p>{{this.description}}</p>
+          <p>Price: ${{this.price}}</p>
+          <p>Code: {{this.code}}</p>
+          <p>Stock: {{this.stock}}</p>
+          <p>Category: {{this.category}}</p>
+          <div class="mt-auto d-flex justify-content-center">
+            <a
+              href="#"
+              class="btn btn-primary w-100"
+              onclick="AddtoCart('{{this.id}}')"
+            >Agregar al Carro</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/toastify-js"
+></script>
+<script src="public/js/index2.js"></script>

@@ -6,8 +6,8 @@ const Services = new MongoProducts();
 const productRoutes = express.Router();
 
 productRoutes.get("/products", async (req, res) => {
-  const limit = parseInt(req.query.limit);
-  const response = await Services.getProductAll(limit);
+  const queryParams = req.query;
+  const response = await Services.getProductAll(queryParams);
   return res.status(response.status).json(response.result);
 });
 

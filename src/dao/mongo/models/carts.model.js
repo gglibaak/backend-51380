@@ -8,7 +8,9 @@ const CartSchema = new Schema(
     products: [
       {
         id: {
-          //Deberiamos seguir usando id o podria ser product por ej?
+          // type: Array,
+          // default: [],
+          //toAllan: Deberiamos seguir usando id o podria ser "product" por ej?
           type: mongoose.Schema.Types.ObjectId,
           ref: "products",
         },
@@ -22,6 +24,14 @@ const CartSchema = new Schema(
   },
   { versionKey: false }
 );
+
+CartSchema.pre("find", function () {
+  this.populate("products.id");
+});
+
+CartSchema.pre("findOne", function () {
+  this.populate("products.id");
+});
 
 const CartModel = mongoose.model(cartsCollection, CartSchema);
 

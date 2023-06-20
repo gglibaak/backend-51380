@@ -1,15 +1,53 @@
 const ProductModel = require("../dao/mongo/models/products.model");
 
 class MongoProducts {
-  async getProductAll(limitData) {
+  async getProductAll(queryParams) {
     try {
-      const products = await ProductModel.find({}).limit(limitData);
-      return { status: 200, result: { succes: true, payload: products } };
+      const { limit, page, sort, query, status } = queryParams;
+      // const products = await ProductModel.find({}).limit(limit)
+
+      const filter = query
+        ? { category: { $regex: query, $options: "i" } }
+        : {};
+
+      let statusIsAvailable = status === "available" ? true : false;
+      const statusFilter = status ? { status: statusIsAvailable } : {};
+
+      const options = {
+        limit: limit || 10,
+        page: page || 1,
+        sort: sort === "desc" ? "-price" : sort === "asc" ? "price" : {},
+        customLabels: {
+          docs: "payload",
+        },
+      };
+
+      const combinedFilter = { ...filter, ...statusFilter };
+
+      const response = await ProductModel.paginate(combinedFilter, options);
+
+      const products = {
+        payload: response.payload,
+        totalPages: response.totalPages,
+        prevPage: response.hasPrevPage ? response.prevPage : null,
+        nextPage: response.hasNextPage ? response.nextPage : null,
+        page: response.page,
+        hasPrevPage: response.hasPrevPage,
+        hasNextPage: response.hasNextPage,
+        prevLink: response.hasPrevPage
+          ? `/api/products?limit=${limit}&page=${response.prevPage}`
+          : null,
+        nextLink: response.hasNextPage
+          ? `/api/products?limit=${limit}&page=${response.nextPage}`
+          : null,
+      };
+
+      return { status: 200, result: { status: "success", ...products } };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { succes: false, msg: "Internal Server Error", payload: {} },
+        result: { status: "error", msg: "Internal Server Error", payload: {} },
       };
     }
   }
@@ -25,7 +63,7 @@ class MongoProducts {
       console.log(err);
       return {
         status: 500,
-        result: { succes: false, msg: "Internal Server Error", payload: {} },
+        result: { status: "error", msg: "Internal Server Error", payload: {} },
       };
     }
   }
@@ -46,7 +84,7 @@ class MongoProducts {
       ) {
         return {
           status: 400,
-          result: { succes: false, error: `🛑 Wrong Data Format.` },
+          result: { status: "error", error: `🛑 Wrong Data Format.` },
         };
       }
 
@@ -54,7 +92,7 @@ class MongoProducts {
         return {
           status: 400,
           result: {
-            succes: false,
+            status: "success",
             error: `🛑 The product alredy exists.`,
           },
         };
@@ -70,12 +108,12 @@ class MongoProducts {
         category,
         status: true,
       });
-      return { status: 200, result: { succes: true, payload: data } };
+      return { status: 200, result: { status: "success", payload: data } };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { succes: false, msg: "Internal Server Error", payload: {} },
+        result: { status: "error", msg: "Internal Server Error", payload: {} },
       };
     }
   }
@@ -96,7 +134,7 @@ class MongoProducts {
       ) {
         return {
           status: 400,
-          result: { succes: false, error: `🛑 Wrong Data Format.` },
+          result: { status: "error", error: `🛑 Wrong Data Format.` },
         };
       }
 
@@ -104,7 +142,7 @@ class MongoProducts {
         return {
           status: 400,
           result: {
-            succes: false,
+            status: "error",
             error: `🛑 Product not found.`,
           },
         };
@@ -118,7 +156,7 @@ class MongoProducts {
       return {
         status: 200,
         result: {
-          succes: true,
+          status: "success",
           payload: { ...newDataProduct, mongo: response },
         },
       };
@@ -126,7 +164,7 @@ class MongoProducts {
       console.log(err);
       return {
         status: 500,
-        result: { succes: false, msg: "Internal Server Error", payload: {} },
+        result: { status: "error", msg: "Internal Server Error", payload: {} },
       };
     }
   }
@@ -137,7 +175,7 @@ class MongoProducts {
         return {
           status: 400,
           result: {
-            succes: false,
+            status: "error",
             error: `🛑 Invalid request. Product not found whit id: ${id}.`,
           },
         };
@@ -148,7 +186,7 @@ class MongoProducts {
       return {
         status: 200,
         result: {
-          succes: true,
+          status: "success",
           payload: { deleteItemId: id, mongo: response },
         },
       };
@@ -156,7 +194,7 @@ class MongoProducts {
       console.log(err);
       return {
         status: 500,
-        result: { succes: false, msg: "Internal Server Error", payload: {} },
+        result: { status: "error", msg: "Internal Server Error", payload: {} },
       };
     }
   }

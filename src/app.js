@@ -7,8 +7,11 @@ const cartRoutes = require("./routers/mongo/carts.routes");
 const hbsRoutes = require("./routers/mongo/handlebars.routes");
 const realTimeProdRoutes = require("./routers/mongo/realtimeprods.routes");
 const chatRoutes = require("./routers/mongo/chat.routes");
+const authRoutes = require("./routers/mongo/auth.routes");
 const handlerbars = require("express-handlebars");
 const path = require("path");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const websockets = require("./mongo.websockets");
 const connectMongo = require("./utils/mongo.connect");
 
@@ -36,15 +39,28 @@ app.engine("handlebars", handlerbars.engine());
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 
+// Configuración de la sesión.
+app.use(
+  session({
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL, ttl: 3600 }),
+    secret: "un-re-secretaso",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
 // Routes
 app.use("/api", productRoutes);
 app.use("/api", cartRoutes);
 app.use("/", hbsRoutes);
 app.use("/realtimeproducts", realTimeProdRoutes);
 app.use("/chat", chatRoutes);
+app.use("/auth", authRoutes);
 
 websockets(io);
 
 app.get("*", (req, res) =>
-  res.status(404).send("<h3> ⛔ We cannot access the requested route</h3>")
+  res.status(404).render("error", {
+    error: "⛔ We cannot access the requested route.",
+  })
 );

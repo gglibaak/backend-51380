@@ -1,9 +1,10 @@
 const express = require("express");
 const ProductModel = require("../../dao/mongo/models/products.model");
+const { isUser } = require("../../middlewares/auth");
 
 const realTimeProdRoutes = express.Router();
 
-realTimeProdRoutes.get("/", async (req, res) => {
+realTimeProdRoutes.get("/", isUser, async (req, res) => {
   try {
     const products = await ProductModel.find({});
 

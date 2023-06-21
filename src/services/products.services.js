@@ -6,6 +6,7 @@ class MongoProducts {
       const { limit, page, sort, query, status } = queryParams;
       // const products = await ProductModel.find({}).limit(limit)
 
+      // console.log("userSessionEmail", userSessionEmail);
       const filter = query
         ? { category: { $regex: query, $options: "i" } }
         : {};

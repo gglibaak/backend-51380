@@ -27,6 +27,9 @@ hbsRoutes.get("/products", async (req, res) => {
       products: response,
       nextLink: modifiedNextLink,
       prevLink: modifiedPrevLink,
+      email: req.session.email,
+      isadmin: req.session.isAdmin,
+      name: req.session.firstName,
     });
   } catch (error) {
     console.log(error);

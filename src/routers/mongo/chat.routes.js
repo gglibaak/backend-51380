@@ -1,9 +1,10 @@
 const express = require("express");
 const chatRoutes = express.Router();
 const MongoChat = require("../../services/chat.services");
+const { isAdmin } = require("../../middlewares/auth");
 const Services = new MongoChat();
 
-chatRoutes.get("/", async (req, res) => {
+chatRoutes.get("/", isAdmin, async (req, res) => {
   try {
     const messages = await Services.getAllMessages();
 

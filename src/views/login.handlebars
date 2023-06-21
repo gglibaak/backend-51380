@@ -1,0 +1,65 @@
+<h2 class="text-center my-4 pt-5">Ingresa a tu Cuenta</h2>
+
+<div class="col-md-6 mx-auto text-center">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="http://localhost:8080/products">Coder
+        Ecommerce</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#main_nav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="main_nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a
+              class="nav-link"
+              href="http://localhost:8080/products"
+            >
+              Volver al Home 🏠
+            </a></li>
+        </ul>
+      </div>
+    </div>
+
+  </nav>
+
+  <div class="form-container bg-light py-4">
+    <form action="/auth/login" method="POST">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form-control w-50 mx-auto"
+          placeholder="Ingresa tu email"
+          style="margin-bottom: 16px"
+          required
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="form-control w-50 mx-auto"
+          placeholder="Ingresa tu contraseña"
+          style="margin-bottom: 16px"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">
+        Ingresar
+      </button>
+    </form>
+    <p class="text-center my-3">
+      <a href="/auth/register">Aún no tienes cuenta?. Registrarse</a>
+    </p>
+  </div>
+</div>

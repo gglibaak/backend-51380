@@ -1,4 +1,7 @@
 <h2 class="text-center my-4 pt-5">Productos</h2>
+{{#if name}}
+  <h4 class="text-center my-4 pt-1">Bienvenido {{name}}, ({{email}})</h4>
+{{/if}}
 <div class="container my-5">
   <div class="row">
     <div class="col text-center">
@@ -39,8 +42,36 @@
         <li class="nav-item"><a class="nav-link cart-link" href="#">
             Ver Cart 🛒
           </a></li>
-        <li class="nav-item"><a class="nav-link" href="#"> Registrarse </a></li>
-        <li class="nav-item"><a class="nav-link" href="#"> Log In </a></li>
+        {{#if isadmin}}
+          <li class="nav-item"><a
+              class="nav-link"
+              href="http://localhost:8080/realtimeproducts"
+            > Crear Producto </a></li>
+        {{/if}}
+
+        {{#if email}}
+          <li class="nav-item"><a
+              class="nav-link"
+              href="http://localhost:8080/auth/profile"
+            > Ver Perfil </a></li>
+        {{else}}
+          <li class="nav-item"><a
+              class="nav-link"
+              href="http://localhost:8080/auth/register"
+            > Registrarse </a></li>
+        {{/if}}
+
+        {{#if email}}
+          <li class="nav-item"><a
+              class="nav-link"
+              href="http://localhost:8080/auth/logout"
+            > Log Out </a></li>
+        {{else}}
+          <li class="nav-item"><a
+              class="nav-link"
+              href="http://localhost:8080/auth/login"
+            > Log In </a></li>
+        {{/if}}
       </ul>
     </div>
   </div>

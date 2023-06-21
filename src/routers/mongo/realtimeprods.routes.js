@@ -20,7 +20,7 @@ realTimeProdRoutes.get("/", isUser, async (req, res) => {
         thumbnails: product.thumbnails,
       };
     });
-    return res.render("realTimeProducts", { products: simplifiedProduct });
+    return res.render("realtimeproducts", { products: simplifiedProduct });
   } catch (error) {
     res.status(500).json({ status: "error", msg: "Error", payload: {} });
   }

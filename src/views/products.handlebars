@@ -1,6 +1,6 @@
 <h2 class="text-center my-4 pt-5">Productos</h2>
 {{#if name}}
-  <h4 class="text-center my-4 pt-1">Bienvenido {{name}}, ({{email}})</h4>
+  <h4 class="text-center my-4 pt-1">Bienvenido {{name}}, <p style="font-size: 1.1rem;">({{email}})</p></h4>
 {{/if}}
 <div class="container my-5">
   <div class="row">
@@ -27,8 +27,9 @@
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="http://localhost:8080/products">Coder
-      Ecommerce</a>
+    <a class="" href="http://localhost:8080/products">
+      <img src="https://i.postimg.cc/vB4Vkc4D/ecommerce-2.gif" alt="logo" width="100px" style="margin-left: 1.4rem;"/>
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -39,24 +40,29 @@
     </button>
     <div class="collapse navbar-collapse" id="main_nav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link cart-link" href="#">
-            Ver Cart 🛒
+        <li class="nav-item"><a class="nav-link cart-link" style="color:azure;" href="#">
+            Ver Cart 
+            <i class="bi bi-cart-fill"></i>
           </a></li>
         {{#if isadmin}}
           <li class="nav-item"><a
-              class="nav-link"
+              class="nav-link btn btn-light btn-sm"
+              style="color:black;"
               href="http://localhost:8080/realtimeproducts"
             > Crear Producto </a></li>
+            
         {{/if}}
 
         {{#if email}}
           <li class="nav-item"><a
               class="nav-link"
+              style="color:azure;"
               href="http://localhost:8080/auth/profile"
             > Ver Perfil </a></li>
         {{else}}
           <li class="nav-item"><a
               class="nav-link"
+              style="color:azure;"
               href="http://localhost:8080/auth/register"
             > Registrarse </a></li>
         {{/if}}
@@ -64,11 +70,13 @@
         {{#if email}}
           <li class="nav-item"><a
               class="nav-link"
+              style="color:azure;"
               href="http://localhost:8080/auth/logout"
             > Log Out </a></li>
         {{else}}
           <li class="nav-item"><a
               class="nav-link"
+              style="color:azure;"
               href="http://localhost:8080/auth/login"
             > Log In </a></li>
         {{/if}}

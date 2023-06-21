@@ -1,8 +1,9 @@
 <h2 class="text-center my-4 pt-5">Tu Perfil</h2>
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="http://localhost:8080/products">Coder
-      Ecommerce</a>
+    <a class="" href="http://localhost:8080/products">
+      <img src="https://i.postimg.cc/vB4Vkc4D/ecommerce-2.gif" alt="logo" width="100px" style="margin-left: 1.4rem;" />
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -15,6 +16,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a
             class="nav-link"
+            style="color:azure;"
             href="http://localhost:8080/products"
           >
             Volver al Home 🏠
@@ -24,13 +26,54 @@
   </div>
 </nav>
 
-<div class="col-md-6 mx-auto text-center">
-  <p>Tu nombre: <b>{{firstname}} {{lastname}}</b></p>
-  <p>Tu email: <b>{{email}}</b></p>
-  <p>Tu edad: <b>{{age}}</b></p>
-  <p>Tipo de Usuario: <b>{{isadmin}}</b></p>
-</div>
-
-<div class="text-center">
-  <a href="/auth/logout" class="btn btn-primary">Log out</a>
+<div class="container ">
+  <div class="row d-flex justify-content-center align-items-center w-100">
+    <div class="col col-lg-6 mb-4 mb-lg-0">
+      <div class="card mb-3" style="border-radius: .5rem;">
+        <div class="row g-0">
+          <div style="background-color: #0B6EFD;" class="col-md-4 text-center text-white"
+            style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+            <img src="https://e7.pngegg.com/pngimages/328/599/png-clipart-male-avatar-user-profile-profile-heroes-necktie.png"
+              alt="Avatar" class="img-fluid my-5 rounded-3" style="width: 100px;" />
+            <h5>{{firstname}} {{lastname}}</h5>
+            <p>{{isadmin}}</p>
+            <i class="far fa-edit mb-5"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body p-4">
+              <h6>Información</h6>
+              <hr class="mt-0 mb-4">
+              <div class="row pt-1">
+                <div class="col-6 mb-3">
+                  <h6>Email</h6>
+                  <p class="text-muted">{{email}}</p>
+                </div>
+                <div class="col-6 mb-3">
+                  <h6>Edad</h6>
+                  <p class="text-muted">{{age}}</p>
+                </div>
+              </div>
+              <h6>Carrito de Compra activo</h6>
+              <hr class="mt-0 mb-4">
+              <div class="row pt-1">
+                <div class="col-6 mb-3">
+                  <h6>Reciente</h6>
+                  <p class="text-muted">Lorem ipsum</p>
+                </div>
+                <div class="col-6 mb-3">
+                  <h6>Cerrar Sesión</h6>
+                    <a href="/auth/logout" class="btn btn-primary btn-lg">Log out</a>   
+                </div>
+              </div>
+              <div class="d-flex justify-content-start">
+                <a href="#!"><i class="bi bi-facebook me-3"></i></a>
+                <a href="#!"><i class="bi bi-twitter me-3"></i></a>
+                <a href="#!"><i class="bi bi-instagram fa-lg"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

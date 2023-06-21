@@ -5,11 +5,12 @@ const userCollection = "users";
 
 const UserSchema = new Schema(
   {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    age: { type: Number, required: false },
     password: { type: String, required: true },
-    isAdmin: { type: Boolean, required: true },
+    role: { type: String, required: true, default: "user" },
   },
   { versionKey: false }
 );

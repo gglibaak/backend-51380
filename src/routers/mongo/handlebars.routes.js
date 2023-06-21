@@ -23,13 +23,15 @@ hbsRoutes.get("/products", async (req, res) => {
     const modifiedNextLink = response.result.nextLink?.substring(4) || "";
     const modifiedPrevLink = response.result.prevLink?.substring(4) || "";
 
+    const role = req.session.role === "admin" ? true : false;
+
     return res.render("products", {
       products: response,
       nextLink: modifiedNextLink,
       prevLink: modifiedPrevLink,
       email: req.session.email,
-      isadmin: req.session.isAdmin,
-      name: req.session.firstName,
+      isadmin: role,
+      name: req.session.first_name,
     });
   } catch (error) {
     console.log(error);

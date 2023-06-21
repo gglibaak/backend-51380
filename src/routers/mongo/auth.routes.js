@@ -20,9 +20,10 @@ authRoutes.post("/login", async (req, res) => {
   const foundUser = await UserModel.findOne({ email: email });
   if (foundUser && isValidPassword(password, foundUser.password)) {
     req.session.email = foundUser.email;
-    req.session.isAdmin = foundUser.isAdmin;
-    req.session.firstName = foundUser.firstName;
-    req.session.lastName = foundUser.lastName;
+    req.session.role = foundUser.role;
+    req.session.first_name = foundUser.first_name;
+    req.session.last_name = foundUser.last_name;
+    req.session.age = foundUser.age;
   } else {
     return res.status(400).render("error", {
       error: "Por favor indique un email o password correcto.",
@@ -36,9 +37,9 @@ authRoutes.get("/register", (req, res) => {
 });
 
 authRoutes.post("/register", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { first_name, last_name, email, password, age } = req.body;
 
-  if (!email || !password || !firstName || !lastName) {
+  if (!email || !password || !first_name || !last_name || !age) {
     return res
       .status(400)
       .render("error", { error: "Por favor indique sus datos correctamente." });
@@ -51,16 +52,18 @@ authRoutes.post("/register", async (req, res) => {
   }
 
   await UserModel.create({
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     email,
     password: createHash(password),
-    isAdmin: false,
+    role: "user",
+    age,
   });
   req.session.email = email;
-  req.session.isAdmin = false;
-  req.session.firstName = firstName;
-  req.session.lastName = lastName;
+  req.session.role = "user";
+  req.session.first_name = first_name;
+  req.session.last_name = last_name;
+  req.session.age = age;
 
   return res.redirect("/products");
 });
@@ -75,11 +78,14 @@ authRoutes.get("/logout", (req, res) => {
 });
 
 authRoutes.get("/profile", isUser, (req, res) => {
+  const role =
+    req.session.role === "admin" ? "Administrador" : "Usuario Estándar";
   return res.render("profile", {
-    firstname: req.session.firstName,
-    lastname: req.session.lastName,
+    firstname: req.session.first_name,
+    lastname: req.session.last_name,
     email: req.session.email,
-    isadmin: req.session.isAdmin,
+    isadmin: role,
+    age: req.session.age,
   });
 });
 

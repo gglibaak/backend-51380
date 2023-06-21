@@ -66,7 +66,7 @@ const deleteCartItems = (id) => {
         window.location.href = window.location.href; //refresh modo vikingo
       }, 3000);
       showMsg(
-        `🎉 Producto adquirido con éxito. CartId: ${id}. El carrito se vaciará.`
+        `🎉 Producto adquirido con éxito. CartId: ${id}. El carrito se vaciará`
       );
     })
     .catch((err) => console.log(err));

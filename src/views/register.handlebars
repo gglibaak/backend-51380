@@ -33,7 +33,7 @@
         <label for="firstname">Nombre</label>
         <input
           type="text"
-          name="firstName"
+          name="first_name"
           id="firstname"
           class="form-control w-50 mx-auto"
           placeholder="Ingresa tu nombre"
@@ -44,7 +44,7 @@
         <label for="lastname">Apellido</label>
         <input
           type="text"
-          name="lastName"
+          name="last_name"
           id="lastname"
           class="form-control w-50 mx-auto"
           placeholder="Ingresa tu apellido"
@@ -64,6 +64,18 @@
           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         />
       </div>
+      <label for="age"> Edad: </label>
+        <input
+          type="number"
+          name="age"
+          id="age"
+          class="form-control w-50 mx-auto"
+          step="1"
+          class="form-control"
+          placeholder="Ingrese su edad"
+          style="margin-bottom: 16px"
+          required
+        />
       <div class="form-group">
         <label for="password">Contraseña</label>
         <input
@@ -76,6 +88,7 @@
           required
         />
       </div>
+
       <button type="submit" class="btn btn-primary btn-block">
         Registrarse
       </button>
@@ -83,5 +96,6 @@
     <p class="text-center my-3">
       <a href="/auth/login">Ya tienes cuenta?. Ingresar</a>
     </p>
+  </div>
   </div>
 </div>

@@ -6,7 +6,7 @@ const isUser = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-  if (req.session?.isAdmin) {
+  if (req.session?.role === "admin") {
     return next();
   }
   return res.status(403).render("error", { error: "Error de autorización." });

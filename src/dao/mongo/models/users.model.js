@@ -10,6 +10,7 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     age: { type: Number, required: false },
     password: { type: String, required: true },
+    cartID: { type: String, required: false },
     role: { type: String, required: true, default: "user" },
   },
   { versionKey: false }

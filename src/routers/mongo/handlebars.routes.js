@@ -32,6 +32,7 @@ hbsRoutes.get("/products", async (req, res) => {
       email: req.session.email,
       isadmin: role,
       name: req.session.first_name,
+      cartid: req.session.cartID,
     });
   } catch (error) {
     console.log(error);

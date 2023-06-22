@@ -1,7 +1,10 @@
 <h2 class="text-center my-4 pt-5">Productos</h2>
 {{#if name}}
-  <h4 class="text-center my-4 pt-1">Bienvenido {{name}}, <p style="font-size: 1.1rem;">({{email}})</p></h4>
+  <h4 class="text-center my-4 pt-1">Bienvenido
+    {{name}},
+    <p style="font-size: 1.1rem; font-style: italic; color: #b5b5b5">({{email}})</p></h4>
 {{/if}}
+
 <div class="container my-5">
   <div class="row">
     <div class="col text-center">
@@ -28,7 +31,12 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="" href="http://localhost:8080/products">
-      <img src="https://i.postimg.cc/vB4Vkc4D/ecommerce-2.gif" alt="logo" width="100px" style="margin-left: 1.4rem;"/>
+      <img
+        src="https://i.postimg.cc/vB4Vkc4D/ecommerce-2.gif"
+        alt="logo"
+        width="100px"
+        style="margin-left: 1.4rem;"
+      />
     </a>
     <button
       class="navbar-toggler"
@@ -40,8 +48,16 @@
     </button>
     <div class="collapse navbar-collapse" id="main_nav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link cart-link" style="color:azure;" href="#">
-            Ver Cart 
+        <li class="nav-item"><a
+            class="nav-link cart-link"
+            style="color:azure;"
+            {{#if cartid}}
+            href="http://localhost:8080/carts/{{cartid}}"
+            {{else}}
+            href="http://localhost:8080/auth/login"
+            {{/if}}
+          >
+            Ver Cart
             <i class="bi bi-cart-fill"></i>
           </a></li>
         {{#if isadmin}}
@@ -50,12 +66,13 @@
               style="color:black;"
               href="http://localhost:8080/realtimeproducts"
             > Crear Producto </a></li>
-            
+
         {{/if}}
 
         {{#if email}}
-          <li class="nav-item"><a
-              class="nav-link"
+          <li class="nav-item "><a
+              class="nav-link cartInfo"
+              id="{{cartid}}"
               style="color:azure;"
               href="http://localhost:8080/auth/profile"
             > Ver Perfil </a></li>
@@ -104,11 +121,12 @@
           <p>Category: {{this.category}}</p>
           <div class="mt-auto d-flex justify-content-center">
             <a
-              href="#"
+              href="#!"
               class="btn btn-primary w-100"
               onclick="AddtoCart('{{this.id}}')"
             >Agregar al Carro</a>
           </div>
+
         </div>
       </div>
     </div>

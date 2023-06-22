@@ -1,5 +1,7 @@
 const express = require("express");
 
+const MongoCarts = require("../../services/carts.services");
+const Services = new MongoCarts();
 const UserModel = require("../../dao/mongo/models/users.model");
 const { isUser } = require("../../middlewares/auth");
 const { createHash, isValidPassword } = require("../../utils/bcrypt.config");
@@ -24,6 +26,7 @@ authRoutes.post("/login", async (req, res) => {
     req.session.first_name = foundUser.first_name;
     req.session.last_name = foundUser.last_name;
     req.session.age = foundUser.age;
+    req.session.cartID = foundUser.cartID;
   } else {
     return res.status(400).render("error", {
       error: "Por favor indique un email o password correcto.",
@@ -51,19 +54,24 @@ authRoutes.post("/register", async (req, res) => {
       .render("error", { error: "El mail ya se encuentra en uso. " });
   }
 
+  const newCart = await Services.addCart();
+  const cartID = newCart.result.payload._id.toString();
+
   await UserModel.create({
     first_name,
     last_name,
     email,
-    password: createHash(password),
-    role: "user",
     age,
+    password: createHash(password),
+    cartID,
+    role: "user",
   });
   req.session.email = email;
   req.session.role = "user";
   req.session.first_name = first_name;
   req.session.last_name = last_name;
   req.session.age = age;
+  req.session.cartID = cartID;
 
   return res.redirect("/products");
 });
@@ -86,6 +94,7 @@ authRoutes.get("/profile", isUser, (req, res) => {
     email: req.session.email,
     isadmin: role,
     age: req.session.age,
+    cartid: req.session.cartID,
   });
 });
 

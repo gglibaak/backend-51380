@@ -1,5 +1,5 @@
 const express = require("express");
-
+const passport = require("passport");
 const MongoCarts = require("../../services/carts.services");
 const Services = new MongoCarts();
 const UserModel = require("../../dao/mongo/models/users.model");
@@ -12,7 +12,7 @@ authRoutes.get("/login", (req, res) => {
   return res.render("login", {});
 });
 
-authRoutes.post("/login", async (req, res) => {
+/* authRoutes.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res
@@ -34,12 +34,27 @@ authRoutes.post("/login", async (req, res) => {
   }
   return res.redirect("/products");
 });
-
+*/
 authRoutes.get("/register", (req, res) => {
   return res.render("register", {});
 });
 
-authRoutes.post("/register", async (req, res) => {
+authRoutes.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "/auth/fail-register" }),
+  async (req, res) => {
+    req.session.email = req.user.email;
+    req.session.role = req.user.role;
+    req.session.first_name = req.user.first_name;
+    req.session.last_name = req.user.last_name;
+    req.session.age = req.user.age;
+    req.session.cartID = req.user.cartID;
+
+    return res.redirect("/products");
+  }
+);
+
+/* authRoutes.post("/register", async (req, res) => {
   const { first_name, last_name, email, password, age } = req.body;
 
   if (!email || !password || !first_name || !last_name || !age) {
@@ -74,6 +89,28 @@ authRoutes.post("/register", async (req, res) => {
   req.session.cartID = cartID;
 
   return res.redirect("/products");
+}); */
+
+authRoutes.post(
+  "/register",
+  passport.authenticate("register", { failureRedirect: "/auth/fail-register" }),
+  async (req, res) => {
+    const { first_name, last_name, email, age } = req.body;
+
+    req.session.email = email;
+    req.session.role = "user";
+    req.session.first_name = first_name;
+    req.session.last_name = last_name;
+    req.session.age = age;
+    req.session.cartID = req.user.cartID;
+
+    return res.redirect("/products");
+  }
+);
+
+authRoutes.get("/fail-register", (req, res) => {
+  const { error } = req.flash();
+  return res.status(400).render("error", { error });
 });
 
 authRoutes.get("/logout", (req, res) => {
@@ -97,5 +134,25 @@ authRoutes.get("/profile", isUser, (req, res) => {
     cartid: req.session.cartID,
   });
 });
+
+authRoutes.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
+
+authRoutes.get(
+  "/github/callback",
+  passport.authenticate("github", { failureRedirect: "/auth/fail-register" }),
+  (req, res) => {
+    console.log(req.user);
+    req.session.email = req.user.email;
+    req.session.role = "user";
+    req.session.first_name = req.user.first_name;
+    req.session.last_name = req.user.last_name;
+    req.session.age = req.user.age;
+    req.session.cartID = req.user.cartID;
+    return res.redirect("/products");
+  }
+);
 
 module.exports = authRoutes;

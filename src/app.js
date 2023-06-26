@@ -11,9 +11,12 @@ const authRoutes = require("./routers/mongo/auth.routes");
 const handlerbars = require("express-handlebars");
 const path = require("path");
 const session = require("express-session");
+const passport = require("passport");
 const MongoStore = require("connect-mongo");
 const websockets = require("./mongo.websockets");
 const connectMongo = require("./utils/mongo.connect");
+const initPassport = require("./config/passport-config");
+const flash = require("connect-flash");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -48,6 +51,12 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+//Passport
+initPassport();
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 // Routes
 app.use("/api", productRoutes);

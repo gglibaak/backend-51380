@@ -14,7 +14,7 @@ class MongoProducts {
 
       const options = {
         lean: true,
-        limit: limit || 10,
+        limit: limit || 12, //10 before pagination
         page: page || 1,
         sort: sort === "desc" ? "-price" : sort === "asc" ? "price" : {},
         customLabels: {

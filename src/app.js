@@ -23,21 +23,27 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
 
-const serverConnected = httpServer.listen(PORT, () =>
-  console.log(`📢 Server listening on port: ${PORT}`)
-);
+const serverConnected = httpServer.listen(PORT, () => {
+  // Conexión a DB Atlas.
+  connectMongo()
+    .then(() => {
+      console.log("☁ Connected to MongoDB");
+    })
+    .catch((error) => {
+      console.error("Error connecting to MongoDB:", error);
+      throw "Cannot connect to the database";
+    });
+  console.log(`📢 Server listening on port: ${PORT}`);
+});
 
 serverConnected.on("error", (error) => console.log(`Server error: ${error}`));
 
-// Conexión a DB Atlas.
-connectMongo();
-
-//middlewares
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(__dirname + "/public"));
 
-//usando el engine handlerbars para plantilla
+//Usando el engine handlerbars para plantilla
 app.engine("handlebars", handlerbars.engine());
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
@@ -65,7 +71,12 @@ app.use("/", hbsRoutes);
 app.use("/realtimeproducts", realTimeProdRoutes);
 app.use("/chat", chatRoutes);
 app.use("/auth", authRoutes);
+// Deberia estar todo de la misma ruta (api) ??
+app.use("/api/sessions/current", (req, res) => {
+  res.json({ user: req.session });
+});
 
+// Websockets
 websockets(io);
 
 app.get("*", (req, res) =>

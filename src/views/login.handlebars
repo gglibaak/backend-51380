@@ -35,7 +35,7 @@
 
   </nav>
 
-  <div class="form-container bg-light py-4 rounded">
+  <div class="form-container bg-light p-5 rounded">
     <form action="/auth/login" method="POST">
       <div class="form-group">
         <label for="email">Email</label>
@@ -62,19 +62,32 @@
           required
         />
       </div>
-      <button type="submit" class="btn btn-primary btn-block">
+      <button type="submit" class="btn btn-primary btn-block w-50 mx-auto">
         Ingresar
       </button>
     </form>
+
+    <p class="text-center my-3">
+      <a class="text-decoration-none" href="/auth/register"><small>Aún no tienes
+          cuenta?. Registrarse</small></a>
+    </p>
+
+    <p><small>ó regístrate con:</small></p>
 
     <a href="/auth/github" class="btn btn-dark btn-sm btn-block">
       <i class="bi bi-github"></i>
       Ingresar con Github
     </a>
 
-    <p class="text-center my-3">
-      <a class="text-decoration-none" href="/auth/register">Aún no tienes
-        cuenta?. Registrarse</a>
-    </p>
+    <a href="/auth/facebook" class="btn btn-primary btn-sm btn-block">
+      <i class="bi bi-facebook"></i>
+      Ingresar con Facebook
+    </a>
+
+    <a href="/auth/google" class="btn btn-danger btn-sm btn-block">
+      <i class="bi bi-google"></i>
+      Ingresar con Google
+    </a>
+
   </div>
 </div>

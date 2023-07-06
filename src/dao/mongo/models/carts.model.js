@@ -10,7 +10,6 @@ const CartSchema = new Schema(
         id: {
           // type: Array,
           // default: [],
-          //toAllan: Deberiamos seguir usando id o podria ser "product" por ej?
           type: mongoose.Schema.Types.ObjectId,
           ref: "products",
         },

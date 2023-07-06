@@ -12,4 +12,18 @@ const isAdmin = (req, res, next) => {
   return res.status(403).render("error", { error: "Error de autorización." });
 };
 
-module.exports = { isUser, isAdmin };
+const isLoggedin = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  return res.redirect("/products");
+};
+
+const redirectIfLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return res.redirect("/products");
+  }
+  return next();
+};
+
+module.exports = { isUser, isAdmin, isLoggedin, redirectIfLoggedIn };

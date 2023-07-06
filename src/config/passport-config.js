@@ -1,6 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const fetch = require("cross-fetch");
 const { isValidPassword, createHash } = require("../utils/bcrypt.config");
@@ -9,6 +11,7 @@ const Services = new MongoCarts();
 const UserModel = require("../dao/mongo/models/users.model");
 
 const initPassport = () => {
+  //############## Local Strategy ##############
   passport.use(
     "login",
     new LocalStrategy(
@@ -143,7 +146,10 @@ const initPassport = () => {
             const newCart = await Services.addCart();
             const cartID = newCart.result.payload._id.toString();
 
-            const displayName = profile.displayName.split(" ");
+            const displayName = profile.displayName
+              ? profile.displayName.split(" ")
+              : [profile.username];
+
             const lastName = displayName[1] || "nolastname";
             const firstName = displayName[0] || "noname";
 
@@ -165,6 +171,104 @@ const initPassport = () => {
           }
         } catch (error) {
           console.log("Error en auth github");
+          console.log(error);
+          return done(new Error(error));
+        }
+      }
+    )
+  );
+  //############## Facebook Strategy ##############
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL: "http://localhost:8080/auth/facebook/callback",
+        profileFields: ["id", "displayName", "email"],
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        // console.log(profile);
+        try {
+          const { email } = profile._json;
+          let user = await UserModel.findOne({ email: email });
+          if (!user) {
+            const newCart = await Services.addCart();
+            const cartID = newCart.result.payload._id.toString();
+
+            const displayName = profile.displayName.split(" ");
+            const lastName = displayName[1] || "nolastname";
+            const firstName = displayName[0] || "noname";
+
+            /* console.log(
+              "Nombre: ",
+              firstName,
+              "Apellido: ",
+              lastName,
+              "Email: ",
+              email
+            ); */
+
+            // console.log("No existe el usuario. Se crearà uno nuevo");
+
+            const userCreated = await UserModel.create({
+              first_name: firstName,
+              last_name: lastName,
+              email,
+              age: 18,
+              password: "Facebook-User",
+              cartID,
+              role: "user",
+            });
+            // console.log("Usuario creado correctamente:", userCreated);
+            return done(null, userCreated);
+          } else {
+            // console.log("Usuario ya existe");
+            return done(null, user);
+          }
+        } catch (error) {
+          console.log("Error en auth facebook");
+          console.log(error);
+          return done(new Error(error));
+        }
+      }
+    )
+  );
+
+  //############## Google Strategy ##############
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://localhost:8080/auth/google/callback",
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        // console.log(profile);
+        try {
+          const { email, given_name, family_name } = profile._json;
+          let user = await UserModel.findOne({ email: email });
+          if (!user) {
+            const newCart = await Services.addCart();
+            const cartID = newCart.result.payload._id.toString();
+
+            // console.log("No existe el usuario. Se crearà uno nuevo");
+            const userCreated = await UserModel.create({
+              first_name: given_name,
+              last_name: family_name,
+              email,
+              age: 18,
+              password: "Google-User",
+              cartID,
+              role: "user",
+            });
+            // console.log("Usuario creado correctamente:", userCreated);
+            return done(null, userCreated);
+          } else {
+            // console.log("Usuario ya existe");
+            return done(null, user);
+          }
+        } catch (error) {
+          console.log("Error en auth google");
           console.log(error);
           return done(new Error(error));
         }

@@ -106,6 +106,10 @@ const showMsg = (msg) => {
     style: {
       background: "#96c93d",
     },
+    offset: {
+      x: 2,
+      y: 65,
+    },
   }).showToast();
 };
 

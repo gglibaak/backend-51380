@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const userCollection = "users";
+const userCollection = 'users';
 
 const UserSchema = new Schema(
   {
@@ -11,7 +11,7 @@ const UserSchema = new Schema(
     age: { type: Number, required: false },
     password: { type: String, required: true },
     cartID: { type: String, required: false },
-    role: { type: String, required: true, default: "user" },
+    role: { type: String, required: true, default: 'user' },
   },
   { versionKey: false }
 );

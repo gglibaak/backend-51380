@@ -1,19 +1,19 @@
 const socket = io();
 
-const formProducts = document.getElementById("form-products");
-const inputTitle = document.getElementById("form-title");
-const inputDescript = document.getElementById("form-description");
-const inputPrice = document.getElementById("form-price");
-const inputCode = document.getElementById("form-code");
-const inputStock = document.getElementById("form-stock");
-const inputCategory = document.getElementById("form-category");
-const inputThumbnails = document.getElementById("form-thumbnails");
-const chatForm = document.getElementById("chat-form");
-const textInput = document.getElementById("text-input");
-const user = document.getElementById("user-input");
+const formProducts = document.getElementById('form-products');
+const inputTitle = document.getElementById('form-title');
+const inputDescript = document.getElementById('form-description');
+const inputPrice = document.getElementById('form-price');
+const inputCode = document.getElementById('form-code');
+const inputStock = document.getElementById('form-stock');
+const inputCategory = document.getElementById('form-category');
+const inputThumbnails = document.getElementById('form-thumbnails');
+const chatForm = document.getElementById('chat-form');
+const textInput = document.getElementById('text-input');
+const user = document.getElementById('user-input');
 
 // Escuchando servidor
-socket.on("products", (products) => {
+socket.on('products', (products) => {
   // Como lo habia solucionado pt.1
   // renderProducts(products);
 
@@ -22,7 +22,7 @@ socket.on("products", (products) => {
   //Usado en para FileSystem
   // <td><button type="button" class="btn btn-danger " onclick="deleteProduct(${product.id})">X</button></td>
 
-  const productList = document.querySelector(".productListUpdated");
+  const productList = document.querySelector('.productListUpdated');
   productList.innerHTML = `
     ${products
       .map(
@@ -40,7 +40,7 @@ socket.on("products", (products) => {
       </tr>
     `
       )
-      .join("")}
+      .join('')}
   `;
 });
 
@@ -68,14 +68,14 @@ if (formProducts) {
       stock: +inputStock.value,
       category: inputCategory.value,
     };
-    socket.emit("new-product", newProduct);
+    socket.emit('new-product', newProduct);
     formProducts.reset();
   };
 }
 
 deleteProduct = (productId) => {
   // socket.emit("delete-product", productId); // Usado para FyleSystem
-  socket.emit("delete-product", productId.toString());
+  socket.emit('delete-product', productId.toString());
 };
 
 // Chat Section
@@ -86,12 +86,12 @@ if (chatForm) {
       user: user.value,
       message: textInput.value,
     };
-    socket.emit("new-message", msg);
-    textInput.value = "";
+    socket.emit('new-message', msg);
+    textInput.value = '';
   };
 }
 
-socket.on("chat-message", (data) => {
+socket.on('chat-message', (data) => {
   renderAllMessages(data);
 });
 
@@ -107,6 +107,6 @@ const renderAllMessages = (data) => {
      `;
       return fragment;
     })
-    .join("\n");
-  document.getElementById("divChat").innerHTML = html;
+    .join('\n');
+  document.getElementById('divChat').innerHTML = html;
 };

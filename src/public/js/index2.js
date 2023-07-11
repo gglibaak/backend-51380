@@ -74,25 +74,23 @@ const deleteCartItems = (id) => {
 */
 
 // ############ 2da version ############
-const cartInfoElement = document.getElementsByClassName("cartInfo")[0];
+const cartInfoElement = document.getElementsByClassName('cartInfo')[0];
 
 const AddtoCart = (id) => {
-  const cartIdValue = cartInfoElement?.getAttribute("id");
+  const cartIdValue = cartInfoElement?.getAttribute('id');
   if (cartIdValue === undefined) {
-    window.location.href = "http://localhost:8080/auth/login";
+    window.location.href = 'http://localhost:8080/auth/login';
   }
 
   fetch(`http://localhost:8080/api/carts/${cartIdValue}/products/${id}`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(
-        `Producto con el id: ${id} se agregó al cart con id: ${cartIdValue}`
-      );
+      console.log(`Producto con el id: ${id} se agregó al cart con id: ${cartIdValue}`);
       showMsg(`🛒 Producto agregado al carro con el id: ${id}.`);
     })
     .catch((err) => console.log(err));
@@ -104,7 +102,7 @@ const showMsg = (msg) => {
     duration: 3000,
     stopOnFocus: true,
     style: {
-      background: "#96c93d",
+      background: '#96c93d',
     },
     offset: {
       x: 2,
@@ -116,9 +114,9 @@ const showMsg = (msg) => {
 //Cart Section
 const deleteCartItems = (cartId) => {
   fetch(`http://localhost:8080/api/carts/${cartId}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => res.json())
@@ -126,9 +124,7 @@ const deleteCartItems = (cartId) => {
       setTimeout(() => {
         window.location.href = window.location.href; //refresh modo vikingo
       }, 3000);
-      showMsg(
-        `🎉 Producto adquirido con éxito. CartId: ${cartId}. El carrito se vaciará`
-      );
+      showMsg(`🎉 Producto adquirido con éxito. CartId: ${cartId}. El carrito se vaciará`);
     })
     .catch((err) => console.log(err));
 };

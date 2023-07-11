@@ -1,44 +1,41 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const GitHubStrategy = require("passport-github2").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const GitHubStrategy = require('passport-github2').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-const fetch = require("cross-fetch");
-const { isValidPassword, createHash } = require("../utils/bcrypt.config");
-const MongoCarts = require("../services/carts.services");
+const fetch = require('cross-fetch');
+const { isValidPassword, createHash } = require('../utils/bcrypt.config');
+const MongoCarts = require('../services/carts.services');
 const Services = new MongoCarts();
-const UserModel = require("../dao/mongo/models/users.model");
+const UserModel = require('../dao/mongo/models/users.model');
 
 const initPassport = () => {
   //############## Local Strategy ##############
   passport.use(
-    "login",
+    'login',
     new LocalStrategy(
       {
-        usernameField: "email",
-        passwordField: "password",
+        usernameField: 'email',
+        passwordField: 'password',
         passReqToCallback: true,
       },
       async (req, username, password, done) => {
         try {
           const { email, password } = req.body;
           if (!email || !password) {
-            req.flash("error", "Por favor indique su email y password.");
+            req.flash('error', 'Por favor indique su email y password.');
             return done(null, false);
           }
 
           const user = await UserModel.findOne({ email: username });
           if (!user) {
-            req.flash("error", "Por favor indique su email y password.");
+            req.flash('error', 'Por favor indique su email y password.');
             return done(null, false);
           }
 
           if (!isValidPassword(password, user.password)) {
-            req.flash(
-              "error",
-              "Por favor indique un email o password correcto."
-            );
+            req.flash('error', 'Por favor indique un email o password correcto.');
             return done(null, false);
           }
 
@@ -58,10 +55,10 @@ const initPassport = () => {
   );
 
   passport.use(
-    "register",
+    'register',
     new LocalStrategy(
       {
-        usernameField: "email",
+        usernameField: 'email',
         passReqToCallback: true,
         failureFlash: true,
       },
@@ -70,13 +67,13 @@ const initPassport = () => {
           const { first_name, last_name, email, password, age } = req.body;
 
           if (!email || !password || !first_name || !last_name || !age) {
-            req.flash("error", "Por favor indique sus datos correctamente.");
+            req.flash('error', 'Por favor indique sus datos correctamente.');
             return done(null, false);
           }
 
           let user = await UserModel.findOne({ email: username });
           if (user) {
-            req.flash("error", "El mail ya se encuentra en uso.");
+            req.flash('error', 'El mail ya se encuentra en uso.');
             return done(null, false);
           }
 
@@ -90,11 +87,11 @@ const initPassport = () => {
             age,
             password: createHash(password),
             cartID,
-            role: "user",
+            role: 'user',
           });
 
           req.session.email = email;
-          req.session.role = "user";
+          req.session.role = 'user';
           req.session.first_name = first_name;
           req.session.last_name = last_name;
           req.session.age = age;
@@ -102,7 +99,7 @@ const initPassport = () => {
 
           return done(null, response);
         } catch (error) {
-          console.log("Error en el registro");
+          console.log('Error en el registro');
           return done(new Error(error));
         }
       }
@@ -116,27 +113,23 @@ const initPassport = () => {
       {
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/auth/github/callback",
+        callbackURL: 'http://localhost:8080/auth/github/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
         //console.log(profile); // Información que nos devuelve GitHub
         try {
-          const res = await fetch("https://api.github.com/user/emails", {
+          const res = await fetch('https://api.github.com/user/emails', {
             headers: {
-              Accept: "application/vnd.github+json",
-              Authorization: "Bearer " + accessToken,
-              "X-Github-Api-Version": "2022-11-28",
+              Accept: 'application/vnd.github+json',
+              Authorization: 'Bearer ' + accessToken,
+              'X-Github-Api-Version': '2022-11-28',
             },
           });
           const emails = await res.json();
           const emailDetail = emails.find((email) => email.verified == true);
 
           if (!emailDetail) {
-            return done(
-              null,
-              false,
-              req.flash("error", "No se pudo obtener el email del usuario.")
-            );
+            return done(null, false, req.flash('error', 'No se pudo obtener el email del usuario.'));
           }
           profile.email = emailDetail.email;
 
@@ -146,21 +139,19 @@ const initPassport = () => {
             const newCart = await Services.addCart();
             const cartID = newCart.result.payload._id.toString();
 
-            const displayName = profile.displayName
-              ? profile.displayName.split(" ")
-              : [profile.username];
+            const displayName = profile.displayName ? profile.displayName.split(' ') : [profile.username];
 
-            const lastName = displayName[1] || "nolastname";
-            const firstName = displayName[0] || "noname";
+            const lastName = displayName[1] || 'nolastname';
+            const firstName = displayName[0] || 'noname';
 
             const userCreated = await UserModel.create({
               first_name: firstName,
               last_name: lastName,
               email: profile.email,
               age: 18,
-              password: "GitHub-User",
+              password: 'GitHub-User',
               cartID,
-              role: "user",
+              role: 'user',
             });
 
             // Usuario Creado correctamente
@@ -170,7 +161,7 @@ const initPassport = () => {
             return done(null, user);
           }
         } catch (error) {
-          console.log("Error en auth github");
+          console.log('Error en auth github');
           console.log(error);
           return done(new Error(error));
         }
@@ -183,8 +174,8 @@ const initPassport = () => {
       {
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/auth/facebook/callback",
-        profileFields: ["id", "displayName", "email"],
+        callbackURL: 'http://localhost:8080/auth/facebook/callback',
+        profileFields: ['id', 'displayName', 'email'],
       },
       async (accessToken, refreshToken, profile, done) => {
         // console.log(profile);
@@ -195,9 +186,9 @@ const initPassport = () => {
             const newCart = await Services.addCart();
             const cartID = newCart.result.payload._id.toString();
 
-            const displayName = profile.displayName.split(" ");
-            const lastName = displayName[1] || "nolastname";
-            const firstName = displayName[0] || "noname";
+            const displayName = profile.displayName.split(' ');
+            const lastName = displayName[1] || 'nolastname';
+            const firstName = displayName[0] || 'noname';
 
             /* console.log(
               "Nombre: ",
@@ -215,9 +206,9 @@ const initPassport = () => {
               last_name: lastName,
               email,
               age: 18,
-              password: "Facebook-User",
+              password: 'Facebook-User',
               cartID,
-              role: "user",
+              role: 'user',
             });
             // console.log("Usuario creado correctamente:", userCreated);
             return done(null, userCreated);
@@ -226,7 +217,7 @@ const initPassport = () => {
             return done(null, user);
           }
         } catch (error) {
-          console.log("Error en auth facebook");
+          console.log('Error en auth facebook');
           console.log(error);
           return done(new Error(error));
         }
@@ -240,7 +231,7 @@ const initPassport = () => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/auth/google/callback",
+        callbackURL: 'http://localhost:8080/auth/google/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
         // console.log(profile);
@@ -257,9 +248,9 @@ const initPassport = () => {
               last_name: family_name,
               email,
               age: 18,
-              password: "Google-User",
+              password: 'Google-User',
               cartID,
-              role: "user",
+              role: 'user',
             });
             // console.log("Usuario creado correctamente:", userCreated);
             return done(null, userCreated);
@@ -268,7 +259,7 @@ const initPassport = () => {
             return done(null, user);
           }
         } catch (error) {
-          console.log("Error en auth google");
+          console.log('Error en auth google');
           console.log(error);
           return done(new Error(error));
         }

@@ -1,14 +1,14 @@
-const ProductModel = require("../src/dao/mongo/models/products.model");
-const MongoProducts = require("../src/services/products.services");
+const ProductModel = require('../src/dao/mongo/models/products.model');
+const MongoProducts = require('../src/services/products.services');
 const Services = new MongoProducts();
-const MongoChat = require("../src/services/chat.services");
+const MongoChat = require('../src/services/chat.services');
 const ChatServices = new MongoChat();
 
 module.exports = (io) => {
-  io.on("connection", (socket) => {
+  io.on('connection', (socket) => {
     console.log(`New Client Connection with ID: ${socket.id}`);
 
-    socket.on("new-product", async (newProd) => {
+    socket.on('new-product', async (newProd) => {
       try {
         await Services.addProduct({ ...newProd });
         // Actualizando lista despues de agregar producto nuevo
@@ -27,12 +27,12 @@ module.exports = (io) => {
           };
         });
 
-        io.emit("products", simplifiedProduct);
+        io.emit('products', simplifiedProduct);
       } catch (error) {
         console.log(error);
       }
     });
-    socket.on("delete-product", async (delProd) => {
+    socket.on('delete-product', async (delProd) => {
       try {
         await Services.deleteProduct(delProd);
 
@@ -51,20 +51,20 @@ module.exports = (io) => {
           };
         });
 
-        io.emit("products", simplifiedProduct);
+        io.emit('products', simplifiedProduct);
       } catch (error) {
         console.log(error);
       }
     });
     // *Chat Section*
     // Listening and Sending
-    socket.on("new-message", async (data) => {
+    socket.on('new-message', async (data) => {
       try {
         newMessage = await ChatServices.addMessage(data);
 
         const allMsgs = await ChatServices.getAllMessages();
 
-        io.emit("chat-message", allMsgs);
+        io.emit('chat-message', allMsgs);
       } catch (error) {
         console.log(error);
       }

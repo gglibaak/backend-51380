@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const cartsCollection = "carts";
+const cartsCollection = 'carts';
 
 const CartSchema = new Schema(
   {
@@ -11,7 +11,7 @@ const CartSchema = new Schema(
           // type: Array,
           // default: [],
           type: mongoose.Schema.Types.ObjectId,
-          ref: "products",
+          ref: 'products',
         },
         quantity: {
           type: Number,
@@ -24,12 +24,12 @@ const CartSchema = new Schema(
   { versionKey: false }
 );
 
-CartSchema.pre("find", function () {
-  this.populate("products.id");
+CartSchema.pre('find', function () {
+  this.populate('products.id');
 });
 
-CartSchema.pre("findOne", function () {
-  this.populate("products.id");
+CartSchema.pre('findOne', function () {
+  this.populate('products.id');
 });
 
 const CartModel = mongoose.model(cartsCollection, CartSchema);

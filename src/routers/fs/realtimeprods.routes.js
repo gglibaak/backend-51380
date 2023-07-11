@@ -1,15 +1,15 @@
-const express = require("express");
-const ProductManager = require("../../dao/fs/ProductManager");
-const dataProd = new ProductManager("productsDB");
+const express = require('express');
+const ProductManager = require('../../dao/fs/ProductManager');
+const dataProd = new ProductManager('productsDB');
 
 const realTimeProdRoutes = express.Router();
 
-realTimeProdRoutes.get("/", async (req, res) => {
+realTimeProdRoutes.get('/', async (req, res) => {
   try {
     const products = await dataProd.getProducts();
-    return res.render("realTimeProducts", { products: products });
+    return res.render('realTimeProducts', { products: products });
   } catch (error) {
-    res.status(500).json({ succes: "false", msg: "Error", payload: {} });
+    res.status(500).json({ succes: 'false', msg: 'Error', payload: {} });
   }
 });
 

@@ -1,4 +1,4 @@
-const ChatModel = require("../dao/mongo/models/messages.model");
+const ChatModel = require('../dao/mongo/models/messages.model');
 
 class MongoChat {
   async getAllMessages() {
@@ -16,7 +16,7 @@ class MongoChat {
       console.log(err);
       return {
         status: 500,
-        result: { succes: false, msg: "Internal Server Error", payload: {} },
+        result: { succes: false, msg: 'Internal Server Error', payload: {} },
       };
     }
   }
@@ -28,7 +28,7 @@ class MongoChat {
         status: 200,
         result: {
           success: true,
-          msg: "Message added successfully",
+          msg: 'Message added successfully',
           payload: newMessage,
         },
       };
@@ -36,7 +36,7 @@ class MongoChat {
       console.log(err);
       return {
         status: 500,
-        result: { success: false, msg: "Internal Server Error", payload: {} },
+        result: { success: false, msg: 'Internal Server Error', payload: {} },
       };
     }
   }

@@ -1,17 +1,17 @@
-const mongoose = require("mongoose");
-const CartModel = require("../dao/mongo/models/carts.model");
-const ProductModel = require("../dao/mongo/models/products.model");
+const mongoose = require('mongoose');
+const CartModel = require('../dao/mongo/models/carts.model');
+const ProductModel = require('../dao/mongo/models/products.model');
 
 class MongoCarts {
   async getCartsAll() {
     try {
       const carts = await CartModel.find({});
-      return { status: 200, result: { status: "success", payload: carts } };
+      return { status: 200, result: { status: 'success', payload: carts } };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { status: "error", msg: "Internal Server Error", payload: {} },
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
   }
@@ -22,7 +22,7 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Invalid cart ID.`,
           },
         };
@@ -32,13 +32,13 @@ class MongoCarts {
 
       return {
         status: 200,
-        result: { status: "success", payload: cartFiltered },
+        result: { status: 'success', payload: cartFiltered },
       };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { status: "error", msg: "Internal Server Error", payload: {} },
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
   }
@@ -47,16 +47,13 @@ class MongoCarts {
     try {
       if (cartId === undefined || prodId === undefined) {
         const newCart = await CartModel.create({});
-        return { status: 200, result: { status: "success", payload: newCart } };
+        return { status: 200, result: { status: 'success', payload: newCart } };
       } else {
-        if (
-          !mongoose.Types.ObjectId.isValid(prodId) ||
-          !mongoose.Types.ObjectId.isValid(cartId)
-        ) {
+        if (!mongoose.Types.ObjectId.isValid(prodId) || !mongoose.Types.ObjectId.isValid(cartId)) {
           return {
             status: 400,
             result: {
-              status: "error",
+              status: 'error',
               error: `🛑 Invalid product or card ID.`,
             },
           };
@@ -70,15 +67,13 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Product or Cart not found.`,
           },
         };
       }
 
-      const productIndex = cartFiltered.products.findIndex((p) =>
-        p.id.equals(prodId)
-      );
+      const productIndex = cartFiltered.products.findIndex((p) => p.id.equals(prodId));
 
       if (productIndex !== -1) {
         cartFiltered.products[productIndex].quantity += 1;
@@ -96,21 +91,18 @@ class MongoCarts {
       console.log(err);
       return {
         status: 500,
-        result: { status: "error", msg: "Internal Server Error", payload: {} },
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
   }
 
   async deleteProduct(cartId, prodId) {
     try {
-      if (
-        !mongoose.Types.ObjectId.isValid(prodId) ||
-        !mongoose.Types.ObjectId.isValid(cartId)
-      ) {
+      if (!mongoose.Types.ObjectId.isValid(prodId) || !mongoose.Types.ObjectId.isValid(cartId)) {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Invalid product or card ID.`,
           },
         };
@@ -123,15 +115,13 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Product or Cart not found.`,
           },
         };
       }
 
-      const productIndex = cartFiltered.products.findIndex((p) =>
-        p.id.equals(prodId)
-      );
+      const productIndex = cartFiltered.products.findIndex((p) => p.id.equals(prodId));
 
       if (productIndex !== -1) {
         cartFiltered.products[productIndex].quantity -= 1;
@@ -142,7 +132,7 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Product not found in cart.`,
           },
         };
@@ -152,27 +142,24 @@ class MongoCarts {
 
       return {
         status: 200,
-        result: { status: "success", payload: cartFiltered },
+        result: { status: 'success', payload: cartFiltered },
       };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { status: "error", msg: "Internal Server Error", payload: {} },
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
   }
 
   async updateCartQty(cartId, prodId, quantity) {
     try {
-      if (
-        !mongoose.Types.ObjectId.isValid(prodId) ||
-        !mongoose.Types.ObjectId.isValid(cartId)
-      ) {
+      if (!mongoose.Types.ObjectId.isValid(prodId) || !mongoose.Types.ObjectId.isValid(cartId)) {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Invalid product or card ID.`,
           },
         };
@@ -185,15 +172,13 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Product or Cart not found.`,
           },
         };
       }
 
-      const productIndex = cartFiltered.products.findIndex((p) =>
-        p.id.equals(prodId)
-      );
+      const productIndex = cartFiltered.products.findIndex((p) => p.id.equals(prodId));
 
       if (productIndex !== -1) {
         cartFiltered.products[productIndex].quantity = quantity;
@@ -201,7 +186,7 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Product not found in cart.`,
           },
         };
@@ -211,13 +196,13 @@ class MongoCarts {
 
       return {
         status: 200,
-        result: { status: "success", payload: cartFiltered },
+        result: { status: 'success', payload: cartFiltered },
       };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { status: "error", msg: "Internal Server Error", payload: {} },
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
   }
@@ -228,7 +213,7 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Invalid card ID.`,
           },
         };
@@ -240,7 +225,7 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Cart not found.`,
           },
         };
@@ -252,13 +237,13 @@ class MongoCarts {
 
       return {
         status: 200,
-        result: { status: "success", payload: cartFiltered },
+        result: { status: 'success', payload: cartFiltered },
       };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { status: "error", msg: "Internal Server Error", payload: {} },
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
   }
@@ -269,23 +254,19 @@ class MongoCarts {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Invalid card ID.`,
           },
         };
       }
 
-      const cartUpdated = await CartModel.findByIdAndUpdate(
-        cartId,
-        { products },
-        { new: true }
-      );
+      const cartUpdated = await CartModel.findByIdAndUpdate(cartId, { products }, { new: true });
 
       if (!cartUpdated) {
         return {
           status: 400,
           result: {
-            status: "error",
+            status: 'error',
             error: `🛑 Cart not found.`,
           },
         };
@@ -293,13 +274,13 @@ class MongoCarts {
 
       return {
         status: 200,
-        result: { status: "success", payload: cartUpdated },
+        result: { status: 'success', payload: cartUpdated },
       };
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        result: { status: "error", msg: "Internal Server Error", payload: {} },
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
   }

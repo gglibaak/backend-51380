@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require('fs');
 
 class CartManager {
   constructor(fileName) {
@@ -8,9 +8,7 @@ class CartManager {
 
   async getData() {
     fs.existsSync(this.path)
-      ? (this.carts = JSON.parse(
-          await fs.promises.readFile(this.path, "utf-8")
-        ))
+      ? (this.carts = JSON.parse(await fs.promises.readFile(this.path, 'utf-8')))
       : await fs.promises.writeFile(this.path, JSON.stringify(this.carts));
 
     return this.carts;
@@ -19,8 +17,7 @@ class CartManager {
   async addCart(cart) {
     await this.getData();
 
-    const maxId =
-      this.carts.length > 0 ? Math.max(...this.carts.map((p) => p.id)) : 0;
+    const maxId = this.carts.length > 0 ? Math.max(...this.carts.map((p) => p.id)) : 0;
     this.id = maxId + 1;
 
     let newCart = { id: this.id, ...cart };
@@ -28,7 +25,7 @@ class CartManager {
 
     await fs.promises.writeFile(this.path, JSON.stringify(this.carts, null, 2));
 
-    return "Cart added successfully.";
+    return 'Cart added successfully.';
   }
 
   async getCarts() {
@@ -40,7 +37,7 @@ class CartManager {
     await this.getData();
     let prodFound = this.carts.find((p) => p.id === id);
     if (!prodFound) {
-      return "Product not found.";
+      return 'Product not found.';
     }
     return prodFound;
   }
@@ -51,12 +48,10 @@ class CartManager {
     const cartFiltered = this.carts.find((c) => c.id == cartId);
 
     if (cartIndex === -1) {
-      return "Cart not found.";
+      return 'Cart not found.';
     }
 
-    const productIndex = cartFiltered.products.findIndex(
-      (p) => p.id === productId
-    );
+    const productIndex = cartFiltered.products.findIndex((p) => p.id === productId);
 
     if (productIndex !== -1) {
       cartFiltered.products[productIndex].quantity += 1;

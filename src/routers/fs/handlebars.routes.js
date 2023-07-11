@@ -1,20 +1,20 @@
-const express = require("express");
-const ProductManager = require("../dao/fs/ProductManager");
-const dataProd = new ProductManager("productsDB");
+const express = require('express');
+const ProductManager = require('../dao/fs/ProductManager');
+const dataProd = new ProductManager('productsDB');
 
 const hbsRoutes = express.Router();
 
-hbsRoutes.get("/", async (req, res) => {
+hbsRoutes.get('/', async (req, res) => {
   try {
     const version = parseInt(req.query.v);
     const products = await dataProd.getProducts();
     return res.render(
-      version === 2 ? "home2" : "home",
+      version === 2 ? 'home2' : 'home',
 
       { products: products }
     );
   } catch (error) {
-    res.status(500).json({ succes: "false", msg: "Error", payload: {} });
+    res.status(500).json({ succes: 'false', msg: 'Error', payload: {} });
   }
 });
 

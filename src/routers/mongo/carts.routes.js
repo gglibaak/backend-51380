@@ -1,41 +1,41 @@
-const express = require("express");
+const express = require('express');
 
-const MongoCarts = require("../../services/carts.services");
+const MongoCarts = require('../../services/carts.services');
 const Services = new MongoCarts();
 
 const cartRoutes = express.Router();
 
-cartRoutes.get("/carts", async (req, res) => {
+cartRoutes.get('/carts', async (req, res) => {
   const response = await Services.getCartsAll();
   return res.status(response.status).json(response.result);
 });
 
-cartRoutes.get("/carts/:cid", async (req, res) => {
+cartRoutes.get('/carts/:cid', async (req, res) => {
   const filteredId = req.params.cid;
   const response = await Services.getCartsById(filteredId);
   return res.status(response.status).json(response.result);
 });
 
-cartRoutes.post("/carts", async (req, res) => {
+cartRoutes.post('/carts', async (req, res) => {
   response = await Services.addCart();
   return res.status(response.status).json(response.result);
 });
 
-cartRoutes.post("/carts/:cid/products/:pid", async (req, res) => {
+cartRoutes.post('/carts/:cid/products/:pid', async (req, res) => {
   const cartId = req.params.cid;
   const prodId = req.params.pid;
   response = await Services.addCart(cartId, prodId);
   return res.status(response.status).json(response.result);
 });
 
-cartRoutes.delete("/carts/:cid/products/:pid", async (req, res) => {
+cartRoutes.delete('/carts/:cid/products/:pid', async (req, res) => {
   const cartId = req.params.cid;
   const prodId = req.params.pid;
   response = await Services.deleteProduct(cartId, prodId);
   return res.status(response.status).json(response.result);
 });
 
-cartRoutes.put("/carts/:cid/products/:pid", async (req, res) => {
+cartRoutes.put('/carts/:cid/products/:pid', async (req, res) => {
   const cartId = req.params.cid;
   const prodId = req.params.pid;
   const quantity = req.body.quantity;
@@ -43,13 +43,13 @@ cartRoutes.put("/carts/:cid/products/:pid", async (req, res) => {
   return res.status(response.status).json(response.result);
 });
 
-cartRoutes.delete("/carts/:cid", async (req, res) => {
+cartRoutes.delete('/carts/:cid', async (req, res) => {
   const id = req.params.cid;
   const response = await Services.deleteCart(id);
   return res.status(response.status).json(response.result);
 });
 
-cartRoutes.put("/carts/:cid", async (req, res) => {
+cartRoutes.put('/carts/:cid', async (req, res) => {
   const id = req.params.cid;
   const infoUpdateCart = req.body;
   const response = await Services.updateCart(id, infoUpdateCart.products);

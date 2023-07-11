@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const mongoosePaginate = require("mongoose-paginate-v2");
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const { Schema } = mongoose;
-const productCollection = "products";
+const productCollection = 'products';
 
 const ProductSchema = new Schema(
   {

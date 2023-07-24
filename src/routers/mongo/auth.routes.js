@@ -8,9 +8,17 @@ authRoutes.get('/login', redirectIfLoggedIn, authController.getLogin);
 
 authRoutes.get('/register', redirectIfLoggedIn, authController.getRegister);
 
-authRoutes.post('/login', passport.authenticate('login', { failureRedirect: '/auth/fail-register' }), authController.passportLogin );
+authRoutes.post(
+  '/login',
+  passport.authenticate('login', { failureRedirect: '/auth/fail-register' }),
+  authController.passportLogin
+);
 
-authRoutes.post('/register', passport.authenticate('register', { failureRedirect: '/auth/fail-register' }), authController.passportRegister );
+authRoutes.post(
+  '/register',
+  passport.authenticate('register', { failureRedirect: '/auth/fail-register' }),
+  authController.passportRegister
+);
 
 authRoutes.get('/fail-register', authController.failRegister);
 
@@ -20,7 +28,11 @@ authRoutes.get('/profile', isLoggedin, authController.getProfile);
 
 authRoutes.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 
-authRoutes.get('/github/callback', passport.authenticate('github', { failureRedirect: '/auth/fail-register' }), authController.githubCallback);
+authRoutes.get(
+  '/github/callback',
+  passport.authenticate('github', { failureRedirect: '/auth/fail-register' }),
+  authController.githubCallback
+);
 
 authRoutes.get('/facebook', passport.authorize('facebook', { scope: ['email'] }));
 
@@ -32,6 +44,10 @@ authRoutes.get(
 
 authRoutes.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-authRoutes.get('/google/callback', passport.authenticate('google', { failureRedirect: '/auth/fail-register' }), authController.googleCallback);
+authRoutes.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/auth/fail-register' }),
+  authController.googleCallback
+);
 
 module.exports = authRoutes;

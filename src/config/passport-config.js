@@ -4,11 +4,19 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
+const env = require('./env.config');
 const fetch = require('cross-fetch');
 const { isValidPassword, createHash } = require('../utils/bcrypt.config');
 const MongoCarts = require('../services/carts.services');
 const Services = new MongoCarts();
 const UserModel = require('../dao/mongo/models/users.model');
+
+const GITHUB_CLIENT_ID = env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;
+const FACEBOOK_CLIENT_ID = env.FACEBOOK_CLIENT_ID;
+const FACEBOOK_CLIENT_SECRET = env.FACEBOOK_CLIENT_SECRET;
+const GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = env.GOOGLE_CLIENT_SECRET;
 
 const initPassport = () => {
   //############## Local Strategy ##############
@@ -111,8 +119,8 @@ const initPassport = () => {
   passport.use(
     new GitHubStrategy(
       {
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        clientID: GITHUB_CLIENT_ID,
+        clientSecret: GITHUB_CLIENT_SECRET,
         callbackURL: 'http://localhost:8080/auth/github/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
@@ -172,8 +180,8 @@ const initPassport = () => {
   passport.use(
     new FacebookStrategy(
       {
-        clientID: process.env.FACEBOOK_CLIENT_ID,
-        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        clientID: FACEBOOK_CLIENT_ID,
+        clientSecret: FACEBOOK_CLIENT_SECRET,
         callbackURL: 'http://localhost:8080/auth/facebook/callback',
         profileFields: ['id', 'displayName', 'email'],
       },
@@ -229,8 +237,8 @@ const initPassport = () => {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: 'http://localhost:8080/auth/google/callback',
       },
       async (accessToken, refreshToken, profile, done) => {

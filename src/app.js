@@ -2,6 +2,7 @@ const express = require('express');
 const { Server: HttpServer } = require('http');
 const { Server: SocketServer } = require('socket.io');
 
+const env = require('./config/env.config');
 const productRoutes = require('./routers/mongo/products.routes');
 const cartRoutes = require('./routers/mongo/carts.routes');
 const hbsRoutes = require('./routers/mongo/handlebars.routes');
@@ -18,7 +19,9 @@ const connectMongo = require('./utils/mongo.connect');
 const initPassport = require('./config/passport-config');
 const flash = require('connect-flash');
 
-const PORT = process.env.PORT || 8080;
+const PORT = env.PORT || 8080;
+const SESSION_SECRET = env.SESSION_SECRET;
+const MONGO_URL = env.MONGO_URL;
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
@@ -57,8 +60,8 @@ app.set('views', path.join(__dirname, 'views'));
 // Configuración de la sesión.
 app.use(
   session({
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL, ttl: 3600 }),
-    secret: 'un-re-secretaso',
+    store: MongoStore.create({ mongoUrl: MONGO_URL, ttl: 3600 }),
+    secret: SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
   })

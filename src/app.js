@@ -42,6 +42,7 @@ const serverConnected = httpServer.listen(PORT, () => {
 serverConnected.on('error', (error) => console.log(`Server error: ${error}`));
 
 // Middlewares
+app.disable('x-powered-by'); // Deshabilita la cabecera X-Powered-By: Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(__dirname + '/public'));

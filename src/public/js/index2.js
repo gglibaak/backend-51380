@@ -124,7 +124,50 @@ const deleteCartItems = (cartId) => {
       setTimeout(() => {
         window.location.href = window.location.href; //refresh modo vikingo
       }, 3000);
-      showMsg(`🎉 Producto adquirido con éxito. CartId: ${cartId}. El carrito se vaciará`);
+      showMsg(`⚠ El carrito se vaciará, CartId: ${cartId}.`);
+    })
+    .catch((err) => console.log(err));
+};
+
+const purchaseCart = (cartId) => {
+  //get cartId from fetch
+  fetch(`http://localhost:8080/api/carts/${cartId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log(data.payload.products);
+      const products = data.payload.products;
+      const formatProduct = products.map((product) => {
+        return {
+          id: product.id._id,
+          quantity: product.quantity,
+        };
+      });
+      // console.log('desde front', formatProduct);
+
+      fetch(`http://localhost:8080/api/carts/${cartId}/purchase`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formatProduct),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data);
+
+          setTimeout(() => {
+            window.location.href = window.location.href; //refresh modo vikingo
+          }, 3000);
+          showMsg(
+            `🎉 Productos adquiridos con éxito. CartId: ${cartId}. El carrito se vaciará solo con los productos con stock disponible.`
+          );
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
 };

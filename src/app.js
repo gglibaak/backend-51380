@@ -9,6 +9,7 @@ const hbsRoutes = require('./routers/mongo/handlebars.routes');
 const realTimeProdRoutes = require('./routers/mongo/realtimeprods.routes');
 const chatRoutes = require('./routers/mongo/chat.routes');
 const authRoutes = require('./routers/mongo/auth.routes');
+const mailRoutes = require('./routers/mongo/mail.routes');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const session = require('express-session');
@@ -18,6 +19,7 @@ const websockets = require('./mongo.websockets');
 const connectMongo = require('./utils/mongo.connect');
 const initPassport = require('./config/passport-config');
 const flash = require('connect-flash');
+const userDTO = require('./dao/DTO/user.dto');
 
 const PORT = env.PORT || 8080;
 const SESSION_SECRET = env.SESSION_SECRET;
@@ -81,9 +83,11 @@ app.use('/', hbsRoutes);
 app.use('/realtimeproducts', realTimeProdRoutes);
 app.use('/chat', chatRoutes);
 app.use('/auth', authRoutes);
+app.use('/mail', mailRoutes);
 // Deberia estar todo de la misma ruta (api) ??
 app.use('/api/sessions/current', (req, res) => {
-  res.json({ user: req.session });
+  const infoUser = new userDTO(req.session);
+  res.json({ user: infoUser });
 });
 
 // Websockets

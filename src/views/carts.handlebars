@@ -3,6 +3,14 @@
 {{> nav}}
 
 {{#if cart.result.payload.products}}
+<div class="text-center my-4">
+  <button
+    type="button"
+    class="btn btn-warning btn-sm"
+    onclick="deleteCartItems('{{cart.result.payload._id}}')"
+  >Vaciar Carrito
+  <i class="bi bi-trash-fill"></i>
+  </button>
   <div
     class="table-responsive mx-auto my-4 text-center"
     style="max-width: 800px;"
@@ -30,8 +38,8 @@
     <button
       type="button"
       class="btn btn-danger my-4"
-      onclick="deleteCartItems('{{cart.result.payload._id}}')"
-    >Comprar Producto</button>
+      onclick="purchaseCart('{{cart.result.payload._id}}')"
+    >Confirmar Compra</button>
   </div>
 {{else}}
   <div class="text-center my-4">

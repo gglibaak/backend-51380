@@ -79,10 +79,10 @@ const cartInfoElement = document.getElementsByClassName('cartInfo')[0];
 const AddtoCart = (id) => {
   const cartIdValue = cartInfoElement?.getAttribute('id');
   if (cartIdValue === undefined) {
-    window.location.href = 'http://localhost:8080/auth/login';
+    window.location.href = '/auth/login';
   }
 
-  fetch(`http://localhost:8080/api/carts/${cartIdValue}/products/${id}`, {
+  fetch(`/api/carts/${cartIdValue}/products/${id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ const showMsg = (msg) => {
 
 //Cart Section
 const deleteCartItems = (cartId) => {
-  fetch(`http://localhost:8080/api/carts/${cartId}`, {
+  fetch(`/api/carts/${cartId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ const deleteCartItems = (cartId) => {
 
 const purchaseCart = (cartId) => {
   //get cartId from fetch
-  fetch(`http://localhost:8080/api/carts/${cartId}`, {
+  fetch(`/api/carts/${cartId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ const purchaseCart = (cartId) => {
       });
       // console.log('desde front', formatProduct);
 
-      fetch(`http://localhost:8080/api/carts/${cartId}/purchase`, {
+      fetch(`/api/carts/${cartId}/purchase`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

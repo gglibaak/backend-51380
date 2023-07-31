@@ -1,17 +1,19 @@
-<div class="container">
-  <h2 class="text-center my-4">Lista de Productos con Handlebars</h2>
-  <ul class="list-group">
-    {{#each products.result.payload}}
-      <li class="list-group-item">
-        <h3>{{title}}</h3>
-        <p>ID: {{id}}</p>
-        <p>{{description}}</p>
-        <p>Precio: {{price}}</p>
-        <p>Código: {{code}}</p>
-        <p>Stock: {{stock}}</p>
-        <p>Categoría: {{category}}</p>
-        <a href="{{thumbnails}}">Product's Image</a>
-      </li>
-    {{/each}}
-  </ul>
-</div>
+<div class="container-fluid p-0">
+    <div class="position-relative">
+      <img src="../public/img/bg.png" alt="" style="
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(5px); ">
+      <div class="position-absolute top-50 start-50 translate-middle col-md-4">
+        <div class="bg-white pb-5 px-4 text-center shadow-lg rounded">
+          <img src="https://i.postimg.cc/L419GThZ/event2logo.gif" alt="" style="height: 200px;">
+          <p class="pb-4"><a class="btn btn-outline-primary" href="/products" role="button">Ver Productos</a> </p>
+          <p><a class="btn btn-outline-primary" href="/auth/login" role="button">Registrate hoy</a></p>
+        </div>
+      </div>
+    </div>
+  </div>

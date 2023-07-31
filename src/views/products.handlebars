@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="" href="http://localhost:8080/products">
+    <a class="" href="/products">
       <img
         src="https://i.postimg.cc/vB4Vkc4D/ecommerce-2.gif"
         alt="logo"
@@ -22,9 +22,9 @@
             class="nav-link cart-link"
             style="color:azure;"
             {{#if cartid}}
-            href="http://localhost:8080/carts/{{cartid}}"
+            href="/carts/{{cartid}}"
             {{else}}
-            href="http://localhost:8080/auth/login"
+            href="/auth/login"
             {{/if}}
           >
             Ver Cart
@@ -34,7 +34,7 @@
           <li class="nav-item"><a
               class="nav-link btn btn-light btn-sm"
               style="color:black;"
-              href="http://localhost:8080/realtimeproducts"
+              href="/realtimeproducts"
             > Crear Producto </a></li>
 
         {{/if}}
@@ -44,13 +44,13 @@
               class="nav-link cartInfo"
               id="{{cartid}}"
               style="color:azure;"
-              href="http://localhost:8080/auth/profile"
+              href="/auth/profile"
             > Ver Perfil </a></li>
         {{else}}
           <li class="nav-item"><a
               class="nav-link"
               style="color:azure;"
-              href="http://localhost:8080/auth/register"
+              href="/auth/register"
             > Registrarse </a></li>
         {{/if}}
 
@@ -58,13 +58,13 @@
           <li class="nav-item"><a
               class="nav-link"
               style="color:azure;"
-              href="http://localhost:8080/auth/logout"
+              href="/auth/logout"
             > Log Out </a></li>
         {{else}}
           <li class="nav-item"><a
               class="nav-link"
               style="color:azure;"
-              href="http://localhost:8080/auth/login"
+              href="/auth/login"
             > Log In </a></li>
         {{/if}}
       </ul>

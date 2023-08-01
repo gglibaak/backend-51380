@@ -19,6 +19,5 @@ cartRoutes.delete('/carts/:cid', cartsController.deleteCart);
 
 cartRoutes.put('/carts/:cid', cartsController.updateCart);
 
-cartRoutes.put('/carts/:cid/purchase', cartsController.purchaseCart);
 
 module.exports = cartRoutes;

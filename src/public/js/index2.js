@@ -192,7 +192,7 @@ const purchaseCart = (cartId) => {
       });
       // console.log('desde front', formatProduct);
 
-      fetch(`/api/carts/${cartId}/purchase`, {
+      fetch(`/tickets/${cartId}/purchase`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

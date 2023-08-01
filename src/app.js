@@ -6,9 +6,10 @@ const env = require('./config/env.config');
 const productRoutes = require('./routers/mongo/products.routes');
 const cartRoutes = require('./routers/mongo/carts.routes');
 const hbsRoutes = require('./routers/mongo/handlebars.routes');
-const realTimeProdRoutes = require('./routers/mongo/realtimeprods.routes');
+const realtimeprodRoutes = require('./routers/mongo/realtimeprods.routes');
 const chatRoutes = require('./routers/mongo/chat.routes');
 const authRoutes = require('./routers/mongo/auth.routes');
+const ticketsRoutes = require('./routers/mongo/tickets.routes');
 const mailRoutes = require('./routers/mongo/mail.routes');
 const handlebars = require('express-handlebars');
 const path = require('path');
@@ -80,10 +81,11 @@ app.use(flash());
 app.use('/api', productRoutes);
 app.use('/api', cartRoutes);
 app.use('/', hbsRoutes);
-app.use('/realtimeproducts', realTimeProdRoutes);
+app.use('/realtimeproducts', realtimeprodRoutes);
 app.use('/chat', chatRoutes);
 app.use('/auth', authRoutes);
 app.use('/mail', mailRoutes);
+app.use('/tickets', ticketsRoutes);
 // Deberia estar todo de la misma ruta (api) ??
 app.use('/api/sessions/current', (req, res) => {
   const infoUser = new userDTO(req.session);

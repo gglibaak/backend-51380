@@ -39,7 +39,7 @@ async purchaseCart(cartId, cartList, userMail, userCartId) {
           },
         };
       }
-
+      
       if (cartId !== userCartId) {
         return {
           status: 400,
@@ -48,7 +48,7 @@ async purchaseCart(cartId, cartList, userMail, userCartId) {
             error: `🛑 The cart ID does not match the user's cart ID.`,
           },
         };
-      }
+      } 
 
       const cartFiltered = await CartModel.findOne({ _id: cartId });
 
@@ -121,6 +121,10 @@ async purchaseCart(cartId, cartList, userMail, userCartId) {
         purchase_datetime: new Date(),
         amount: +totalAmount,
         purchaser: userMail,
+        products: productsFiltered.map((product) => ({
+          id: product._id,
+          quantity: cartList.find((p) => p.id === product._id.toString()).quantity,
+        })),
       };
 
       const orderCreated = await TicketModel.create(newOrder);
@@ -153,6 +157,44 @@ async purchaseCart(cartId, cartList, userMail, userCartId) {
       };
     }
   }
+
+  async getTicketById(id) {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return {
+          status: 400,
+          result: {
+            status: 'error',
+            error: `🛑 Invalid ticket ID.`,
+          },
+        };
+      }
+
+      const ticket = await TicketModel.findOne({ _id: id }).lean();
+
+      if (!ticket) {
+        return {
+          status: 404,
+          result: {
+            status: 'error',
+            error: `🛑 Ticket not found.`,
+          },
+        };
+      }
+
+      return {
+        status: 200,
+        result: { status: 'success', payload: ticket },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        status: 500,
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
+      };
+    }
+  }
+
 
 }
 

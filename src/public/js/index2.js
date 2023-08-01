@@ -202,12 +202,12 @@ const purchaseCart = (cartId) => {
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);
-
+          const id = data.payload._id;
           setTimeout(() => {
-            window.location.href = window.location.href; //refresh modo vikingo
+            window.location.href = `/tickets/${id}`;
           }, 3000);
           showMsg2(
-            `🎉 Productos adquiridos con éxito. CartId: ${cartId}. El carrito se vaciará solo con los productos con stock disponible.`,
+            `🎉 Estamos procesando tu compra!. El carrito se vaciará solo con los productos con stock disponible.`,
             3000,
             '##0D6EFD'
           );

@@ -13,6 +13,13 @@ purchaseCart = async (req, res) => {
     return res.status(response.status).json(response.result);
   };
 
+getTicketById = async (req, res) => {
+    const id = req.params.cid;
+    //TODO DTO DE salida?
+    const response = await Services.getTicketById(id);
+    return res.render('ticket', { ticket: response.result });
+  }
+
 }
     
 module.exports = new ticketsController();

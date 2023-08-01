@@ -91,15 +91,15 @@ const AddtoCart = (id) => {
     .then((res) => res.json())
     .then((data) => {
       console.log(`Producto con el id: ${id} se agregó al cart con id: ${cartIdValue}`);
-      showMsg(`🛒 Producto agregado al carro con el id: ${id}.`);
+      showMsg(`🛒 Producto agregado al carro con el id: ${id}.`, 3000);
     })
     .catch((err) => console.log(err));
 };
 
-const showMsg = (msg) => {
+const showMsg = (msg, duration) => {
   Toastify({
-    text: msg,
-    duration: 3000,
+    text: `${msg} - Cerrando en ${Math.ceil(duration / 1000)} segundos`,
+    duration,
     stopOnFocus: true,
     style: {
       background: '#96c93d',
@@ -109,6 +109,49 @@ const showMsg = (msg) => {
       y: 65,
     },
   }).showToast();
+};
+
+const showMsg2 = (msg, duration, color) => {
+  let remainingTime = duration;
+
+  const updateTimer = () => {
+    remainingTime -= 1000;
+    if (remainingTime <= 0) {
+      clearInterval(timerInterval);
+      toast.hideToast();
+    } else {
+      toast = Toastify({
+        text: `${msg} - Cerrando en ${Math.ceil(remainingTime / 1000)} segundos`,
+        duration,
+        stopOnFocus: true,
+        style: {
+          background: color,
+        },
+        offset: {
+          x: 2,
+          y: 65,
+        },
+      });
+      toast.showToast();
+    }
+  };
+
+  let toast = Toastify({
+    text: `${msg} - Cerrando en ${Math.ceil(remainingTime / 1000)} segundos`,
+    duration,
+    stopOnFocus: true,
+    style: {
+      background: color,
+    },
+    offset: {
+      x: 2,
+      y: 65,
+    },
+  });
+
+  const timerInterval = setInterval(updateTimer, 1000);
+
+  toast.showToast();
 };
 
 //Cart Section
@@ -124,7 +167,7 @@ const deleteCartItems = (cartId) => {
       setTimeout(() => {
         window.location.href = window.location.href; //refresh modo vikingo
       }, 3000);
-      showMsg(`⚠ El carrito se vaciará, CartId: ${cartId}.`);
+      showMsg2(`⚠ El carrito se vaciará, CartId: ${cartId}.`, 3000, '#ff3352');
     })
     .catch((err) => console.log(err));
 };
@@ -163,8 +206,10 @@ const purchaseCart = (cartId) => {
           setTimeout(() => {
             window.location.href = window.location.href; //refresh modo vikingo
           }, 3000);
-          showMsg(
-            `🎉 Productos adquiridos con éxito. CartId: ${cartId}. El carrito se vaciará solo con los productos con stock disponible.`
+          showMsg2(
+            `🎉 Productos adquiridos con éxito. CartId: ${cartId}. El carrito se vaciará solo con los productos con stock disponible.`,
+            3000,
+            '##0D6EFD'
           );
         })
         .catch((err) => console.log(err));

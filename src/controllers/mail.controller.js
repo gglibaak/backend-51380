@@ -3,54 +3,71 @@ const nodemailer = require('nodemailer');
 
 class mailController {
   getMail(req, res) {
+    const captchaError = req.query.captcha_error === 'true';
+    const envKey = env.RECAPTCHA_SITE_KEY;
+
     return res.status(200).render('mail', {
       email: req.session.email,
+      captcha_error: captchaError,
+      RECAPTCHA_SITE_KEY: envKey,
     });
   }
 
   async sendMail(req, res) {
     const { email, subject, message } = req.body;
+    const recaptchaResponse = req.body['g-recaptcha-response'];
     const firstname = req.session.first_name;
     const lastname = req.session.last_name;
 
-    const subjectDefault = `💌 ${subject}` || 'Prueba de envio de email desde nodejs';
+    // Verificar reCAPTCHA
+    const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${env.RECAPTCHA_SECRET_KEY}&response=${recaptchaResponse}`;
 
-    const messageFiltered = `
-        <div>
-            <p>Hola, tienes un mensaje nuevo de <b>${firstname} ${lastname}</b>:</p>
-            <p>${message}</p>
+    try {
+      const response = await fetch(verificationUrl, { method: 'POST' });
+      const responseBody = await response.json();
 
-            <img src="https://i.gifer.com/3BMH.gif" />
-        </div>
-    `;
+      if (responseBody.success) {
+        const subjectDefault = `💌 ${subject}` || 'Prueba de envio de email desde nodejs';
 
-    // console.log('email', email);
-    // console.log('message', message);
+        const messageFiltered = `
+            <div>
+                <p>Hola, tienes un mensaje nuevo de <b>${firstname} ${lastname}</b>:</p>
+                <p>${message}</p>
 
-    const transport = nodemailer.createTransport({
-      service: 'gmail',
-      port: 587,
-      auth: {
-        user: env.GOOGLE_EMAIL,
-        pass: env.GOOGLE_PASSWORD,
-      },
-    });
+                <img src="https://i.gifer.com/3BMH.gif" />
+            </div>
+        `;
 
-    const mailOptions = {
-      from: env.GOOGLE_EMAIL,
-      to: email,
-      subject: subjectDefault,
-      html: messageFiltered,
-    };
-    await transport.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-        res.status(500).send({ email_failed: error.message });
+        const transport = nodemailer.createTransport({
+          service: 'gmail',
+          port: 587,
+          auth: {
+            user: env.GOOGLE_EMAIL,
+            pass: env.GOOGLE_PASSWORD,
+          },
+        });
+
+        const mailOptions = {
+          from: env.GOOGLE_EMAIL,
+          to: email,
+          subject: subjectDefault,
+          html: messageFiltered,
+        };
+
+        try {
+          await transport.sendMail(mailOptions);
+          res.status(200).json({ email_success: req.body });
+        } catch (error) {
+          // console.error('Error al enviar el correo electrónico:', error);
+          res.status(500).render('error', { email_failed: error.message });
+        }
       } else {
-        // console.log('Email enviado');
-        res.status(200).json({ email_success: req.body });
+        res.redirect('/mail?captcha_error=true');
       }
-    });
+    } catch (error) {
+      // console.error('Error al verificar reCAPTCHA:', error);
+      res.status(500).render('error', 'Error al verificar reCAPTCHA');
+    }
   }
 }
 

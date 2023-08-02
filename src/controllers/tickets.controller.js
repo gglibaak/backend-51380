@@ -1,4 +1,4 @@
-
+/*
 const MongoTickets = require('../services/tickets.services');
 const Services = new MongoTickets();
 const userDTO = require('../dao/DTO/user.dto');
@@ -21,5 +21,5 @@ getTicketById = async (req, res) => {
   }
 
 }
-    
-module.exports = new ticketsController();
+
+module.exports = new ticketsController(); */

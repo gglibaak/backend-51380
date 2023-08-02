@@ -1,4 +1,4 @@
-const express = require('express');
+/* const express = require('express');
 const ticketsController = require('../../controllers/tickets.controller');
 const ticketsRoutes = express.Router();
 const { isUserNotAdmin, isLoggedin } = require('../../middlewares/auth');
@@ -10,3 +10,4 @@ ticketsRoutes.get('/:cid', isLoggedin, isUserNotAdmin, ticketsController.getTick
 
 
 module.exports = ticketsRoutes;
+ */

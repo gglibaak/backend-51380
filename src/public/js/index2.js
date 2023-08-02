@@ -192,7 +192,7 @@ const purchaseCart = (cartId) => {
       });
       // console.log('desde front', formatProduct);
 
-      fetch(`/tickets/${cartId}/purchase`, {
+      fetch(`/api/carts/${cartId}/purchase`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -204,7 +204,7 @@ const purchaseCart = (cartId) => {
           // console.log(data);
           const id = data.payload._id;
           setTimeout(() => {
-            window.location.href = `/tickets/${id}`;
+            window.location.href = `/api/carts/purchase/${id}`;
           }, 3000);
           showMsg2(
             `🎉 Estamos procesando tu compra!. El carrito se vaciará solo con los productos con stock disponible.`,

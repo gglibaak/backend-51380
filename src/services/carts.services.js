@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
-const CartModel = require('../model/schemas/carts.schema');
+// const CartModel = require('../model/schemas/carts.schema');
 const ProductModel = require('../model/schemas/products.schema');
+
+const { CartsDAO } = require('../model/daos/app.daos');
+
+const cartsDAO = new CartsDAO();
 
 class MongoCarts {
   async getCartsAll() {
     try {
-      const carts = await CartModel.find({});
+      const carts = await cartsDAO.getAll();
       return { status: 200, result: { status: 'success', payload: carts } };
     } catch (err) {
       console.log(err);
@@ -28,7 +32,7 @@ class MongoCarts {
         };
       }
 
-      const cartFiltered = await CartModel.findOne({ _id: id }).lean();
+      const cartFiltered = await cartsDAO.getById(id, true); // plain = true -> return objeto plano
 
       return {
         status: 200,
@@ -46,7 +50,7 @@ class MongoCarts {
   async addCart(cartId, prodId) {
     try {
       if (cartId === undefined || prodId === undefined) {
-        const newCart = await CartModel.create({});
+        const newCart = await cartsDAO.add({});
         return { status: 200, result: { status: 'success', payload: newCart } };
       } else {
         if (!mongoose.Types.ObjectId.isValid(prodId) || !mongoose.Types.ObjectId.isValid(cartId)) {
@@ -61,7 +65,7 @@ class MongoCarts {
       }
 
       const productFiltered = await ProductModel.findOne({ _id: prodId });
-      const cartFiltered = await CartModel.findOne({ _id: cartId });
+      const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!productFiltered || !cartFiltered) {
         return {
@@ -109,7 +113,7 @@ class MongoCarts {
       }
 
       const productFiltered = await ProductModel.findOne({ _id: prodId });
-      const cartFiltered = await CartModel.findOne({ _id: cartId });
+      const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!productFiltered || !cartFiltered) {
         return {
@@ -166,7 +170,7 @@ class MongoCarts {
       }
 
       const productFiltered = await ProductModel.findOne({ _id: prodId });
-      const cartFiltered = await CartModel.findOne({ _id: cartId });
+      const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!productFiltered || !cartFiltered) {
         return {
@@ -219,7 +223,7 @@ class MongoCarts {
         };
       }
 
-      const cartFiltered = await CartModel.findOne({ _id: cartId });
+      const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!cartFiltered) {
         return {
@@ -260,7 +264,7 @@ class MongoCarts {
         };
       }
 
-      const cartUpdated = await CartModel.findByIdAndUpdate(cartId, { products }, { new: true });
+      const cartUpdated = await cartsDAO.update(cartId, { products });
 
       if (!cartUpdated) {
         return {

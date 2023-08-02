@@ -1,9 +1,11 @@
-const ChatModel = require('../model/schemas/messages.schema');
+const { MessagesDAO } = require('../model/daos/app.daos');
+
+const messagesDAO = new MessagesDAO();
 
 class MongoChat {
   async getAllMessages() {
     try {
-      const messages = await ChatModel.find({});
+      const messages = await messagesDAO.getAll();
       const simplifiedMessages = messages.map((message) => {
         return {
           id: message._id,
@@ -23,7 +25,7 @@ class MongoChat {
 
   async addMessage(message) {
     try {
-      const newMessage = await ChatModel.create(message);
+      const newMessage = await messagesDAO.add(message);
       return {
         status: 200,
         result: {

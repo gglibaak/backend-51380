@@ -1,8 +1,17 @@
 const envConfig = require('../../config/env.config');
 
+let MessagesDAO;
+let CartsDAO;
+
 switch (envConfig.PERSISTENCE) {
   case 'MONGO':
-    console.log('Persistance with MongoDB');
+    console.log('🍕Persistance with MongoDB');
+    MessagesDAO = require('./messages/messages.mongo.dao');
+    CartsDAO = require('./carts/carts.mongo.dao');
+    //UsersDAO
+    //ProductsDAO
+    //TicketsDAO
+
     break;
   case 'FILESYSTEM':
     console.log('Persistance with FileSystem');
@@ -13,3 +22,5 @@ switch (envConfig.PERSISTENCE) {
   default:
     throw new Error('Invalid persistence type');
 }
+
+module.exports = { MessagesDAO, CartsDAO };

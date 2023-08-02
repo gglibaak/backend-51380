@@ -1,4 +1,4 @@
-const ChatModel = require('../dao/mongo/models/messages.model');
+const ChatModel = require('../model/schemas/messages.schema');
 
 class MongoChat {
   async getAllMessages() {

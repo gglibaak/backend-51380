@@ -1,4 +1,4 @@
-const ProductModel = require('../dao/mongo/models/products.model');
+const ProductModel = require('../model/schemas/products.schema');
 
 class MongoProducts {
   async getProductAll(queryParams) {

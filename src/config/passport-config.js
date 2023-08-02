@@ -9,7 +9,7 @@ const fetch = require('cross-fetch');
 const { isValidPassword, createHash } = require('../utils/bcrypt.config');
 const MongoCarts = require('../services/carts.services');
 const Services = new MongoCarts();
-const UserModel = require('../dao/mongo/models/users.model');
+const UserModel = require('../model/schemas/users.schema');
 
 const GITHUB_CLIENT_ID = env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;

@@ -12,6 +12,7 @@ dotenv.config({
 module.exports = {
   PORT: process.env.PORT,
   MONGO_URL: process.env.MONGO_URL,
+  PERSISTENCE: process.env.PERSISTENCE,
   SESSION_SECRET: process.env.SESSION_SECRET,
   FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
   FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,

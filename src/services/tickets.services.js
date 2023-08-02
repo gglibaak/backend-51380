@@ -1,14 +1,13 @@
-const CartModel = require('../dao/mongo/models/carts.model');
-const ProductModel = require('../dao/mongo/models/products.model');
-const TicketModel = require('../dao/mongo/models/tickets.model');
+const CartModel = require('../model/schemas/carts.schema');
+const ProductModel = require('../model/schemas/products.schema');
+const TicketModel = require('../model/schemas/tickets.schema');
 const MongoCarts = require('../services/carts.services');
 const Services = new MongoCarts();
 
 const mongoose = require('mongoose');
 
 class MongoTickets {
-
-async purchaseCart(cartId, cartList, userMail, userCartId) {
+  async purchaseCart(cartId, cartList, userMail, userCartId) {
     try {
       if (!Array.isArray(cartList)) {
         return {
@@ -39,7 +38,7 @@ async purchaseCart(cartId, cartList, userMail, userCartId) {
           },
         };
       }
-      
+
       if (cartId !== userCartId) {
         return {
           status: 400,
@@ -48,7 +47,7 @@ async purchaseCart(cartId, cartList, userMail, userCartId) {
             error: `🛑 The cart ID does not match the user's cart ID.`,
           },
         };
-      } 
+      }
 
       const cartFiltered = await CartModel.findOne({ _id: cartId });
 
@@ -194,8 +193,6 @@ async purchaseCart(cartId, cartList, userMail, userCartId) {
       };
     }
   }
-
-
 }
 
 module.exports = MongoTickets;

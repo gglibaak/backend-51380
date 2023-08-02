@@ -3,7 +3,7 @@ const Services = new MongoCarts();
 
 const MongoTickets = require('../services/tickets.services');
 const ticketsServices = new MongoTickets();
-const userDTO = require('../dao/DTO/user.dto');
+const userDTO = require('../model/DTO/user.dto');
 
 class cartsController {
   getCartAll = async (req, res) => {

@@ -20,7 +20,7 @@ const websockets = require('./mongo.websockets');
 const connectMongo = require('./utils/mongo.connect');
 const initPassport = require('./config/passport-config');
 const flash = require('connect-flash');
-const userDTO = require('./dao/DTO/user.dto');
+const userDTO = require('./model/DTO/user.dto');
 
 const PORT = env.PORT || 8080;
 const SESSION_SECRET = env.SESSION_SECRET;

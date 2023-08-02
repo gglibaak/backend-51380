@@ -26,11 +26,18 @@ const redirectIfLoggedIn = (req, res, next) => {
   return next();
 };
 
-const isUserNotAdmin = (req, res, next) => {
+const isNotAdmin = (req, res, next) => {
   if (req.session?.role !== 'admin') {
     return next();
   }
   return res.status(403).render('error', { error: 'Error de autorización.' });
 };
 
-module.exports = { isUser, isAdmin, isLoggedin, redirectIfLoggedIn, isUserNotAdmin };
+const isCartOwner = (req, res, next) => {
+  if (req.session?.cartID === req.params.cid) {
+    return next();
+  }
+  return res.status(403).render('error', { error: 'Error de autorización.' });
+};
+
+module.exports = { isUser, isAdmin, isLoggedin, redirectIfLoggedIn, isNotAdmin, isCartOwner };

@@ -1,5 +1,5 @@
 // Deberia ser Services o DAO ??
-const ProductModel = require('../dao/mongo/models/products.model');
+const ProductModel = require('../model/schemas/products.schema');
 class realTimeProdController {
   getRealTimeProd = async (req, res) => {
     try {

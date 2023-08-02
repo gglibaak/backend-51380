@@ -1,4 +1,4 @@
-const ProductModel = require('../src/dao/mongo/models/products.model');
+const ProductModel = require('./model/schemas/products.schema');
 const MongoProducts = require('../src/services/products.services');
 const Services = new MongoProducts();
 const MongoChat = require('../src/services/chat.services');

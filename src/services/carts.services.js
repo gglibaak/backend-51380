@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const CartModel = require('../dao/mongo/models/carts.model');
-const ProductModel = require('../dao/mongo/models/products.model');
+const CartModel = require('../model/schemas/carts.schema');
+const ProductModel = require('../model/schemas/products.schema');
 
 class MongoCarts {
   async getCartsAll() {
@@ -284,7 +284,6 @@ class MongoCarts {
       };
     }
   }
-
 }
 
 module.exports = MongoCarts;

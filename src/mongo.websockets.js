@@ -1,7 +1,7 @@
 const ProductModel = require('./model/schemas/products.schema');
 const MongoProducts = require('../src/services/products.services');
 const Services = new MongoProducts();
-const MongoChat = require('../src/services/chat.services');
+const MongoChat = require('./services/messages.services');
 const ChatServices = new MongoChat();
 
 module.exports = (io) => {

@@ -1,22 +1,43 @@
 class CartsDAO {
   async getAll() {
-    return [];
+    try {
+      return [];
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async getById(id) {
-    return {};
+  async getById(id, plain = false) {
+    try {
+      return [];
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async add(cart) {
-    return {};
+    try {
+      return [];
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async update(id, cart) {
-    return {};
+    try {
+      return [];
+    } catch (error) {
+      console.log(error);
+
+    }
   }
 
   async delete(id) {
-    return {};
+    try {
+      return [];
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

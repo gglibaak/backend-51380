@@ -1,4 +1,4 @@
-const MongoChat = require('../services/chat.services');
+const MongoChat = require('../services/messages.services');
 const Services = new MongoChat();
 
 class chatController {

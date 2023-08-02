@@ -1,5 +1,6 @@
 const env = require('../config/env.config');
 const nodemailer = require('nodemailer');
+const fetch = require('cross-fetch');
 
 class mailController {
   getMail(req, res) {
@@ -56,17 +57,18 @@ class mailController {
 
         try {
           await transport.sendMail(mailOptions);
-          res.status(200).json({ email_success: req.body });
+          res.status(200).json({ email_success: req.body }); //TODO cambiar a render de vista de exito
         } catch (error) {
-          // console.error('Error al enviar el correo electrónico:', error);
-          res.status(500).render('error', { email_failed: error.message });
+  
+          res.status(500).render('error', { error: 'Error al enviar el correo electrónico' });
         }
       } else {
         res.redirect('/mail?captcha_error=true');
       }
     } catch (error) {
-      // console.error('Error al verificar reCAPTCHA:', error);
-      res.status(500).render('error', 'Error al verificar reCAPTCHA');
+    
+      res.status(500).render("error", {error: 'Error al verificar reCAPTCHA' });
+      
     }
   }
 }

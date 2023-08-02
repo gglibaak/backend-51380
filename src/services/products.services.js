@@ -1,5 +1,10 @@
 const ProductModel = require('../model/schemas/products.schema');
 
+const { ProductsDAO } = require('../model/daos/app.daos');
+
+const productsDAO = new ProductsDAO();
+
+
 class MongoProducts {
   async getProductAll(queryParams) {
     try {
@@ -22,7 +27,7 @@ class MongoProducts {
 
       const combinedFilter = { ...filter, ...statusFilter };
 
-      const response = await ProductModel.paginate(combinedFilter, options);
+      const response = await productsDAO.getAll(combinedFilter, options);
 
       const products = {
         payload: response.payload,
@@ -48,7 +53,7 @@ class MongoProducts {
 
   async getProductById(id) {
     try {
-      const productFiltered = await ProductModel.findOne({ _id: id });
+      const productFiltered = await productsDAO.getById(id);
       return {
         status: 200,
         result: { succes: true, payload: productFiltered },

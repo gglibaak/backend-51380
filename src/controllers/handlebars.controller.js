@@ -5,11 +5,9 @@ const CartProducts = require('../services/carts.services');
 const CartServices = new CartProducts();
 
 class handlebarsController {
-  getAllProducts = async (req, res) => {
-    // será Home del sitio
+  getHome = async (req, res) => {
     try {
-      const response = await Services.getProductAll({});
-      return res.render('home', { products: response });
+      return res.render('home', { });
     } catch (error) {
       console.log(error);
       res.status(500).json({ status: 'error', msg: 'Error', payload: {} });
@@ -42,7 +40,7 @@ class handlebarsController {
 
   getCart = async (req, res) => {
     try {
-      const cartId = req.params.cartId;
+      const cartId = req.params.cid;
       const response = await CartServices.getCartsById(cartId);
       return res.render('carts', { cart: response });
     } catch (error) {

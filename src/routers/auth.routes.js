@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const { redirectIfLoggedIn, isLoggedin } = require('../middlewares/auth');
+const { redirectIfLoggedIn, isLogged } = require('../middlewares/auth');
 const authController = require('../controllers/auth.controller');
 const authRoutes = express.Router();
 
@@ -24,7 +24,7 @@ authRoutes.get('/fail-register', authController.failRegister);
 
 authRoutes.get('/logout', authController.logout);
 
-authRoutes.get('/profile', isLoggedin, authController.getProfile);
+authRoutes.get('/profile', isLogged, authController.getProfile);
 
 authRoutes.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 

@@ -1,10 +1,10 @@
 const express = require('express');
 const mailRoutes = express.Router();
-const { isLoggedin } = require('../middlewares/auth');
+const { isLogged, isUser } = require('../middlewares/auth');
 
 const mailController = require('../controllers/mail.controller');
 
-mailRoutes.get('/', isLoggedin, mailController.getMail);
-mailRoutes.post('/send', mailController.sendMail);
+mailRoutes.get('/', isLogged, isUser, mailController.getMail);
+mailRoutes.post('/send', isLogged, isUser, mailController.sendMail);
 
 module.exports = mailRoutes;

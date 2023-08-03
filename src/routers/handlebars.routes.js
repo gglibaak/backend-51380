@@ -1,12 +1,13 @@
 const express = require('express');
 const handlebarsController = require('../controllers/handlebars.controller');
+const { isLogged, isCartOwner } = require('../middlewares/auth');
 
 const hbsRoutes = express.Router();
 
-hbsRoutes.get('/', handlebarsController.getAllProducts);
+hbsRoutes.get('/', handlebarsController.getHome);
 
 hbsRoutes.get('/products', handlebarsController.getProducts);
 
-hbsRoutes.get('/carts/:cartId', handlebarsController.getCart);
+hbsRoutes.get('/carts/:cid', isLogged, isCartOwner, handlebarsController.getCart);
 
 module.exports = hbsRoutes;

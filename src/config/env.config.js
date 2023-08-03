@@ -9,6 +9,8 @@ dotenv.config({
   path: program.opts().mode === 'DEVELOPMENT' ? './.env.development' : './.env.production',
 });
 
+process.env.NODE_ENV = program.opts().mode;
+
 module.exports = {
   PORT: process.env.PORT,
   MONGO_URL: process.env.MONGO_URL,

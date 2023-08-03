@@ -128,7 +128,7 @@ const purchaseCart = (cartId) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data);
+          console.log(data);
           const id = data.payload._id;
           setTimeout(() => {
             window.location.href = `/api/carts/purchase/${id}`;

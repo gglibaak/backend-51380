@@ -1,4 +1,4 @@
-class ProductsDAO {
+class TicketsDAO {
   async getAll() {
     try {
       return [];
@@ -15,23 +15,21 @@ class ProductsDAO {
     }
   }
 
-  async add(product) {
+  add(ticket) {
     try {
       return [];
     } catch (error) {
       console.log(error);
     }
   }
-
-  async update(id, product) {
+  update(id, ticket) {
     try {
       return [];
     } catch (error) {
       console.log(error);
     }
   }
-
-  async delete(id) {
+  delete(id) {
     try {
       return [];
     } catch (error) {
@@ -40,4 +38,4 @@ class ProductsDAO {
   }
 }
 
-module.exports = ProductsDAO;
+module.exports = TicketsDAO;

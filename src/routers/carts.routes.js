@@ -1,7 +1,7 @@
 const express = require('express');
-const cartsController = require('../../controllers/carts.controller');
+const cartsController = require('../controllers/carts.controller');
 const cartRoutes = express.Router();
-const { isNotAdmin, isLoggedin, isCartOwner, isAdmin } = require('../../middlewares/auth');
+const { isNotAdmin, isLoggedin, isCartOwner, isAdmin } = require('../middlewares/auth');
 
 cartRoutes.get('/carts', cartsController.getCartAll);
 

@@ -1,9 +1,7 @@
-const ProductModel = require('../model/schemas/products.schema');
-
+const mongoose = require('mongoose');
 const { ProductsDAO } = require('../model/daos/app.daos');
 
 const productsDAO = new ProductsDAO();
-
 
 class MongoProducts {
   async getProductAll(queryParams) {
@@ -78,7 +76,8 @@ class MongoProducts {
         };
       }
 
-      if (await ProductModel.findOne({ code })) {
+      //check if the product exists by code
+      if (await productsDAO.getById(code, true)) {
         return {
           status: 400,
           result: {
@@ -88,17 +87,13 @@ class MongoProducts {
         };
       }
 
-      await ProductModel.create({
-        title,
-        description,
-        price,
-        thumbnails,
-        code,
-        stock,
-        category,
+      const producto = {
+        ...data,
         status: true,
-      });
-      return { status: 200, result: { status: 'success', payload: data } };
+      };
+
+      await productsDAO.add({ ...producto });
+      return { status: 200, result: { status: 'success', payload: producto } };
     } catch (err) {
       console.log(err);
       return {
@@ -119,7 +114,7 @@ class MongoProducts {
         };
       }
 
-      if (!(await ProductModel.findOne({ _id: id }))) {
+      if (!(await productsDAO.getById(id))) {
         return {
           status: 400,
           result: {
@@ -129,10 +124,7 @@ class MongoProducts {
         };
       }
 
-      const response = await ProductModel.updateOne(
-        { _id: id },
-        { title, description, price, thumbnails, code, stock, category }
-      );
+      const response = await productsDAO.update({ _id: id }, { title, description, price, thumbnails, code, stock, category });
 
       return {
         status: 200,
@@ -152,7 +144,17 @@ class MongoProducts {
 
   async deleteProduct(id) {
     try {
-      if (!(await ProductModel.findOne({ _id: id }))) {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return {
+          status: 400,
+          result: {
+            status: 'error',
+            error: `🛑 Invalid product ID.`,
+          },
+        };
+      }
+
+      if (!(await productsDAO.getById(id))) {
         return {
           status: 400,
           result: {
@@ -162,7 +164,7 @@ class MongoProducts {
         };
       }
 
-      const response = await ProductModel.deleteOne({ _id: id });
+      const response = await productsDAO.delete(id);
 
       return {
         status: 200,

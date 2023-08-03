@@ -1,5 +1,5 @@
 const express = require('express');
-const handlebarsController = require('../../controllers/handlebars.controller');
+const handlebarsController = require('../controllers/handlebars.controller');
 
 const hbsRoutes = express.Router();
 

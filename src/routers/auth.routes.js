@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
-const { redirectIfLoggedIn, isLoggedin } = require('../../middlewares/auth');
-const authController = require('../../controllers/auth.controller');
+const { redirectIfLoggedIn, isLoggedin } = require('../middlewares/auth');
+const authController = require('../controllers/auth.controller');
 const authRoutes = express.Router();
 
 authRoutes.get('/login', redirectIfLoggedIn, authController.getLogin);

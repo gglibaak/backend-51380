@@ -1,10 +1,12 @@
-const CartModel = require('../model/schemas/carts.schema');
-const ProductModel = require('../model/schemas/products.schema');
-const TicketModel = require('../model/schemas/tickets.schema');
 const MongoCarts = require('../services/carts.services');
 const Services = new MongoCarts();
 
 const mongoose = require('mongoose');
+
+const { TicketsDAO, ProductsDAO, CartsDAO } = require('../model/daos/app.daos');
+const ticketsDAO = new TicketsDAO();
+const productDAO = new ProductsDAO();
+const cartsDAO = new CartsDAO();
 
 class MongoTickets {
   async purchaseCart(cartId, cartList, userMail, userCartId) {
@@ -39,7 +41,7 @@ class MongoTickets {
         };
       }
 
-      if (cartId !== userCartId) {
+      /* if (cartId !== userCartId) {
         return {
           status: 400,
           result: {
@@ -47,9 +49,9 @@ class MongoTickets {
             error: `🛑 The cart ID does not match the user's cart ID.`,
           },
         };
-      }
+      } */
 
-      const cartFiltered = await CartModel.findOne({ _id: cartId });
+      const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!cartFiltered) {
         return {
@@ -65,7 +67,8 @@ class MongoTickets {
 
       const products = await Promise.all(
         cartList.map(async (product) => {
-          const productFiltered = await ProductModel.findOne({ _id: product.id });
+          const productFiltered = await productDAO.getById(product.id);
+          // console.log('FLAG: Product filtered: ', productFiltered);
 
           if (!productFiltered) {
             return {
@@ -90,8 +93,6 @@ class MongoTickets {
 
       // Filtra los productos que no se compraron
       const productsFiltered = products.filter((product) => product !== null);
-
-      // console.log('FLAG: Products filtered: ', productsFiltered);
 
       if (productsFiltered.length === 0) {
         return {
@@ -126,7 +127,7 @@ class MongoTickets {
         })),
       };
 
-      const orderCreated = await TicketModel.create(newOrder);
+      const orderCreated = await ticketsDAO.add(newOrder); // dao listo PASAR
 
       // Borra los productos comprados del carrito
       if (productsFiltered.length > 0) {
@@ -169,8 +170,7 @@ class MongoTickets {
         };
       }
 
-      const ticket = await TicketModel.findOne({ _id: id }).lean();
-
+      const ticket = await ticketsDAO.getById(id);
       if (!ticket) {
         return {
           status: 404,

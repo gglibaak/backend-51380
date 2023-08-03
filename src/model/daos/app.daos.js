@@ -25,7 +25,7 @@ switch (envConfig.PERSISTENCE) {
     break;
 
   case 'MEMORY':
-    console.log('Persistance with Memory');
+    console.log('🍕Persistance with Memory');
     break;
 
   default:

@@ -25,7 +25,7 @@ class MongoProducts {
 
       const combinedFilter = { ...filter, ...statusFilter };
 
-      const response = await productsDAO.getAll(combinedFilter, options);
+      const response = await productsDAO.getAll(combinedFilter, options, true);
 
       const products = {
         payload: response.payload,

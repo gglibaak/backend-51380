@@ -1,5 +1,11 @@
-const ProductManager = require('./dao/fs/ProductManager');
-const data = new ProductManager('productsDB');
+const MongoProducts = require('./services/products.services');
+const Services = new MongoProducts();
+const MongoChat = require('./services/messages.services');
+const ChatServices = new MongoChat();
+
+const { ProductsDAO } = require('./model/daos/app.daos');
+
+const productDAO = new ProductsDAO();
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
@@ -7,25 +13,61 @@ module.exports = (io) => {
 
     socket.on('new-product', async (newProd) => {
       try {
-        await data.addProduct({ ...newProd });
+        await Services.addProduct({ ...newProd });
         // Actualizando lista despues de agregar producto nuevo
-        const productsList = await data.getProducts();
+        const productsList = await productDAO.getAll({});
 
-        io.emit('products', productsList);
+        const simplifiedProduct = productsList.map((product) => {
+          return {
+            title: product.title,
+            id: product._id,
+            description: product.description,
+            price: product.price,
+            code: product.code,
+            stock: product.stock,
+            category: product.category,
+            thumbnails: product.thumbnails,
+          };
+        });
+
+        io.emit('products', simplifiedProduct);
       } catch (error) {
         console.log(error);
       }
     });
     socket.on('delete-product', async (delProd) => {
       try {
-        let id = parseInt(delProd);
-        // console.log(id)
-        // console.log(typeof id)
-        await data.deleteProduct(id);
-        // Actualizando lista despues de agregar producto nuevo
-        const productsList = await data.getProducts();
+        await Services.deleteProduct(delProd);
 
-        io.emit('products', productsList);
+        // Actualizando lista despues de agregar producto nuevo
+        const productsList = await productDAO.getAll({});
+        const simplifiedProduct = productsList.map((product) => {
+          return {
+            title: product.title,
+            id: product._id,
+            description: product.description,
+            price: product.price,
+            code: product.code,
+            stock: product.stock,
+            category: product.category,
+            thumbnails: product.thumbnails,
+          };
+        });
+
+        io.emit('products', simplifiedProduct);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    // *Chat Section*
+    // Listening and Sending
+    socket.on('new-message', async (data) => {
+      try {
+        newMessage = await ChatServices.addMessage(data);
+
+        const allMsgs = await ChatServices.getAllMessages();
+
+        io.emit('chat-message', allMsgs);
       } catch (error) {
         console.log(error);
       }

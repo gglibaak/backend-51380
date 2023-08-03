@@ -1,9 +1,13 @@
 const ProductsSchema = require('../../schemas/products.schema');
 
 class ProductsDAO {
-  async getAll(filter = {}, options = {}) {
+  async getAll(filter = {}, options = {}, paginate = false) {
     try {
-      const products = await ProductsSchema.paginate(filter, options);
+      let products;
+      paginate
+        ? (products = await ProductsSchema.paginate(filter, options))
+        : (products = await ProductsSchema.find(filter, options));
+
       return products;
     } catch (error) {
       console.log(error);

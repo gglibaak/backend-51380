@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-// const CartModel = require('../model/schemas/carts.schema');
-const ProductModel = require('../model/schemas/products.schema');
 
-const { CartsDAO } = require('../model/daos/app.daos');
+const ProductModel = require('../model/schemas/products.schema');
+const { CartsDAO, ProductsDAO } = require('../model/daos/app.daos');
 
 const cartsDAO = new CartsDAO();
+const productDAO = new ProductsDAO();
 
 class MongoCarts {
   async getCartsAll() {
@@ -64,7 +64,7 @@ class MongoCarts {
         }
       }
 
-      const productFiltered = await ProductModel.findOne({ _id: prodId });
+      const productFiltered = await productDAO.getById(prodId);
       const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!productFiltered || !cartFiltered) {
@@ -112,7 +112,7 @@ class MongoCarts {
         };
       }
 
-      const productFiltered = await ProductModel.findOne({ _id: prodId });
+      const productFiltered = await productDAO.getById(prodId);
       const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!productFiltered || !cartFiltered) {
@@ -169,7 +169,7 @@ class MongoCarts {
         };
       }
 
-      const productFiltered = await ProductModel.findOne({ _id: prodId });
+      const productFiltered = await productDAO.getById(prodId);
       const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!productFiltered || !cartFiltered) {

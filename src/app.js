@@ -10,10 +10,13 @@ const realtimeprodRoutes = require('./routers/realtimeprods.routes');
 const messagesRoutes = require('./routers/messages.routes');
 const authRoutes = require('./routers/auth.routes');
 const mailRoutes = require('./routers/mail.routes');
+const mockRoutes = require('./routers/mock.routes');
+
 const handlebars = require('express-handlebars');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
+const compression = require('compression');
 const MongoStore = require('connect-mongo');
 const websockets = require('./websockets');
 const connectMongo = require('./utils/mongo.connect');
@@ -47,6 +50,7 @@ serverConnected.on('error', (error) => console.log(`Server error: ${error}`));
 app.disable('x-powered-by'); // Deshabilita la cabecera X-Powered-By: Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(compression({})); // Compresión de archivos
 app.use('/public', express.static(__dirname + '/public'));
 
 //Usando el engine handlerbars para plantilla
@@ -79,6 +83,7 @@ app.use(flash());
 // Routes
 app.use('/api', productRoutes);
 app.use('/api', cartRoutes);
+app.use('/api', mockRoutes);
 app.use('/', hbsRoutes);
 app.use('/realtimeproducts', realtimeprodRoutes);
 app.use('/chat', messagesRoutes);

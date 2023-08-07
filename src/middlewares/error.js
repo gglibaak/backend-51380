@@ -1,17 +1,14 @@
-// importacion de los enums.js
 const EErros = require('../utils/errors/enums');
-const customErrorMsg = require('../utils/errors/customErrorMsg');
 
 module.exports = (err, req, res, next) => {
-  console.log(err);
   const error = err;
   const status = error.status || 500;
   const message = error.message || 'Internal server error';
   const stack = error.stack || 'No stack trace available';
   const cause = error.cause || 'No cause available';
-  const name = error.name || 'No name available';
+  const isJson = error.isJson;
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'DEVELOPMENT') {
     console.log(stack);
   }
 
@@ -24,16 +21,24 @@ module.exports = (err, req, res, next) => {
       break;
 
     case EErros.RECAPTCHA_ERROR:
-      res.status(status).render('error', {
-        name,
-        error: message,
-        cause: customErrorMsg.generateMailErrorInfo(name),
-        error_code: EErros.RECAPTCHA_ERROR,
-      });
+      isJson
+        ? res.status(status).json({
+            error: message,
+            cause,
+            error_code: EErros.RECAPTCHA_ERROR,
+          })
+        : res.status(status).render('error', {
+            error: message,
+            cause,
+            error_code: EErros.RECAPTCHA_ERROR,
+          });
+      if (process.env.NODE_ENV === 'DEVELOPMENT') {
+        console.error(cause);
+      }
       break;
 
     default:
-      res.status(500).json({
+      res.status(status).json({
         message,
         status: 'error',
       });

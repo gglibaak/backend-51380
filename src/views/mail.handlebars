@@ -21,7 +21,7 @@
             <label for="message" class="form-label">Mensaje:</label>
             <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
           </div>
-          <div class="g-recaptcha py-3" data-sitekey=test{{RECAPTCHA_SITE_KEY}}></div>
+          <div class="g-recaptcha py-3" data-sitekey={{RECAPTCHA_SITE_KEY}}></div>
           {{#if captcha_error}}
            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show">
               <i class="bi-exclamation-octagon-fill"></i>

@@ -2,6 +2,7 @@ const env = require('../config/env.config');
 const nodemailer = require('nodemailer');
 const fetch = require('cross-fetch');
 const EErros = require('../utils/errors/enums');
+const customErrorMsg = require('../utils/errors/customErrorMsg');
 
 class mailController {
   getMail(req, res) {
@@ -60,23 +61,25 @@ class mailController {
           await transport.sendMail(mailOptions);
           res.status(200).json({ email_success: req.body }); //TODO cambiar a render de vista de exito
         } catch (error) {
-          res.status(500).render('error', { error: 'Error al enviar el correo electrónico' });
+          next({
+            status: 500,
+            message: 'Error al enviar el correo electrónico',
+            code: EErros.RECAPTCHA_ERROR,
+            cause: customErrorMsg.MailGenErrorInfo('No pudo enviarse el correo electrónico, algo inesperado ha ocurrido.'),
+            isJson: false,
+          });
         }
       } else {
-        // res.redirect('/mail?captcha_error=true');
-
-        //test error
-        // TODO no puede auto generar una vista de error al menos que yo lo pida, generar por defecto json
-        next({
-          name: 'ReCAPTCHA Error',
-          status: 500,
-          message: 'Error al verificar reCAPTCHA',
-          code: EErros.RECAPTCHA_ERROR,
-          cause: 'No se verifico reCAPTCHA',
-        });
+        res.redirect('/mail?captcha_error=true');
       }
     } catch (error) {
-      res.status(500).render('error', { error: 'Error al verificar reCAPTCHA' });
+      next({
+        status: 500,
+        message: 'Error al verificar reCAPTCHA',
+        code: EErros.RECAPTCHA_ERROR,
+        cause: customErrorMsg.MailErrorInfo('reCAPTCHA error'),
+        isJson: false,
+      });
     }
   }
 }

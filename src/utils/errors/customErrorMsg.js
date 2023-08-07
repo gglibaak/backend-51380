@@ -1,9 +1,15 @@
 class customErrorMsg {
-  generateMailErrorInfo = (name) => {
+  MailErrorInfo = (data) => {
     return `
           Una o mas propiedades estan incompletas o invalidas!
           Propiedades obligatorias:
-              ${name}
+              ${data}
+          `;
+  };
+
+  MailGenErrorInfo = (data) => {
+    return `
+          * ${data}
           `;
   };
 }

@@ -11,6 +11,7 @@ const messagesRoutes = require('./routers/messages.routes');
 const authRoutes = require('./routers/auth.routes');
 const mailRoutes = require('./routers/mail.routes');
 const mockRoutes = require('./routers/mock.routes');
+const errorHandler = require('./middlewares/error');
 
 const handlebars = require('express-handlebars');
 const path = require('path');
@@ -98,6 +99,10 @@ app.use('/api/sessions/current', (req, res) => {
 // Websockets
 websockets(io);
 
+// Error handler
+app.use(errorHandler);
+
+// Error 404
 app.get('*', (req, res) =>
   res.status(404).render('error', {
     error: '⛔ We cannot access the requested route.',

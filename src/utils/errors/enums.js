@@ -1,0 +1,9 @@
+const EErros = {
+  ROUTING_ERROR: 1,
+  INVALID_TYPES_ERROR: 2,
+  DATABASES_ERROR: 3,
+  INVALID_REQUEST: 4,
+  RECAPTCHA_ERROR: 5,
+};
+
+module.exports = EErros;

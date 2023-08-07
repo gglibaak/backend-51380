@@ -1,6 +1,7 @@
 const env = require('../config/env.config');
 const nodemailer = require('nodemailer');
 const fetch = require('cross-fetch');
+const EErros = require('../utils/errors/enums');
 
 class mailController {
   getMail(req, res) {
@@ -14,7 +15,7 @@ class mailController {
     });
   }
 
-  async sendMail(req, res) {
+  async sendMail(req, res, next) {
     const { email, subject, message } = req.body;
     const recaptchaResponse = req.body['g-recaptcha-response'];
     const firstname = req.session.first_name;
@@ -59,16 +60,23 @@ class mailController {
           await transport.sendMail(mailOptions);
           res.status(200).json({ email_success: req.body }); //TODO cambiar a render de vista de exito
         } catch (error) {
-  
           res.status(500).render('error', { error: 'Error al enviar el correo electrónico' });
         }
       } else {
-        res.redirect('/mail?captcha_error=true');
+        // res.redirect('/mail?captcha_error=true');
+
+        //test error
+        // TODO no puede auto generar una vista de error al menos que yo lo pida, generar por defecto json
+        next({
+          name: 'ReCAPTCHA Error',
+          status: 500,
+          message: 'Error al verificar reCAPTCHA',
+          code: EErros.RECAPTCHA_ERROR,
+          cause: 'No se verifico reCAPTCHA',
+        });
       }
     } catch (error) {
-    
-      res.status(500).render("error", {error: 'Error al verificar reCAPTCHA' });
-      
+      res.status(500).render('error', { error: 'Error al verificar reCAPTCHA' });
     }
   }
 }

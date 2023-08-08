@@ -2,45 +2,30 @@ const EErros = require('../utils/errors/enums');
 
 module.exports = (err, req, res, next) => {
   const error = err;
-  const status = error.status || 500;
-  const message = error.message || 'Internal server error';
-  const stack = error.stack || 'No stack trace available';
-  const cause = error.cause || 'No cause available';
   const isJson = error.isJson;
 
-  if (process.env.NODE_ENV === 'DEVELOPMENT') {
-    console.log(stack);
-  }
+  console.log(error.cause);
+
+  // if (process.env.NODE_ENV === 'DEVELOPMENT') {
+  //   console.log(error.stack);
+  // }
 
   switch (error.code) {
-    case EErros.INVALID_REQUEST:
-      res.status(status).json({
-        message,
-        status,
-      });
-      break;
-
-    case EErros.RECAPTCHA_ERROR:
+    case EErros.PRODUCT_ALREADY_EXISTS:
+    case EErros.INVALID_TYPES_ERROR:
+      // console.log('Flag: LLEGA', isJson);
       isJson
-        ? res.status(status).json({
-            error: message,
-            cause,
-            error_code: EErros.RECAPTCHA_ERROR,
-          })
-        : res.status(status).render('error', {
-            error: message,
-            cause,
-            error_code: EErros.RECAPTCHA_ERROR,
-          });
-      if (process.env.NODE_ENV === 'DEVELOPMENT') {
-        console.error(cause);
-      }
+        ? res.status(400).render('error', { error: err.name, cause: err.cause, error_code: err.code })
+        : res.status(400).json({ status: 'error', error: err.name, cause: err.cause });
+      break;
+    case EErros.INVALID_REQUEST:
       break;
 
     default:
-      res.status(status).json({
-        message,
+      res.status(500).json({
         status: 'error',
+        message: 'Internal Server Error',
+        payload: {},
       });
       break;
   }

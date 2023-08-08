@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const { ProductsDAO } = require('../model/daos/app.daos');
+const CustomError = require('../utils/errors/custom-error');
+const customErrorMsg = require('../utils/errors/customErrorMsg');
+const EErros = require('../utils/errors/enums');
 
 const productsDAO = new ProductsDAO();
 
@@ -66,41 +69,36 @@ class MongoProducts {
   }
 
   async addProduct(data) {
-    try {
-      const { title, description, price, thumbnails, code, stock, category } = data;
+    const { title, description, price, thumbnails, code, stock, category } = data;
 
-      if (!title || !description || !price || !thumbnails || !code || !stock || !category) {
-        return {
-          status: 400,
-          result: { status: 'error', error: `🛑 Wrong Data Format.` },
-        };
-      }
-
-      //check if the product exists by code
-      if (await productsDAO.getById(code, true)) {
-        return {
-          status: 400,
-          result: {
-            status: 'success',
-            error: `🛑 The product alredy exists.`,
-          },
-        };
-      }
-
-      const producto = {
-        ...data,
-        status: true,
-      };
-
-      await productsDAO.add({ ...producto });
-      return { status: 200, result: { status: 'success', payload: producto } };
-    } catch (err) {
-      console.log(err);
-      return {
-        status: 500,
-        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
-      };
+    if (!title || !description || !price || !thumbnails || !code || !stock || !category) {
+      return CustomError.createError({
+        name: 'Validation Error',
+        message: '🛑 Wrong Data Format.',
+        code: EErros.INVALID_TYPES_ERROR,
+        cause: customErrorMsg.generateProductErrorInfo(data),
+        // isJson: true,
+      });
     }
+
+    //check if the product exists by code
+    if (await productsDAO.getById(code, true)) {
+      return CustomError.createError({
+        name: 'Validation Error',
+        message: '🛑 The product alredy exists.',
+        code: EErros.PRODUCT_ALREADY_EXISTS,
+        cause: customErrorMsg.generateProductoErrorAlredyExists(data),
+        // isJson: true,
+      });
+    }
+
+    const producto = {
+      ...data,
+      status: true,
+    };
+
+    await productsDAO.add({ ...producto });
+    return { status: 200, result: { status: 'success', payload: producto } };
   }
 
   async updateProduct(id, newDataProduct) {

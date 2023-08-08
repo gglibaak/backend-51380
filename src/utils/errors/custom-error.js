@@ -1,13 +1,11 @@
-/* class CustomError extends Error {
-  constructor(status, message, code, cause, isJson) {
-    super(message);
-    this.name = this.constructor.name;
-    this.status = status;
-    this.code = code;
-    this.cause = cause;
-    this.isJson = isJson;
+class CustomError {
+  static createError({ name = 'Error', cause, message, code, isJson = false }) {
+    const error = new Error(message, { cause });
+    error.name = name;
+    error.code = code;
+    error.isJson = isJson;
+    throw error;
   }
 }
 
 module.exports = CustomError;
- */

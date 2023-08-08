@@ -1,8 +1,6 @@
 const env = require('../config/env.config');
 const nodemailer = require('nodemailer');
 const fetch = require('cross-fetch');
-const EErros = require('../utils/errors/enums');
-const customErrorMsg = require('../utils/errors/customErrorMsg');
 
 class mailController {
   getMail(req, res) {
@@ -16,7 +14,7 @@ class mailController {
     });
   }
 
-  async sendMail(req, res, next) {
+  async sendMail(req, res) {
     const { email, subject, message } = req.body;
     const recaptchaResponse = req.body['g-recaptcha-response'];
     const firstname = req.session.first_name;
@@ -61,25 +59,13 @@ class mailController {
           await transport.sendMail(mailOptions);
           res.status(200).json({ email_success: req.body }); //TODO cambiar a render de vista de exito
         } catch (error) {
-          next({
-            status: 500,
-            message: 'Error al enviar el correo electrónico',
-            code: EErros.RECAPTCHA_ERROR,
-            cause: customErrorMsg.MailGenErrorInfo('No pudo enviarse el correo electrónico, algo inesperado ha ocurrido.'),
-            isJson: false,
-          });
+          res.status(500).render('error', { error: 'Error al enviar el correo electrónico' });
         }
       } else {
         res.redirect('/mail?captcha_error=true');
       }
     } catch (error) {
-      next({
-        status: 500,
-        message: 'Error al verificar reCAPTCHA',
-        code: EErros.RECAPTCHA_ERROR,
-        cause: customErrorMsg.MailErrorInfo('reCAPTCHA error'),
-        isJson: false,
-      });
+      res.status(500).render('error', { error: 'Error al verificar reCAPTCHA' });
     }
   }
 }

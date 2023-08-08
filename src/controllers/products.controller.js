@@ -14,10 +14,15 @@ class productController {
     return res.status(response.status).json(response.result);
   };
 
-  addProduct = async (req, res) => {
-    const newProduct = req.body;
-    const response = await Services.addProduct(newProduct);
-    return res.status(response.status).json(response.result);
+  addProduct = async (req, res, next) => {
+    //TODO  VALIDACIONES EN PROCESO
+    try {
+      const newProduct = req.body;
+      const response = await Services.addProduct(newProduct);
+      return res.status(response.status).json(response.result);
+    } catch (error) {
+      next(error);
+    }
   };
 
   updateProduct = async (req, res) => {

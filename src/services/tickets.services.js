@@ -41,16 +41,6 @@ class MongoTickets {
         };
       }
 
-      /* if (cartId !== userCartId) {
-        return {
-          status: 400,
-          result: {
-            status: 'error',
-            error: `🛑 The cart ID does not match the user's cart ID.`,
-          },
-        };
-      } */
-
       const cartFiltered = await cartsDAO.getById(cartId);
 
       if (!cartFiltered) {
@@ -64,85 +54,70 @@ class MongoTickets {
       }
 
       const productsNotPurchased = [];
+      const productToPurchase = [];
 
-      const products = await Promise.all(
-        cartList.map(async (product) => {
-          const productFiltered = await productDAO.getById(product.id);
-          // console.log('FLAG: Product filtered: ', productFiltered);
+      // console.log('Lista de compras:', cartList);
 
-          if (!productFiltered) {
-            return {
-              status: 400,
-              result: {
-                status: 'error',
-                error: `🛑 Product not found.`,
-              },
-            };
-          }
+      const asyncOperations = cartList.map(async (CartProduct) => {
+        const checkStock = await productDAO.getById(CartProduct.id);
 
-          if (productFiltered.stock >= product.quantity) {
-            productFiltered.stock -= product.quantity;
-            await productFiltered.save();
-            return productFiltered;
-          } else {
-            productsNotPurchased.push(product); // Agrega el producto a la lista de productos no comprados
-            return null;
-          }
-        })
-      );
+        if (!checkStock) {
+          productsNotPurchased.push(CartProduct);
+        } else if (checkStock.stock >= CartProduct.quantity) {
+          checkStock.stock -= CartProduct.quantity;
+          await checkStock.save(); // Actualiza el stock del producto en la base de datos
+          productToPurchase.push({
+            product: checkStock,
+            quantity: CartProduct.quantity, // Agregamos el quantity al objeto
+          });
+        } else {
+          productsNotPurchased.push(CartProduct);
+        }
+      });
 
-      // Filtra los productos que no se compraron
-      const productsFiltered = products.filter((product) => product !== null);
+      await Promise.all(asyncOperations); // Espera a que todas las operaciones asincronicas terminen
 
-      if (productsFiltered.length === 0) {
-        return {
-          status: 400,
-          result: {
-            status: 'error',
-            error: `🛑 No products available.`,
-          },
-        };
-      }
+      // console.log('FLAG: Products not purchased: ', productsNotPurchased);
 
       // Calcula el total de la compra
-      const totalAmount = cartList.reduce((acc, product) => {
-        const productFiltered = productsFiltered.find((p) => p._id.equals(product.id));
-        if (productFiltered) {
-          acc += productFiltered.price * product.quantity;
-        }
+      const totalAmount = productToPurchase.reduce((acc, p) => {
+        acc += p.product.price * p.quantity;
         return acc;
       }, 0);
 
-      // console.log('FLAG Total amount: ', totalAmount);
+      // console.log('FLAG: Total amount: ', totalAmount);
 
-      // Crea la orden
+      // Formatea los productos que se pueden comprar para el ticket
+      const productFormat = productToPurchase.map((p) => ({
+        id: p.product._id.toString(),
+        quantity: p.quantity,
+      }));
+
       const newOrder = {
         code: Math.floor(Math.random() * 1000000),
         purchase_datetime: new Date(),
         amount: +totalAmount,
         purchaser: userMail,
-        products: productsFiltered.map((product) => ({
-          id: product._id,
-          quantity: cartList.find((p) => p.id === product._id.toString()).quantity,
-        })),
+        products: productFormat,
       };
 
-      const orderCreated = await ticketsDAO.add(newOrder); // dao listo PASAR
+      // console.log('FLAG: New order: ', newOrder);
 
-      // Borra los productos comprados del carrito
-      if (productsFiltered.length > 0) {
-        await Services.deleteProduct(
-          cartId,
-          productsFiltered.map((product) => product._id)
-        );
-        // console.log('FLAG Productos comprados: ', productsFiltered);
+      //Creacion de ticket en DB
+      const orderCreated = await ticketsDAO.add(newOrder);
+
+      //TODO Agregar el ticket al usuario (cuenta)
+
+      //Chequea si el la orden se creo correctamente
+      if (!orderCreated) {
         //Limpia carrito cuando se compra
         await Services.deleteCart(cartId);
-      }
-      // Agrega los productos no comprados al carrito
-      if (productsNotPurchased.length > 0) {
-        await Services.updateCart(cartId, productsNotPurchased);
-        // console.log('FLAG Productos no comprados: ', productsNotPurchased);
+
+        //Agrega los productos no comprados al carrito original
+        if (productsNotPurchased.length > 0) {
+          await Services.updateCart(userCartId, productsNotPurchased);
+          // console.log('FLAG Productos no comprados: ', productsNotPurchased);
+        }
       }
 
       return {

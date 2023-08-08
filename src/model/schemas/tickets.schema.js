@@ -6,8 +6,8 @@ const ticketCollection = 'tickets';
 const TicketSchema = new Schema(
   {
     code: { type: String, required: true, unique: true },
-    purchase_datetime: { type: Date, required: true },
-    amount: { type: Number, default: Date.now(), required: true },
+    purchase_datetime: { type: Date, default: Date.now(), required: true },
+    amount: { type: Number, required: true },
     purchaser: { type: String, required: true, default: 'Anonymous:API' },
     products: [
       {

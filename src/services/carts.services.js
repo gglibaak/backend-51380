@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-
-const ProductModel = require('../model/schemas/products.schema');
 const { CartsDAO, ProductsDAO } = require('../model/daos/app.daos');
 
 const cartsDAO = new CartsDAO();

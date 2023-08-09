@@ -11,7 +11,7 @@ class MockProducts {
           title: faker.commerce.productName(),
           description: faker.commerce.productDescription(),
           price: faker.commerce.price({ min: 100, max: 7000, dec: 0 }),
-          thumbnail: [faker.image.avatarGitHub()],
+          thumbnails: [faker.image.avatarGitHub()],
           code: `a${faker.finance.pin(4)}`,
           stock: faker.number.int({ max: 100 }),
           category: faker.commerce.department(),

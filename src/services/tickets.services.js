@@ -108,16 +108,13 @@ class MongoTickets {
 
       //TODO Agregar el ticket al usuario (cuenta)
 
-      //Chequea si el la orden se creo correctamente
-      if (!orderCreated) {
-        //Limpia carrito cuando se compra
-        await Services.deleteCart(cartId);
+      //Limpia carrito cuando se compra
+      await Services.deleteCart(cartId);
 
-        //Agrega los productos no comprados al carrito original
-        if (productsNotPurchased.length > 0) {
-          await Services.updateCart(userCartId, productsNotPurchased);
-          // console.log('FLAG Productos no comprados: ', productsNotPurchased);
-        }
+      //Agrega los productos no comprados al carrito original
+      if (productsNotPurchased.length > 0) {
+        await Services.updateCart(userCartId, productsNotPurchased);
+        // console.log('FLAG Productos no comprados: ', productsNotPurchased);
       }
 
       return {

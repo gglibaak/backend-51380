@@ -1,5 +1,5 @@
 const isUser = (req, res, next) => {
-  if (process.env.NODE_ENV === 'DEVELOPMENT') {
+  if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
     return next();
   }
   if (req.session?.email) {
@@ -9,7 +9,7 @@ const isUser = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-  if (process.env.NODE_ENV === 'DEVELOPMENT') {
+  if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
     return next();
   }
   if (req.session?.role === 'admin') {
@@ -19,8 +19,7 @@ const isAdmin = (req, res, next) => {
 };
 
 const isLogged = (req, res, next) => {
-
-  if (process.env.NODE_ENV === 'DEVELOPMENT') {
+  if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
     return next();
   }
 
@@ -38,7 +37,7 @@ const redirectIfLoggedIn = (req, res, next) => {
 };
 
 const isNotAdmin = (req, res, next) => {
-  if (process.env.NODE_ENV === 'DEVELOPMENT') {
+  if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
     return next();
   }
 
@@ -49,9 +48,9 @@ const isNotAdmin = (req, res, next) => {
 };
 
 const isCartOwner = (req, res, next) => {
-   if ((process.env.NODE_ENV === 'DEVELOPMENT') && (!req.isAuthenticated()) ){
+  if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
     return next();
-  } 
+  }
   if (req.session?.cartID === req.params.cid) {
     return next();
   }

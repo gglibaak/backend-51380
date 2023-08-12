@@ -50,4 +50,12 @@ authRoutes.get(
   authController.googleCallback
 );
 
+authRoutes.get('/password-recovery', authController.getPasswordRecovery);
+
+authRoutes.post('/password-recovery', authController.postPasswordRecovery);
+
+authRoutes.get('/password-recovery/:token', authController.getPasswordReset);
+
+authRoutes.post('/password-recovery/:token', authController.postPasswordReset);
+
 module.exports = authRoutes;

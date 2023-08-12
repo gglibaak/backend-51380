@@ -68,6 +68,46 @@ class mailController {
       res.status(500).render('error', { error: 'Error al verificar reCAPTCHA' });
     }
   }
+
+  async sendMailResetPassword(userData, token) {
+    const { email, first_name } = userData;
+
+    try {
+      const subject = `Recuperar Contreseña`;
+
+      const messageFiltered = `
+            <div>
+                <p>Estimado ${first_name}, hemos recibido una solicitud de recuperación de contraseña. </p>
+                <p>Para continuar con el proceso de recuperación de contraseña, por favor haga click en el siguiente enlace: </p>
+
+                <a href="http://localhost:8080/auth/password-recovery/${token}">Recuperar Contraseña</a>
+            </div>
+        `;
+
+      const transport = nodemailer.createTransport({
+        service: 'gmail',
+        port: 587,
+        auth: {
+          user: env.GOOGLE_EMAIL,
+          pass: env.GOOGLE_PASSWORD,
+        },
+      });
+
+      const mailOptions = {
+        from: env.GOOGLE_EMAIL,
+        to: email,
+        subject,
+        html: messageFiltered,
+      };
+
+      // console.log(mailOptions);
+
+      await transport.sendMail(mailOptions);
+      console.log('Email de recuperación enviado');
+    } catch (error) {
+      console.log('Error al enviar el correo electrónico', error);
+    }
+  }
 }
 
 module.exports = new mailController();

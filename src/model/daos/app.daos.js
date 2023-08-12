@@ -5,6 +5,7 @@ let MessagesDAO;
 let CartsDAO;
 let ProductsDAO;
 let TicketsDAO;
+let UsersDAO;
 
 switch (envConfig.PERSISTENCE) {
   case 'MONGO':
@@ -14,15 +15,17 @@ switch (envConfig.PERSISTENCE) {
     CartsDAO = require('./carts/carts.mongo.dao');
     ProductsDAO = require('./products/products.mongo.dao');
     TicketsDAO = require('./tickets/tickets.mongo.dao');
+    UsersDAO = require('./users/users.mongo.dao');
     break;
 
   case 'FILESYSTEM':
-    logger.info('🍕Persistance with FileSystem');
+    console.log('🍕Persistance with FileSystem');
 
     MessagesDAO = require('./messages/messages.fs.dao');
     CartsDAO = require('./carts/carts.fs.dao');
     ProductsDAO = require('./products/products.fs.dao');
     TicketsDAO = require('./tickets/tickets.fs.dao');
+    UsersDAO = require('./users/users.fs.dao');
     break;
 
   case 'MEMORY':
@@ -33,4 +36,4 @@ switch (envConfig.PERSISTENCE) {
     throw new Error('Invalid persistence type');
 }
 
-module.exports = { MessagesDAO, CartsDAO, ProductsDAO, TicketsDAO };
+module.exports = { MessagesDAO, CartsDAO, ProductsDAO, TicketsDAO, UsersDAO };

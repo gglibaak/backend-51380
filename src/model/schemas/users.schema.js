@@ -12,6 +12,7 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     cartID: { type: String, required: false },
     role: { type: String, required: true, default: 'user' },
+    token: { type: String, required: false },
   },
   { versionKey: false }
 );

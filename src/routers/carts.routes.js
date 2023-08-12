@@ -15,7 +15,7 @@ cartRoutes.delete('/carts/:cid/products/:pid', isAdmin, cartsController.deletePr
 
 cartRoutes.put('/carts/:cid/products/:pid', isAdmin, cartsController.updateCartQty);
 
-cartRoutes.delete('/carts/:cid', isAdmin, cartsController.deleteCart);
+cartRoutes.delete('/carts/:cid', isCartOwner, cartsController.deleteCart);
 
 cartRoutes.put('/carts/:cid', cartsController.updateCart);
 

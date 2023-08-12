@@ -2,6 +2,7 @@ const { format, createLogger, transports, addColors } = require('winston');
 const { combine, printf } = format;
 const path = require('path');
 const env = require('../config/env.config');
+const ip = require('ip');
 
 let logger;
 
@@ -79,7 +80,8 @@ switch (env.NODE_ENV) {
 
 const addLogger = (req, res, next) => {
   req.logger = logger;
-  req.logger.http(`${req.method} on ${req.url}`);
+  const ipClient = ip.address();
+  req.logger.http(`${req.method} on ${req.url} from [${ipClient}]`);
   next();
 };
 

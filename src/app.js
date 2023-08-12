@@ -3,6 +3,7 @@ const { Server: HttpServer } = require('http');
 const { Server: SocketServer } = require('socket.io');
 
 const env = require('./config/env.config');
+const { addLogger, logger } = require('./utils/logger.config');
 const productRoutes = require('./routers/products.routes');
 const cartRoutes = require('./routers/carts.routes');
 const hbsRoutes = require('./routers/handlebars.routes');
@@ -36,18 +37,19 @@ const serverConnected = httpServer.listen(PORT, () => {
   // Conexión a DB Atlas.
   connectMongo()
     .then(() => {
-      console.log('☁ Connected to MongoDB');
+      logger.info('☁ Connected to MongoDB');
     })
     .catch((error) => {
-      console.error('Error connecting to MongoDB:', error);
+      logger.error('Error connecting to MongoDB:', error);
       throw 'Cannot connect to the database';
     });
-  console.log(`📢 Server listening on port: ${PORT}`);
+  logger.info(`📢 Server listening on port: ${PORT}`);
 });
 
-serverConnected.on('error', (error) => console.log(`Server error: ${error}`));
+serverConnected.on('error', (error) => logger.error(`Server error: ${error}`));
 
 // Middlewares
+app.use(addLogger);
 app.disable('x-powered-by'); // Deshabilita la cabecera X-Powered-By: Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

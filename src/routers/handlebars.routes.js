@@ -10,4 +10,6 @@ hbsRoutes.get('/products', handlebarsController.getProducts);
 
 hbsRoutes.get('/carts/:cid', isLogged, isCartOwner, handlebarsController.getCart);
 
+hbsRoutes.get('/loggertest', handlebarsController.getLoggertest);
+
 module.exports = hbsRoutes;

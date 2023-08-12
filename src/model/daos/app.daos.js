@@ -1,4 +1,5 @@
 const envConfig = require('../../config/env.config');
+const { logger } = require('../../utils/logger.config');
 
 let MessagesDAO;
 let CartsDAO;
@@ -7,7 +8,7 @@ let TicketsDAO;
 
 switch (envConfig.PERSISTENCE) {
   case 'MONGO':
-    console.log('🍕Persistance with MongoDB');
+    logger.info('🍕Persistance with MongoDB');
 
     MessagesDAO = require('./messages/messages.mongo.dao');
     CartsDAO = require('./carts/carts.mongo.dao');
@@ -16,7 +17,7 @@ switch (envConfig.PERSISTENCE) {
     break;
 
   case 'FILESYSTEM':
-    console.log('🍕Persistance with FileSystem');
+    logger.info('🍕Persistance with FileSystem');
 
     MessagesDAO = require('./messages/messages.fs.dao');
     CartsDAO = require('./carts/carts.fs.dao');
@@ -25,7 +26,7 @@ switch (envConfig.PERSISTENCE) {
     break;
 
   case 'MEMORY':
-    console.log('🍕Persistance with Memory');
+    logger.info('🍕Persistance with Memory');
     break;
 
   default:

@@ -1,9 +1,5 @@
-const { UsersDAO } = require('../model/daos/app.daos');
-const usersDAO = new UsersDAO();
-const { generateTokens, decodeTokens } = require('../utils/jwt.tokens');
-const { sendMailResetPassword } = require('./mail.controller');
-const { isValidPassword, createHash } = require('../utils/bcrypt.config');
-//TODO USAR SERVICES PARA PODER USAR DAO, HACER SERVICES DE USERS
+const UserServices = require('../services/users.services');
+const Services = new UserServices();
 
 class authController {
   getLogin = (req, res) => {
@@ -99,103 +95,21 @@ class authController {
 
   postPasswordRecovery = async (req, res) => {
     const { email } = req.body;
-    // console.log(email);
-    //Chequear si el email existe en la base de datos
-    const userRecovery = await usersDAO.getBy({ email: email });
-    //chequea que no tenga un token activo
-
-    // Si el usuario ya tiene un token activo, no se le envía otro salvo que haya expirado
-    if (userRecovery.token != null) {
-      const decodedToken = decodeTokens(userRecovery.token);
-      if (decodedToken)
-        return res.status(200).render('password-recovery', {
-          error: 'Ya se ha enviado un mail para recuperar su contraseña. Revise su casilla principal o en spam.',
-        });
-    }
-
-    if (userRecovery) {
-      // req.logger.debug('El mail existe');
-      //Generar un token
-      const token = generateTokens(userRecovery.email);
-
-      userRecovery.token = token;
-
-      // req.logger.debug('Usuario previo', userRecovery);
-
-      await usersDAO.update(userRecovery._id, userRecovery);
-
-      // req.logger.debug('Usuario actualizado', userRecovery);
-
-      //Manda un mail con el token
-      await sendMailResetPassword(userRecovery, token);
-    } else {
-      // req.logger.debug('El mail no existe');
-      return res.status(200).render('password-recovery', { error: 'El mail ingresado no existe en nuestros registros.' });
-    }
-
-    const expiration = parseInt(process.env.ACCESS_TOKEN_EXPIRATION, 10);
-
-    return res.status(200).render('info', {
-      title: 'Recuperación de Contraseña',
-      subtitle: '🚀 Mail enviado con éxito',
-      info: 'Se ha enviado un mail a su casilla de correo con un link para recuperar su contraseña.',
-      info2: 'El link expira en',
-      value: `${expiration} minutos.`,
-    });
+    const response = await Services.sendMailResetPassword(email);
+    return res.status(response.status).render(response.hbpage, response.result);
   };
 
   getPasswordReset = async (req, res) => {
-    //Url de reseteo de password mas el token que se envió por mail
-    //COMPRUEBA QUE EL TOKEN SEA VALIDO
     const { token } = req.params;
-    //buscar el token en la base de datos
-    const user = await usersDAO.getBy({ token: token });
-
-    const decodedToken = decodeTokens(token);
-
-    if (user) {
-      // req.logger.debug('El token es valido');
-
-      //Chequea si el token expiró
-      if (!decodedToken) {
-        // req.logger.debug('El Token expiró');
-        return res.render('password-recovery', { error: 'El Token expiró. Por favor haga nuevamente el pedido.' });
-      }
-
-      return res.render('password-reset', {});
-    } else {
-      // req.logger.debug('El token no es valido');
-      return res.render('error', { error: 'El token no es valido' });
-    }
+    const response = await Services.checkToken(token);
+    return res.status(response.status).render(response.hbpage, response.result);
   };
 
   postPasswordReset = async (req, res) => {
-    //ACA SE CAMBIA LA CONTRASEÑA DEL USUARIO
     const { password } = req.body;
     const { token } = req.params;
-
-    const checkUserInfo = await usersDAO.getBy({ token: token });
-
-    const isSamePassword = isValidPassword(password, checkUserInfo.password);
-
-    if (isSamePassword) {
-      // req.logger.debug('La contraseña es la misma');
-      return res.render('password-reset', {
-        error: 'La contraseña no puede ser igual a las que ya se usaron con anterioridad. Ingrese otra diferente.',
-      });
-    } else {
-      const newPassword = createHash(password);
-      //Limpia el token y actualiza la contraseña
-      await usersDAO.update(checkUserInfo._id, { password: newPassword, token: null });
-    }
-
-    return res.status(200).render('info', {
-      title: 'Recuperación de Contraseña',
-      subtitle: '✔ La contraseña fué cambiada con éxito',
-      info: 'Ya puede ingresar con su nueva contraseña.',
-      button: 'Ingresar',
-      link: '/auth/login',
-    });
+    const response = await Services.resetPassword(token, password);
+    return res.status(response.status).render(response.hbpage, response.result);
   };
 }
 

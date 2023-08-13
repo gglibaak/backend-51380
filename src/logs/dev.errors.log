@@ -6,3 +6,49 @@
 [02:10:37] [FATAL]: Este es un mensaje fatal. 🍕
 [02:26:30] [ERROR]: Este es un mensaje de error.
 [02:26:30] [FATAL]: Este es un mensaje fatal. 🍕
+[19:37:51] [ERROR]: jwt expired
+[19:38:48] [ERROR]: TokenExpiredError: jwt expired
+[19:39:13] [ERROR]: TokenExpiredError: jwt expired
+[19:39:21] [ERROR]: TokenExpiredError: jwt expired
+[19:39:59] [ERROR]: TokenExpiredError: jwt expired
+[19:40:35] [ERROR]: jwt expired
+[19:47:17] [ERROR]: jwt expired
+[21:34:29] [ERROR]: undefined
+[21:35:34] [ERROR]: undefined
+[21:37:02] [ERROR]: undefined
+[21:37:51] [ERROR]: undefined
+[21:38:07] [ERROR]: undefined
+[21:38:56] [ERROR]: undefined
+[21:40:19] [ERROR]: undefined
+[21:40:39] [ERROR]: undefined
+[21:43:06] [ERROR]: undefined
+[21:43:44] [ERROR]: undefined
+[21:44:20] [ERROR]: undefined
+[21:44:20] [ERROR]: jwt must be provided
+[21:45:23] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[21:46:44] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[21:48:18] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[21:49:02] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[21:55:48] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[21:56:02] [ERROR]: ReferenceError: expiresIn is not defined
+[21:56:37] [ERROR]: ReferenceError: expiresIn is not defined
+[21:56:59] [ERROR]: ReferenceError: expiresIn is not defined
+[21:57:09] [ERROR]: ReferenceError: expiresIn is not defined
+[21:59:12] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[22:03:15] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[22:03:35] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[22:03:52] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[22:04:14] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[22:04:37] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[23:14:27] [ERROR]: ReferenceError: expiresIn is not defined
+[23:17:11] [ERROR]: JsonWebTokenError: invalid signature
+[23:17:35] [ERROR]: TokenExpiredError: jwt expired
+[23:19:52] [ERROR]: TokenExpiredError: jwt expired
+[23:21:53] [ERROR]: jwt expired
+[23:27:07] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[23:27:32] [ERROR]: Error: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+[01:51:08] [ERROR]: jwt expired
+[01:52:08] [ERROR]: jwt expired
+[01:53:37] [ERROR]: jwt expired
+[01:54:49] [ERROR]: jwt expired
+[01:54:57] [ERROR]: jwt expired

@@ -1,6 +1,7 @@
 const env = require('../config/env.config');
 const nodemailer = require('nodemailer');
 const fetch = require('cross-fetch');
+const { logger } = require('../utils/logger.config');
 
 class mailController {
   getMail(req, res) {
@@ -103,9 +104,9 @@ class mailController {
       // console.log(mailOptions);
 
       await transport.sendMail(mailOptions);
-      console.log('Email de recuperación enviado');
+      logger.debug('Email de recuperación enviado');
     } catch (error) {
-      console.log('Error al enviar el correo electrónico', error);
+      logger.error(error);
     }
   }
 }

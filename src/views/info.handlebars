@@ -1,0 +1,18 @@
+<h2 class="text-center my-4 pt-5">{{title}}</h2>
+
+<h5 class="text-center">{{subtitle}}</h5>
+<p class="text-center">{{info}}</p>
+<div class="text-center">
+<p>{{info2}} <b>{{value}}</b></p>
+</div>
+{{> nav}}
+  {{#if button}}
+<div class="text-center pt-5">
+  <a href={{link}} class="btn btn-warning">
+    {{button}}
+  </a>
+</div>
+{{/if}}
+
+
+

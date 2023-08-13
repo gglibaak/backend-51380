@@ -102,28 +102,46 @@ class authController {
     // console.log(email);
     //Chequear si el email existe en la base de datos
     const userRecovery = await usersDAO.getBy({ email: email });
+    //chequea que no tenga un token activo
+
+    // Si el usuario ya tiene un token activo, no se le envía otro salvo que haya expirado
+    if (userRecovery.token != null) {
+      const decodedToken = decodeTokens(userRecovery.token);
+      if (decodedToken)
+        return res.status(200).render('password-recovery', {
+          error: 'Ya se ha enviado un mail para recuperar su contraseña. Revise su casilla principal o en spam.',
+        });
+    }
 
     if (userRecovery) {
-      console.log('El mail existe');
+      // req.logger.debug('El mail existe');
       //Generar un token
       const token = generateTokens(userRecovery.email);
 
       userRecovery.token = token;
 
-      console.log('Usuario previo', userRecovery);
-      //TODO CREAR EN DAO el metodo update para actualizar el token
+      // req.logger.debug('Usuario previo', userRecovery);
+
       await usersDAO.update(userRecovery._id, userRecovery);
-      console.log('Usuario actualizado', userRecovery);
+
+      // req.logger.debug('Usuario actualizado', userRecovery);
 
       //Manda un mail con el token
       await sendMailResetPassword(userRecovery, token);
     } else {
-      console.log('El mail no existe');
-      return res.render('password-recovery', { error: 'El mail ingresado no existe en nuestros registros.' });
+      // req.logger.debug('El mail no existe');
+      return res.status(200).render('password-recovery', { error: 'El mail ingresado no existe en nuestros registros.' });
     }
 
-    //TODO render de vista de mail enviado con contador de tiempo para que se borre el token
-    return res.status(200).json({ status: 'ok', body: 'Mail enviado' });
+    const expiration = parseInt(process.env.ACCESS_TOKEN_EXPIRATION, 10);
+
+    return res.status(200).render('info', {
+      title: 'Recuperación de Contraseña',
+      subtitle: '🚀 Mail enviado con éxito',
+      info: 'Se ha enviado un mail a su casilla de correo con un link para recuperar su contraseña.',
+      info2: 'El link expira en',
+      value: `${expiration} minutos.`,
+    });
   };
 
   getPasswordReset = async (req, res) => {
@@ -135,20 +153,18 @@ class authController {
 
     const decodedToken = decodeTokens(token);
 
-    // console.log('Token decodificado', decodedToken);
-
     if (user) {
-      console.log('El token es valido');
+      // req.logger.debug('El token es valido');
 
       //Chequea si el token expiró
       if (!decodedToken) {
-        console.log('El Token expiró');
+        // req.logger.debug('El Token expiró');
         return res.render('password-recovery', { error: 'El Token expiró. Por favor haga nuevamente el pedido.' });
       }
 
       return res.render('password-reset', {});
     } else {
-      console.log('El token no es valido');
+      // req.logger.debug('El token no es valido');
       return res.render('error', { error: 'El token no es valido' });
     }
   };
@@ -158,23 +174,28 @@ class authController {
     const { password } = req.body;
     const { token } = req.params;
 
-    // console.log('desde el front', password);
-
     const checkUserInfo = await usersDAO.getBy({ token: token });
 
     const isSamePassword = isValidPassword(password, checkUserInfo.password);
 
     if (isSamePassword) {
-      console.log('La contraseña es la misma');
-      return res.render('password-reset', { error: 'La contraseña es la misma. Ingrese otra diferente.' });
+      // req.logger.debug('La contraseña es la misma');
+      return res.render('password-reset', {
+        error: 'La contraseña no puede ser igual a las que ya se usaron con anterioridad. Ingrese otra diferente.',
+      });
     } else {
-      const newPassword = await createHash(password);
-
-      await usersDAO.update(checkUserInfo._id, { password: newPassword });
+      const newPassword = createHash(password);
+      //Limpia el token y actualiza la contraseña
+      await usersDAO.update(checkUserInfo._id, { password: newPassword, token: null });
     }
 
-    // return res.redirect('/auth/login'); //TODO SARASA
-    console.log('La contraseña fué cambiada');
+    return res.status(200).render('info', {
+      title: 'Recuperación de Contraseña',
+      subtitle: '✔ La contraseña fué cambiada con éxito',
+      info: 'Ya puede ingresar con su nueva contraseña.',
+      button: 'Ingresar',
+      link: '/auth/login',
+    });
   };
 }
 

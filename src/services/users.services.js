@@ -10,7 +10,7 @@ class UsersService {
     const userRecovery = await usersDAO.getBy({ email: email });
 
     // Si el usuario ya tiene un token activo, no se le envía otro salvo que haya expirado
-    if (userRecovery.token != null) {
+    if (userRecovery?.token != null) {
       const decodedToken = decodeTokens(userRecovery.token);
       const expiration = parseInt(process.env.ACCESS_TOKEN_EXPIRATION, 10);
       if (decodedToken)

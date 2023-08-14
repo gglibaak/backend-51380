@@ -49,7 +49,8 @@ class authController {
   };
 
   getProfile = (req, res) => {
-    const role = req.session.role === 'admin' ? 'Administrador' : 'Usuario Estándar';
+    const role =
+      req.session.role === 'admin' ? 'Administrador' : req.session.role === 'premium' ? '📯 Usuario Premium' : 'Usuario Estándar';
     return res.render('profile', {
       firstname: req.session.first_name,
       lastname: req.session.last_name,

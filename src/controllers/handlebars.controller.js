@@ -21,7 +21,7 @@ class handlebarsController {
       const modifiedNextLink = response.result.nextLink?.substring(4) || '';
       const modifiedPrevLink = response.result.prevLink?.substring(4) || '';
 
-      const role = req.session.role === 'admin' ? true : false;
+      const role = req.session.role === 'admin' || req.session.role === 'premium' ? true : false;
 
       return res.render('products', {
         products: response,

@@ -87,7 +87,7 @@ app.use(flash());
 app.use('/api', productRoutes);
 app.use('/api', cartRoutes);
 app.use('/api', mockRoutes);
-app.use('/', hbsRoutes);
+app.use('/', hbsRoutes); //views
 app.use('/realtimeproducts', realtimeprodRoutes);
 app.use('/chat', messagesRoutes);
 app.use('/auth', authRoutes);

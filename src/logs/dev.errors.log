@@ -58,3 +58,30 @@
 [02:26:48] [ERROR]: jwt expired
 [02:41:43] [ERROR]: jwt expired
 [02:45:14] [ERROR]: jwt expired
+[23:39:51] [ERROR]: undefined
+[23:40:10] [ERROR]: Converting circular structure to JSON
+    --> starting at object with constructor 'DerivedLogger'
+    |     property '_readableState' -> object with constructor 'ReadableState'
+    |     property 'pipes' -> object with constructor 'Array'
+    |     index 0 -> object with constructor 'Console'
+    --- property 'parent' closes the circle
+[23:40:30] [ERROR]: Converting circular structure to JSON
+    --> starting at object with constructor 'DerivedLogger'
+    |     property '_readableState' -> object with constructor 'ReadableState'
+    |     property 'pipes' -> object with constructor 'Array'
+    |     index 0 -> object with constructor 'Console'
+    --- property 'parent' closes the circle
+[23:41:45] [ERROR]: Converting circular structure to JSON
+    --> starting at object with constructor 'DerivedLogger'
+    |     property '_readableState' -> object with constructor 'ReadableState'
+    |     property 'pipes' -> object with constructor 'Array'
+    |     index 0 -> object with constructor 'Console'
+    --- property 'parent' closes the circle
+[23:52:26] [ERROR]: userService.getUserById is not a function
+[23:54:19] [ERROR]: usersDAO.getById is not a function
+[23:54:30] [ERROR]: userService.getById is not a function
+[23:55:37] [ERROR]: usersDAO.getById is not a function
+[23:59:15] [ERROR]: response is not defined
+[23:59:31] [ERROR]: user is not defined
+[00:11:24] [ERROR]: req is not defined
+[00:26:18] [ERROR]: Cannot read properties of undefined (reading 'user')

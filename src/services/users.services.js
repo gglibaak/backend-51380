@@ -123,6 +123,34 @@ class UsersService {
       },
     };
   }
+
+  async getUserById(uid) {
+    const user = await usersDAO.getBy({ _id: uid });
+
+    if (!user) {
+      return {
+        status: 200,
+        hbpage: 'error',
+        result: { error: 'El usuario no existe' },
+      };
+    }
+
+    user.role = user.role === 'user' ? 'premium' : 'user';
+    await usersDAO.update(user._id, user);
+
+    const newRole = user.role === 'admin' ? 'Administrador' : user.role === 'premium' ? 'Usuario Premium' : 'Usuario Estándar';
+    return {
+      status: 200,
+      hbpage: 'info',
+      result: {
+        title: 'Cambio de Rol',
+        subtitle: '✔ El rol fué cambiado con éxito',
+        info: 'Ya puede ingresar con su nuevo rol.',
+        button: `Nuevo rol asignado: ${newRole}`,
+        link: '/auth/logout',
+      },
+    };
+  }
 }
 
 module.exports = UsersService;

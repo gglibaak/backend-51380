@@ -12,4 +12,6 @@ hbsRoutes.get('/carts/:cid', isLogged, isCartOwner, handlebarsController.getCart
 
 hbsRoutes.get('/loggertest', handlebarsController.getLoggertest);
 
+hbsRoutes.get('/api/users/premium/:uid', handlebarsController.getPremium);
+
 module.exports = hbsRoutes;

@@ -68,7 +68,7 @@ class MongoProducts {
     }
   }
 
-  async addProduct(data) {
+  async addProduct(data, owner) {
     const { title, description, price, thumbnails, code, stock, category } = data;
 
     if (!title || !description || !price || !thumbnails || !code || !stock || !category) {
@@ -92,6 +92,7 @@ class MongoProducts {
     const product = {
       ...data,
       status: true,
+      owner: owner,
     };
 
     await productsDAO.add({ ...product });

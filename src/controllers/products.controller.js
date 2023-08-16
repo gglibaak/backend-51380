@@ -17,8 +17,11 @@ class productController {
   addProduct = async (req, res, next) => {
     //TODO  VALIDACIONES EN PROCESO
     try {
+      const owner = req.session.email
+      req.logger.debug(`Adding new product by ${owner}`);
+      console.log(owner);
       const newProduct = req.body;
-      const response = await Services.addProduct(newProduct);
+      const response = await Services.addProduct(newProduct, owner);
       return res.status(response.status).json(response.result);
     } catch (error) {
       next(error);

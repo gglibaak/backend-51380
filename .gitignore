@@ -1,5 +1,6 @@
 node_modules/
+logs/
 .env
 .env.development
 .env.production
-.log
+src/logs/dev.errors.log

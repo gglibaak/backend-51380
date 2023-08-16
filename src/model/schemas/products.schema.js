@@ -14,6 +14,7 @@ const ProductSchema = new Schema(
     stock: { type: Number, required: true },
     category: { type: String, required: true },
     status: { type: Boolean, required: true },
+    owner: { type: String, required: false, default: 'admin' },
   },
   { versionKey: false }
 );

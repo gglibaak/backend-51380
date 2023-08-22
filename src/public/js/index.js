@@ -8,6 +8,8 @@ const inputCode = document.getElementById('form-code');
 const inputStock = document.getElementById('form-stock');
 const inputCategory = document.getElementById('form-category');
 const inputThumbnails = document.getElementById('form-thumbnails');
+const placeHolderEmail = document.getElementById('form-email').placeholder;
+
 const chatForm = document.getElementById('chat-form');
 const textInput = document.getElementById('text-input');
 const user = document.getElementById('user-input');
@@ -67,7 +69,9 @@ if (formProducts) {
       code: inputCode.value,
       stock: +inputStock.value,
       category: inputCategory.value,
+      owner: placeHolderEmail,
     };
+    console.log(newProduct);
     socket.emit('new-product', newProduct);
     formProducts.reset();
   };

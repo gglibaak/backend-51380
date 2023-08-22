@@ -92,7 +92,7 @@ class MongoProducts {
     const product = {
       ...data,
       status: true,
-      owner: owner,
+      // owner: owner,
     };
 
     await productsDAO.add({ ...product });

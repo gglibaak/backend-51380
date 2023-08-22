@@ -3,6 +3,7 @@ const ProductModel = require('../model/schemas/products.schema');
 class realTimeProdController {
   getRealTimeProd = async (req, res) => {
     try {
+      const userEmail = req.session?.email;
       const products = await ProductModel.find({});
       const simplifiedProduct = products.map((product) => {
         return {
@@ -16,7 +17,7 @@ class realTimeProdController {
           thumbnails: product.thumbnails,
         };
       });
-      return res.render('realtimeproducts', { products: simplifiedProduct });
+      return res.render('realtimeproducts', { products: simplifiedProduct, userEmail });
     } catch (error) {
       res.status(500).json({ status: 'error', msg: 'Error', payload: {} });
     }

@@ -8,22 +8,37 @@ const inputCode = document.getElementById('form-code');
 const inputStock = document.getElementById('form-stock');
 const inputCategory = document.getElementById('form-category');
 const inputThumbnails = document.getElementById('form-thumbnails');
-const placeHolderEmail = document.getElementById('form-email').placeholder;
+const placeHolderEmail = document.getElementById('form-email')?.placeholder;
 
 const chatForm = document.getElementById('chat-form');
 const textInput = document.getElementById('text-input');
 const user = document.getElementById('user-input');
 
+const showMsg = (msg, duration, color) => {
+  Toastify({
+    text: `${msg} - Cerrando en ${Math.ceil(duration / 1000)} segundos`,
+    duration,
+    stopOnFocus: true,
+    style: {
+      background: color,
+    },
+    offset: {
+      x: 2,
+      y: 65,
+    },
+  }).showToast();
+};
+
+socket.on('error', (msg) => {
+  showMsg(msg, 2000, '#ff3352');
+});
+
+socket.on('success', (msg) => {
+  showMsg(msg, 2000, '#96c93d');
+});
+
 // Escuchando servidor
 socket.on('products', (products) => {
-  // Como lo habia solucionado pt.1
-  // renderProducts(products);
-
-  // Como se solicitó segun lo entendido en en el after
-
-  //Usado en para FileSystem
-  // <td><button type="button" class="btn btn-danger " onclick="deleteProduct(${product.id})">X</button></td>
-
   const productList = document.querySelector('.productListUpdated');
   productList.innerHTML = `
     ${products
@@ -46,18 +61,6 @@ socket.on('products', (products) => {
   `;
 });
 
-// Como lo habia solucionado pt.2
-/*
-const renderProducts = (products) => {
-  fetch("/realTimeProducts")
-    .then((result) => result.text())
-    .then((serverTemplate) => {
-      const template = Handlebars.compile(serverTemplate);
-      const html = template({ products });
-      document.getElementById("productList").innerHTML = html;
-    });
-};
-*/
 if (formProducts) {
   formProducts.onsubmit = (e) => {
     e.preventDefault();
@@ -78,8 +81,7 @@ if (formProducts) {
 }
 
 deleteProduct = (productId) => {
-  // socket.emit("delete-product", productId); // Usado para FyleSystem
-  socket.emit('delete-product', productId.toString());
+  socket.emit('delete-product', productId.toString(), userRole, userEmail);
 };
 
 // Chat Section

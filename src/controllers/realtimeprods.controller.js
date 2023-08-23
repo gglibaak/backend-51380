@@ -1,23 +1,14 @@
-// Deberia ser Services o DAO ??
-const ProductModel = require('../model/schemas/products.schema');
+const Products = require('../services/products.services');
+const productsServices = new Products();
+
 class realTimeProdController {
   getRealTimeProd = async (req, res) => {
     try {
       const userEmail = req.session?.email;
-      const products = await ProductModel.find({});
-      const simplifiedProduct = products.map((product) => {
-        return {
-          title: product.title,
-          id: product._id,
-          description: product.description,
-          price: product.price,
-          code: product.code,
-          stock: product.stock,
-          category: product.category,
-          thumbnails: product.thumbnails,
-        };
-      });
-      return res.render('realtimeproducts', { products: simplifiedProduct, userEmail });
+      const userRole = req.session?.role;
+      const productsList = await productsServices.getProductAll({}, true); // true para no limitar la cantidad de productos por el paginate
+
+      return res.render('realtimeproducts', { products: productsList.result.payload, userEmail, userRole });
     } catch (error) {
       res.status(500).json({ status: 'error', msg: 'Error', payload: {} });
     }

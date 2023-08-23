@@ -18,6 +18,16 @@ const isAdmin = (req, res, next) => {
   return res.status(403).render('error', { error: 'Error de autorización.' });
 };
 
+const hasPrivileges = (req, res, next) => {
+  if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
+    return next();
+  }
+  if (req.session?.role === 'admin' || req.session?.role === 'premium') {
+    return next();
+  }
+  return res.status(403).render('error', { error: 'Error de autorización.' });
+};
+
 const isLogged = (req, res, next) => {
   if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
     return next();
@@ -57,4 +67,4 @@ const isCartOwner = (req, res, next) => {
   return res.status(403).render('error', { error: 'Error de autorización.' });
 };
 
-module.exports = { isUser, isAdmin, isLogged, redirectIfLoggedIn, isNotAdmin, isCartOwner };
+module.exports = { isUser, isAdmin, isLogged, redirectIfLoggedIn, isNotAdmin, isCartOwner, hasPrivileges };

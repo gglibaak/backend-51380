@@ -7,7 +7,7 @@ const EErros = require('../utils/errors/enums');
 const productsDAO = new ProductsDAO();
 
 class MongoProducts {
-  async getProductAll(queryParams) {
+  async getProductAll(queryParams = {}, hasNoLimit = false) {
     try {
       const { limit, page, sort, query, status } = queryParams;
       // const products = await ProductModel.find({}).limit(limit)
@@ -18,7 +18,7 @@ class MongoProducts {
 
       const options = {
         lean: true,
-        limit: limit || 12, //10 before pagination
+        limit: hasNoLimit === true ? 1000 : limit || 12, //10 before pagination
         page: page || 1,
         sort: sort === 'desc' ? '-price' : sort === 'asc' ? 'price' : {},
         customLabels: {
@@ -68,7 +68,7 @@ class MongoProducts {
     }
   }
 
-  async addProduct(data, owner) {
+  async addProduct(data) {
     const { title, description, price, thumbnails, code, stock, category } = data;
 
     if (!title || !description || !price || !thumbnails || !code || !stock || !category) {
@@ -92,7 +92,6 @@ class MongoProducts {
     const product = {
       ...data,
       status: true,
-      // owner: owner,
     };
 
     await productsDAO.add({ ...product });

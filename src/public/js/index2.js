@@ -14,6 +14,10 @@ const AddtoCart = (id) => {
   })
     .then((res) => res.json())
     .then((data) => {
+      if (data.status === 'error') {
+        showMsg2(`${data.error} - El producto con el id: ${id} no puede ser agregado.`, 1000, '#f74020');
+        return;
+      }
       // console.log(`Producto con el id: ${id} se agregó al cart con id: ${cartIdValue}`);
       showMsg(`🛒 Producto agregado al carro con el id: ${id}.`, 3000);
     })

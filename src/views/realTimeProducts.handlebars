@@ -151,7 +151,7 @@
           </div>
 
           <div class="col-md-auto mx-3">
-            <label for="email"> Creador por: </label>
+            <label for="email"> Creador por el usuario {{userRole}}: </label>
             <br />
             <input
               type="text"
@@ -181,5 +181,13 @@
 <script
   src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"
 ></script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/toastify-js"
+></script>
+<script>
+  const userRole = "{{userRole}}";
+  const userEmail = "{{userEmail}}";
+</script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="public/js/index.js"></script>

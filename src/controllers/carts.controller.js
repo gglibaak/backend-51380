@@ -25,14 +25,18 @@ class cartsController {
   addProduct = async (req, res) => {
     const cartId = req.params.cid;
     const prodId = req.params.pid;
-    const response = await Services.addCart(cartId, prodId);
+    const userEmail = req.session?.email;
+    const userRole = req.session?.role;
+    const response = await Services.addCart(cartId, prodId, userEmail, userRole);
     return res.status(response.status).json(response.result);
   };
 
   deleteProduct = async (req, res) => {
     const cartId = req.params.cid;
     const prodId = req.params.pid;
-    response = await Services.deleteProduct(cartId, prodId);
+    const userEmail = req.session?.email;
+    const userRole = req.session?.role;
+    response = await Services.deleteProduct(cartId, prodId, userEmail, userRole);
     return res.status(response.status).json(response.result);
   };
 

@@ -45,7 +45,7 @@ class MongoCarts {
     }
   }
 
-  async addCart(cartId, prodId) {
+  async addCart(cartId, prodId, userEmail, userRole) {
     try {
       if (cartId === undefined || prodId === undefined) {
         const newCart = await cartsDAO.add({});
@@ -75,6 +75,17 @@ class MongoCarts {
         };
       }
 
+      //Para usuarios premium, si el mail de la session coincide con el del producto no lo agrega
+      if (userRole === 'premium' && productFiltered.owner === userEmail) {
+        return {
+          status: 400,
+          result: {
+            status: 'error',
+            error: `🛑 No puedes agregar productos que creaste.`,
+          },
+        };
+      }
+
       const productIndex = cartFiltered.products.findIndex((p) => p.id.equals(prodId));
 
       if (productIndex !== -1) {
@@ -98,7 +109,7 @@ class MongoCarts {
     }
   }
 
-  async deleteProduct(cartId, prodId) {
+  async deleteProduct(cartId, prodId, userEmail, userRole) {
     try {
       if (!mongoose.Types.ObjectId.isValid(prodId) || !mongoose.Types.ObjectId.isValid(cartId)) {
         return {
@@ -119,6 +130,17 @@ class MongoCarts {
           result: {
             status: 'error',
             error: `🛑 Product or Cart not found.`,
+          },
+        };
+      }
+
+      //Para usuarios premium, si el mail de la session coincide con el del producto no lo agrega
+      if (userRole === 'premium' && productFiltered.owner !== userEmail) {
+        return {
+          status: 400,
+          result: {
+            status: 'error',
+            error: `🛑 No puedes eliminar productos que creaste.`,
           },
         };
       }

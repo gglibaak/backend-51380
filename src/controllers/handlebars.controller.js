@@ -73,7 +73,7 @@ class handlebarsController {
       // if (uid !== req.session?.passport?.user) {
       //   return res.status(200).render('error', { error: 'No tiene permisos para acceder a esta página' });
       // }
-      const response = await userService.getUserById(uid);
+      const response = await userService.changeRole(uid);
       // req.logger.debug(user);
       return res.status(response.status).render(response.hbpage, response.result);
     } catch (error) {

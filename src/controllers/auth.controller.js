@@ -49,6 +49,7 @@ class authController {
   };
 
   getProfile = (req, res) => {
+    console.log(req.session);
     const role =
       req.session.role === 'admin' ? 'Administrador' : req.session.role === 'premium' ? '📯 Usuario Premium' : 'Usuario Estándar';
     return res.render('profile', {
@@ -58,6 +59,7 @@ class authController {
       isadmin: role,
       age: req.session.age,
       cartid: req.session.cartID,
+      ordes: req.session.orders,
     });
   };
 

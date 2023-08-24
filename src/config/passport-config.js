@@ -37,6 +37,7 @@ const initPassport = () => {
           }
 
           const user = await UserModel.findOne({ email: username });
+          console.log(user);
           if (!user) {
             req.flash('error', 'Por favor indique su email y password.');
             return done(null, false);
@@ -53,6 +54,7 @@ const initPassport = () => {
           req.session.last_name = user.last_name;
           req.session.age = user.age;
           req.session.cartID = user.cartID;
+          req.session.orders = user.orders;
 
           return done(null, user);
         } catch (error) {
@@ -96,6 +98,7 @@ const initPassport = () => {
             password: createHash(password),
             cartID,
             role: 'user',
+            orders: [],
           });
 
           req.session.email = email;
@@ -104,6 +107,7 @@ const initPassport = () => {
           req.session.last_name = last_name;
           req.session.age = age;
           req.session.cartID = cartID;
+          req.session.orders = [];
 
           return done(null, response);
         } catch (error) {
@@ -160,6 +164,7 @@ const initPassport = () => {
               password: 'GitHub-User',
               cartID,
               role: 'user',
+              orders: [],
             });
 
             // Usuario Creado correctamente
@@ -217,6 +222,7 @@ const initPassport = () => {
               password: 'Facebook-User',
               cartID,
               role: 'user',
+              orders: [],
             });
             // console.log("Usuario creado correctamente:", userCreated);
             return done(null, userCreated);
@@ -259,6 +265,7 @@ const initPassport = () => {
               password: 'Google-User',
               cartID,
               role: 'user',
+              orders: [],
             });
             // console.log("Usuario creado correctamente:", userCreated);
             return done(null, userCreated);

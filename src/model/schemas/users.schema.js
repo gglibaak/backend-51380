@@ -13,9 +13,24 @@ const UserSchema = new Schema(
     cartID: { type: String, required: false },
     role: { type: String, required: true, default: 'user' },
     token: { type: String, required: false },
+    orders: {
+      type: Array,
+      default: [],
+      required: false,
+
+      _id: false,
+    },
   },
   { versionKey: false }
 );
+
+// UserSchema.pre('find', function () {
+//   this.populate('tickets.id');
+// });
+
+// UserSchema.pre('findOne', function () {
+//   this.populate('tickets.id');
+// });
 
 const UserModel = mongoose.model(userCollection, UserSchema);
 

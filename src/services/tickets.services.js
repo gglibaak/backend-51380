@@ -1,6 +1,9 @@
 const MongoCarts = require('../services/carts.services');
 const Services = new MongoCarts();
 
+const UserServices = require('../services/users.services');
+const userService = new UserServices();
+
 const mongoose = require('mongoose');
 
 const { TicketsDAO, ProductsDAO, CartsDAO } = require('../model/daos/app.daos');
@@ -106,7 +109,11 @@ class MongoTickets {
       //Creacion de ticket en DB
       const orderCreated = await ticketsDAO.add(newOrder);
 
-      //TODO Agregar el ticket al usuario (cuenta)
+      // Se obtiene el id del ticket creado
+      const orderId = orderCreated._id.toString();
+
+      //Se agrega el ticket al usuario
+      await userService.addOrder(userMail, orderId);
 
       //Limpia carrito cuando se compra
       await Services.deleteCart(cartId);

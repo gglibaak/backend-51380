@@ -66,6 +66,15 @@
                       class="btn btn-outline-primary btn-sm"
                     >Ingresar a la Sala</a>
               </div>
+              <div class="col-6 mb-3">
+                    <h6> Ordenes de Compra</h6>
+                    {{#each ordes}}
+                    <a
+                    href="/chat"
+                      class="btn btn-outline-primary btn-sm"
+                    >{{ordes}}</a>
+                    {{/each}}
+              </div>
               <div class="d-flex justify-content-start">
                 <a href="#!"><i class="bi bi-facebook me-3"></i></a>
                 <a href="#!"><i class="bi bi-twitter me-3"></i></a>

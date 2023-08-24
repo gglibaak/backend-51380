@@ -11,6 +11,17 @@ class TicketsDAO {
     }
   }
 
+  async getBy(query) {
+    try {
+      const res  = await TicketsSchema.find(query);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
   async getById(id) {
     try {
       let ticket;

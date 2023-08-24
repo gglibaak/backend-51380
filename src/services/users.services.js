@@ -124,7 +124,7 @@ class UsersService {
     };
   }
 
-  async getUserById(uid) {
+  async changeRole(uid) {
     const user = await usersDAO.getBy({ _id: uid });
 
     if (!user) {
@@ -151,6 +151,62 @@ class UsersService {
       },
     };
   }
+  async addOrder(email, orderId) {
+    try {
+      const user = await usersDAO.getBy({ email: email });
+      const id = user._id;
+      const orders = user.orders || [];
+      orders.push(orderId);
+
+      await usersDAO.update(id, user);
+      return {
+        status: 200,
+        result: { status: 'success', payload: user },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        status: 500,
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
+      };
+    }
+  }
+
+  /*   async getUserById(id) {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return {
+          status: 400,
+          result: {
+            status: 'error',
+            error: `🛑 Invalid user ID.`,
+          },
+        };
+      }
+
+      const user = await usersDAO.getById(id);
+      if (!user) {
+        return {
+          status: 404,
+          result: {
+            status: 'error',
+            error: `🛑 User not found.`,
+          },
+        };
+      }
+
+      return {
+        status: 200,
+        result: { status: 'success', payload: user },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        status: 500,
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
+      };
+    }
+  } */
 }
 
 module.exports = UsersService;

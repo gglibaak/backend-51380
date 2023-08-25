@@ -17,6 +17,7 @@ class authController {
     req.session.last_name = req.user.last_name;
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
+    req.session.orders = req.user.orders;
 
     return res.redirect('/products');
   };
@@ -30,7 +31,7 @@ class authController {
     req.session.last_name = last_name;
     req.session.age = age;
     req.session.cartID = req.user.cartID;
-
+    req.session.orders = req.user.orders;
     return res.redirect('/products');
   };
 
@@ -48,8 +49,7 @@ class authController {
     return res.redirect('/auth/login');
   };
 
-  getProfile = (req, res) => {
-    console.log(req.session);
+  getProfile = async (req, res) => {
     const role =
       req.session.role === 'admin' ? 'Administrador' : req.session.role === 'premium' ? '📯 Usuario Premium' : 'Usuario Estándar';
     return res.render('profile', {
@@ -59,7 +59,7 @@ class authController {
       isadmin: role,
       age: req.session.age,
       cartid: req.session.cartID,
-      ordes: req.session.orders,
+      orders: req.session.orders,
     });
   };
 
@@ -70,6 +70,7 @@ class authController {
     req.session.last_name = req.user.last_name;
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
+    req.session.orders = req.user.orders;
     return res.redirect('/products');
   };
 
@@ -80,6 +81,7 @@ class authController {
     req.session.last_name = req.user.last_name;
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
+    req.session.orders = req.user.orders;
     return res.redirect('/products');
   };
 
@@ -90,6 +92,7 @@ class authController {
     req.session.last_name = req.user.last_name;
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
+    req.session.orders = req.user.orders;
     return res.redirect('/products');
   };
   getPasswordRecovery = (req, res) => {

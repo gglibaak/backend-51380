@@ -1,6 +1,9 @@
 const MongoCarts = require('../services/carts.services');
 const Services = new MongoCarts();
 
+const UserServices = require('../services/users.services');
+const userService = new UserServices();
+
 const MongoTickets = require('../services/tickets.services');
 const ticketsServices = new MongoTickets();
 const userDTO = require('../model/DTO/user.dto');
@@ -71,7 +74,9 @@ class cartsController {
 
   getTicketById = async (req, res) => {
     const id = req.params.cid;
-    //TODO DTO DE salida?
+    // Actualizacion de ordenes al session
+    const user = await userService.getProfile({ email: req.session.email });
+    req.session.orders = user.result.payload.orders;
     const response = await ticketsServices.getTicketById(id);
     return res.render('ticket', { ticket: response.result });
   };

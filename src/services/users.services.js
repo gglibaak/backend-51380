@@ -172,41 +172,21 @@ class UsersService {
     }
   }
 
-  /*   async getUserById(id) {
+  async getProfile(query) {
     try {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return {
-          status: 400,
-          result: {
-            status: 'error',
-            error: `🛑 Invalid user ID.`,
-          },
-        };
-      }
-
-      const user = await usersDAO.getById(id);
-      if (!user) {
-        return {
-          status: 404,
-          result: {
-            status: 'error',
-            error: `🛑 User not found.`,
-          },
-        };
-      }
-
+      const user = await usersDAO.getBy(query);
       return {
         status: 200,
         result: { status: 'success', payload: user },
       };
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       return {
         status: 500,
         result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }
-  } */
+  }
 }
 
 module.exports = UsersService;

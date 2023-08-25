@@ -1,7 +1,6 @@
 const TicketsSchema = require('../../schemas/tickets.schema');
 
 class TicketsDAO {
-  //No se usa
   async getAll() {
     try {
       const tickets = await TicketsSchema.find({});
@@ -13,14 +12,12 @@ class TicketsDAO {
 
   async getBy(query) {
     try {
-      const res  = await TicketsSchema.find(query);
+      const res = await TicketsSchema.find(query);
       return res;
     } catch (error) {
       console.log(error);
     }
   }
-
-
 
   async getById(id) {
     try {

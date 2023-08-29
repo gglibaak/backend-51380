@@ -85,3 +85,12 @@
 [23:59:31] [ERROR]: user is not defined
 [00:11:24] [ERROR]: req is not defined
 [00:26:18] [ERROR]: Cannot read properties of undefined (reading 'user')
+[22:11:28] [ERROR]: jwt expired
+[22:14:39] [ERROR]: jwt expired
+[23:18:50] [ERROR]: jwt expired
+[23:23:23] [ERROR]: jwt expired
+[23:23:30] [ERROR]: jwt expired
+[23:58:10] [ERROR]: jwt expired
+[23:58:23] [ERROR]: jwt expired
+[00:24:30] [ERROR]: Este es un mensaje de error.
+[00:24:30] [FATAL]: Este es un mensaje fatal. 🍕

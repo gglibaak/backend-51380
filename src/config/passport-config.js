@@ -37,7 +37,7 @@ const initPassport = () => {
           }
 
           const user = await UserModel.findOne({ email: username });
-          console.log(user);
+          // console.log(user);
           if (!user) {
             req.flash('error', 'Por favor indique su email y password.');
             return done(null, false);
@@ -174,7 +174,7 @@ const initPassport = () => {
             return done(null, user);
           }
         } catch (error) {
-          console.log('Error en auth github');
+          // console.log('Error en auth github');
           console.log(error);
           return done(new Error(error));
         }
@@ -231,7 +231,7 @@ const initPassport = () => {
             return done(null, user);
           }
         } catch (error) {
-          console.log('Error en auth facebook');
+          // console.log('Error en auth facebook');
           console.log(error);
           return done(new Error(error));
         }

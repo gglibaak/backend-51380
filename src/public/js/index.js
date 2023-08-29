@@ -74,7 +74,7 @@ if (formProducts) {
       category: inputCategory.value,
       owner: placeHolderEmail,
     };
-    console.log(newProduct);
+    // console.log(newProduct);
     socket.emit('new-product', newProduct);
     formProducts.reset();
   };

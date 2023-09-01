@@ -8,7 +8,8 @@ class customErrorMsg {
     * stock: smust be number. Received      : ${product.stock}
     * thumbnails: must be string. Received  : ${product.thumbnails}
     * code: must be string. Received        : ${product.code};
-    * category: must be string. Received    : ${product.category}`;
+    * category: must be string. Received    : ${product.category}
+    * owner: must be string. Received       : ${product.owner}`;
   };
 
   generateProductoErrorAlredyExists = (product) => {

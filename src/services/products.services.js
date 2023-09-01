@@ -69,9 +69,9 @@ class MongoProducts {
   }
 
   async addProduct(data) {
-    const { title, description, price, thumbnails, code, stock, category } = data;
+    const { title, description, price, thumbnails, code, stock, category, owner } = data;
 
-    if (!title || !description || !price || !thumbnails || !code || !stock || !category) {
+    if (!title || !description || !price || !thumbnails || !code || !stock || !category || !owner) {
       return CustomError.createError({
         name: 'Validation Error',
         message: '🛑 Wrong Data Format.',

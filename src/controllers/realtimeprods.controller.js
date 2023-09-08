@@ -8,7 +8,7 @@ class realTimeProdController {
       const userRole = req.session?.role;
       const productsList = await productsServices.getProductAll({}, true); // true para no limitar la cantidad de productos por el paginate
 
-      return res.render('realtimeproducts', { products: productsList.result.payload, userEmail, userRole });
+      return res.render('create-products', { products: productsList.result.payload, userEmail, userRole });
     } catch (error) {
       res.status(500).json({ status: 'error', msg: 'Error', payload: {} });
     }

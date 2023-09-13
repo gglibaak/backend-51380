@@ -33,6 +33,9 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+
 const serverConnected = httpServer.listen(PORT, () => {
   // Conexión a DB Atlas.
   connectMongo()
@@ -47,6 +50,32 @@ const serverConnected = httpServer.listen(PORT, () => {
 });
 
 serverConnected.on('error', (error) => logger.error(`Server error: ${error}`));
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentation CoderEcommerce API REST',
+      description: 'Example of a documentation for the Ecommerce API using Swagger.',
+      version: '1.0.2',
+      contact: {
+        name: 'Gabriel GL',
+        url: 'https://coder-ecommerce-app.onrender.com',
+        email: 'ggldevelopertest@gmail.com',
+      },
+    },
+    servers: [
+      {
+        url: `http://localhost:${PORT}/api`,
+        description: 'Development server',
+      },
+    ],
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use('/apidocs', swaggerUI.serve, swaggerUI.setup(specs));
 
 // Middlewares
 app.use(addLogger);

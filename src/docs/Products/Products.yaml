@@ -1,0 +1,265 @@
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Get all products.
+      description: Get all products.
+      operationId: getProducts
+      parameters:
+        - name: limit
+          in: query
+          description: Number of products to return.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+          required: false
+        - name: page
+          in: query
+          description: Page number of products to return.
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          required: false
+        - name: sort
+          in: query
+          description: Sort products by field.
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+          required: false
+        - name: query
+          in: query
+          description: Search products by title.
+          schema:
+            type: string
+            example: 'mongo'
+          required: false
+        - name: status
+          in: query
+          description: Filter products by status.
+          schema:
+            type: string
+            enum: [available, nonavaiable]
+            default: available
+          required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      tags:
+        - Products
+      summary: Create a new product.
+      description: Create a new product.
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Error Authorization.
+        '400':
+          description: Wrong Data Format.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Wrong Data Format.
+
+  /products/{pid}:
+    parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Product's ID.
+        example: 647281f59f14215ff253872e
+    put:
+      tags:
+        - Products
+      summary: Update a product.
+      description: Update a product.
+      operationId: updateProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Authorization Error.
+        '400':
+          description: Wrong Data Format.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Wrong Data Format.
+    delete:
+      tags:
+        - Products
+      summary: Delete a product.
+      description: Delete a product.
+      operationId: deleteProduct
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Authorization Error.
+        '400':
+          description: Wrong Data Format.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Wrong Data Format.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        owner:
+          type: string
+          description: Product's Owner.
+        _id:
+          type: string
+          description: Product's ID.
+        title:
+          type: string
+          description: Product's Title.
+        description:
+          type: string
+          description: Product's Description.
+        price:
+          type: number
+          description: Product's Price.
+        thumbnails:
+          type: string
+          description: Product's Thumbnails.
+        code:
+          type: number
+          description: Product's Code.
+        stock:
+          type: number
+          description: Product's Stock.
+        category:
+          type: string
+          description: Product's Category.
+        status:
+          type: boolean
+          description: Product's Status.
+    Error:
+      type: object
+      properties:
+        status:
+          example: 'error'
+        error:
+          example: 'Error de Autorizacion'
+
+    NewProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          default: Prueba Swagger 01
+          description: Product's Title.
+        description:
+          type: string
+          default: Este es un producto de prueba
+          description: Product's Description.
+        price:
+          type: number
+          default: 100
+          description: Product's Price.
+        stock:
+          type: number
+          default: 100
+          description: Product's Stock.
+        thumbnails:
+          type: string
+          default: https://i.postimg.cc/hjBs23HV/test.jpg
+          description: Product's Thumbnails.
+        code:
+          type: number
+          default: a100134
+          description: Product's Code.
+        category:
+          type: string
+          default: test
+          description: Product's Category.
+        owner:
+          type: string
+          default: test@test.com
+          description: Product's Owner.

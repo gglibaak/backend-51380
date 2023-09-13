@@ -1,0 +1,358 @@
+paths:
+  /carts:
+    get:
+      summary: Get all carts
+      tags:
+        - Carts
+      description: You can get all carts available.
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new cart
+      tags:
+        - Carts
+      description: You can create a new cart.
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+
+  /carts/{cid}:
+    parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Cart's ID to get.
+        example: 6491e863a6e74e2eac7c6c30
+    get:
+      summary: Get cart by ID
+      tags:
+        - Carts
+      description: Get the products of a cart by its ID.
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartWithProducts'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Invalid Cart ID
+    delete:
+      summary: Delete cart by ID
+      tags:
+        - Carts
+      description: Delete a cart by its ID.
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartClear'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Invalid Cart ID
+    put:
+      summary: Update cart with new body
+      tags:
+        - Carts
+      description: Update a cart by its ID.
+      requestBody:
+        description: Update a cart body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCart'
+        required: true
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Invalid Cart ID
+
+  /carts/{cid}/products/{pid}:
+    parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Cart's ID to get.
+        example: 6491e863a6e74e2eac7c6c30
+      - name: pid
+        in: path
+        required: true
+        description: Product's ID to get.
+        example: 647281f59f14215ff253872e
+    post:
+      summary: Add product to cart
+      tags:
+        - Carts
+      description: Add a product to a cart.
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartWithProducts'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Invalid product or card ID.
+    delete:
+      summary: Delete product from cart
+      tags:
+        - Carts
+      description: Delete a product from a cart.
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartWithProducts'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Invalid product or card ID.
+    put:
+      summary: Update product quantity
+      tags:
+        - Carts
+      description: Update a product quantity from a cart.
+      requestBody:
+        description: Update an existent product in the cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quantity'
+        required: true
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartWithProducts'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                example:
+                  status: error
+                  error: Invalid product or card ID.
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Cart's ID.
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Product's ID.
+              quantity:
+                type: number
+                description: Cart's Products Quantity.
+
+    CartWithProducts:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Cart's ID.
+        id:
+          type: array
+          description: Cart's Products.
+          items:
+            $ref: '#/components/schemas/Product'
+        quantity:
+          type: number
+          description: Cart's Products Quantity.
+
+    Product:
+      type: object
+      properties:
+        owner:
+          type: string
+          description: Product's Owner.
+        _id:
+          type: string
+          description: Product's ID.
+        title:
+          type: string
+          description: Product's Title.
+        description:
+          type: string
+          description: Product's Description.
+        price:
+          type: number
+          description: Product's Price.
+        thumbnails:
+          type: string
+          description: Product's Thumbnails.
+        code:
+          type: number
+          description: Product's Code.
+        stock:
+          type: number
+          description: Product's Stock.
+        category:
+          type: string
+          description: Product's Category.
+        status:
+          type: boolean
+          description: Product's Status.
+
+    Error:
+      type: object
+      properties:
+        status:
+          example: 'error'
+          type: string
+          description: Error status.
+        error:
+          example: 'Invalid Cart ID'
+          type: string
+          description: Error message.
+
+    CartClear:
+      type: object
+      properties:
+        status:
+          example: 'success'
+          type: string
+          description: Success status.
+        payload:
+          properties:
+            _id:
+              type: string
+              example: 6491e863a6e74e2eac7c6c30
+              description: Cart's ID to clear.
+            products:
+              type: array
+              example: []
+              description: Empty array of products.
+
+    Quantity:
+      required:
+        - quantity
+      type: object
+      properties:
+        quantity:
+          type: integer
+          format: int64
+          example: 10
+
+    NewCart:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: 648935cf7e571308b89dcac2
+                description: Product's ID.
+              quantity:
+                type: number
+                example: 10
+                description: Cart's Products Quantity.

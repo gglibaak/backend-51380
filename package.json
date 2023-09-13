@@ -8,7 +8,7 @@
   },
   "scripts": {
     "docker": "node src/app.js --mode DEVELOPMENT",
-    "dev": "nodemon src/app.js --mode DEVELOPMENT",
+    "dev": "nodemon -e yaml,js src/app.js --mode DEVELOPMENT",
     "start": "node src/app.js --mode PRODUCTION"
   },
   "repository": {
@@ -48,6 +48,8 @@
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "ip": "^2.0.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }

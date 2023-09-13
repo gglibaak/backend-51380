@@ -39,7 +39,7 @@ class cartsController {
     const prodId = req.params.pid;
     const userEmail = req.session?.email;
     const userRole = req.session?.role;
-    response = await Services.deleteProduct(cartId, prodId, userEmail, userRole);
+    const response = await Services.deleteProduct(cartId, prodId, userEmail, userRole);
     return res.status(response.status).json(response.result);
   };
 

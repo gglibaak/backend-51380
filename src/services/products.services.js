@@ -57,7 +57,7 @@ class MongoProducts {
       const productFiltered = await productsDAO.getById(id);
       return {
         status: 200,
-        result: { succes: true, payload: productFiltered },
+        result: { success: true, payload: productFiltered },
       };
     } catch (err) {
       console.log(err);

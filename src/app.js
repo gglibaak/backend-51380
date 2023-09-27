@@ -12,6 +12,7 @@ const messagesRoutes = require('./routers/messages.routes');
 const authRoutes = require('./routers/auth.routes');
 const mailRoutes = require('./routers/mail.routes');
 const mockRoutes = require('./routers/mock.routes');
+const userRoutes = require('./routers/users.routes');
 const errorHandler = require('./middlewares/error');
 
 const handlebars = require('express-handlebars');
@@ -121,6 +122,7 @@ app.use('/realtimeproducts', realtimeprodRoutes);
 app.use('/chat', messagesRoutes);
 app.use('/auth', authRoutes);
 app.use('/mail', mailRoutes);
+app.use('/api/users', userRoutes);
 // Deberia estar todo de la misma ruta (api) ??
 app.use('/api/sessions/current', (req, res) => {
   const infoUser = new userDTO(req.session);

@@ -48,6 +48,10 @@ const initPassport = () => {
             return done(null, false);
           }
 
+          //actualiza la ultima conexion
+          user.last_connection = new Date();
+          await user.save();
+
           req.session.email = user.email;
           req.session.role = user.role;
           req.session.first_name = user.first_name;
@@ -99,6 +103,8 @@ const initPassport = () => {
             cartID,
             role: 'user',
             orders: [],
+            documents: [],
+            last_connection: new Date(),
           });
 
           req.session.email = email;
@@ -165,6 +171,8 @@ const initPassport = () => {
               cartID,
               role: 'user',
               orders: [],
+              documents: [],
+              last_connection: new Date(),
             });
 
             // Usuario Creado correctamente
@@ -223,6 +231,8 @@ const initPassport = () => {
               cartID,
               role: 'user',
               orders: [],
+              documents: [],
+              last_connection: new Date(),
             });
             // console.log("Usuario creado correctamente:", userCreated);
             return done(null, userCreated);
@@ -266,6 +276,8 @@ const initPassport = () => {
               cartID,
               role: 'user',
               orders: [],
+              documents: [],
+              last_connection: new Date(),
             });
             // console.log("Usuario creado correctamente:", userCreated);
             return done(null, userCreated);

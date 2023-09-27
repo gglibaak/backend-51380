@@ -1,7 +1,5 @@
 const MongoProducts = require('../services/products.services');
 const Services = new MongoProducts();
-const UserServices = require('../services/users.services');
-const userService = new UserServices();
 
 const CartProducts = require('../services/carts.services');
 const CartServices = new CartProducts();
@@ -63,21 +61,6 @@ class handlebarsController {
       return res.status(200).json({ status: 'success', msg: 'Esto es un test, mirar consola de node.' });
     } catch (error) {
       req.logger.error(error);
-    }
-  };
-
-  getPremium = async (req, res) => {
-    try {
-      const uid = req.params.uid;
-      //Si el usuario de session no es el mismo que el que se quiere editar no lo deja // NO SOLICITADO
-      // if (uid !== req.session?.passport?.user) {
-      //   return res.status(200).render('error', { error: 'No tiene permisos para acceder a esta página' });
-      // }
-      const response = await userService.changeRole(uid);
-      // req.logger.debug(user);
-      return res.status(response.status).render(response.hbpage, response.result);
-    } catch (error) {
-      console.log(error);
     }
   };
 }

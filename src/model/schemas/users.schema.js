@@ -17,20 +17,22 @@ const UserSchema = new Schema(
       type: Array,
       default: [],
       required: false,
-
       _id: false,
     },
+    documents: {
+      type: [
+        {
+          name: { type: String, required: true },
+          reference: { type: String, required: true },
+        },
+      ],
+      required: false,
+      default: [],
+    },
+    last_connection: { type: Date, required: false },
   },
   { versionKey: false }
 );
-
-// UserSchema.pre('find', function () {
-//   this.populate('tickets.id');
-// });
-
-// UserSchema.pre('findOne', function () {
-//   this.populate('tickets.id');
-// });
 
 const UserModel = mongoose.model(userCollection, UserSchema);
 

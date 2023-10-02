@@ -187,6 +187,49 @@ class UsersService {
       };
     }
   }
+
+  async saveDocument(uid, document) {
+    try {
+      const user = await usersDAO.getBy({ _id: uid });
+      // Si el usuario no tiene documentos, crea un array vacío
+      !user.documents ? (user.documents = []) : '';
+
+      // Itera sobre todos los archivos subidos
+      for (const docType in document) {
+        for (const doc in document[docType]) {
+          const newDocument = {
+            name: document[docType][doc].fieldname,
+            reference: document[docType][doc].path,
+          };
+
+          // Verifica si el documento ya existe en la base de datos
+          const documentExists = user.documents.some(
+            (existingDoc) => existingDoc.name === newDocument.name && existingDoc.reference === newDocument.reference
+          );
+
+          // Si el documento no existe, agrégalo
+          if (!documentExists) {
+            user.documents.push(newDocument);
+            console.log('FLAG UPLOADED: ', newDocument);
+            console.log('El documento no existe, se agregó a la base de datos');
+          } else {
+            console.log('El documento ya existe en la base de datos');
+          }
+        }
+      }
+      await usersDAO.update(uid, user);
+      return {
+        status: 200,
+        result: { status: 'success', payload: user },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        status: 500,
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
+      };
+    }
+  }
 }
 
 module.exports = UsersService;

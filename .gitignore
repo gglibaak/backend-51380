@@ -4,3 +4,5 @@ logs/
 .env.development
 .env.production
 src/logs/dev.errors.log
+src/public/uploads/documents/
+src/public/uploads/profiles/

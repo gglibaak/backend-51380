@@ -194,7 +194,6 @@ class UsersService {
       // Si el usuario no tiene documentos, crea un array vacío
       !user.documents ? (user.documents = []) : '';
 
-      // Itera sobre todos los archivos subidos
       for (const docType in document) {
         for (const doc in document[docType]) {
           const newDocument = {
@@ -202,18 +201,15 @@ class UsersService {
             reference: document[docType][doc].path,
           };
 
-          // Verifica si el documento ya existe en la base de datos
-          const documentExists = user.documents.some(
-            (existingDoc) => existingDoc.name === newDocument.name && existingDoc.reference === newDocument.reference
-          );
+          const documentExistsIndex = user.documents.findIndex((existingDoc) => existingDoc.name === newDocument.name);
 
-          // Si el documento no existe, agrégalo
-          if (!documentExists) {
-            user.documents.push(newDocument);
-            console.log('FLAG UPLOADED: ', newDocument);
-            console.log('El documento no existe, se agregó a la base de datos');
+          if (documentExistsIndex !== -1) {
+            // El documento ya existe, actualizar referencia
+            user.documents[documentExistsIndex].reference = newDocument.reference;
+            console.log('El documento se actualizó en la base de datos');
           } else {
-            console.log('El documento ya existe en la base de datos');
+            user.documents.push(newDocument);
+            console.log('El documento no existe, se agregó a la base de datos');
           }
         }
       }

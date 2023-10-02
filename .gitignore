@@ -6,3 +6,4 @@ logs/
 src/logs/dev.errors.log
 src/public/uploads/documents/
 src/public/uploads/profiles/
+src/public/uploads/products/

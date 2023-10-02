@@ -9,9 +9,9 @@ userRoutes.get('/premium/:uid', usersController.getPremium);
 userRoutes.post(
   '/:uid/documents',
   upload.fields([
-    { name: 'documents', maxCount: 3 },
-    { name: 'profiles', maxCount: 3 },
-    { name: 'products', maxCount: 3 },
+    { name: 'documents', maxCount: 1 },
+    { name: 'profiles', maxCount: 1 },
+    { name: 'products', maxCount: 1 },
   ]),
   usersController.uploadDocuments
 );

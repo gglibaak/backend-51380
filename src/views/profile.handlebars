@@ -12,7 +12,10 @@
               alt="Avatar" class="img-fluid my-5 rounded-3" style="width: 100px;" />
             <h5>{{firstname}} {{lastname}}</h5>
             <p>{{isadmin}}</p>
-            <a href="/api/users/premium/{{userId}}" class="btn btn-warning btn-sm">Cambiar de Rol</a>
+            <a href="/api/users/premium/{{userId}}" class="btn btn-warning btn-sm mb-3">Cambiar de Rol</a>
+            {{#if documents}}
+            <a href="/documents" class="btn btn-light btn-sm mb-3">Actualizar Documentos</a>
+            {{/if}}
             <i class="far fa-edit mb-5"></i>
           </div>
           <div class="col-md-8">
@@ -57,6 +60,19 @@
                   {{/each}}
                 </div>
                 {{/if}}
+
+                <div class="col-6 mb-3">
+                <h6>Documentos</h6>
+                {{#each documents}}
+                  {{#if (or (eq this.name 'accDoc') (eq this.name 'addressDoc') (eq this.name 'idDoc'))}}
+                    <a href="#" class="btn btn-outline-primary btn-sm mb-3"><b>Documento Cargado:</b> {{#if (eq this.name 'accDoc')}}Comprobante de Estado de Cuenta{{else if (eq this.name 'idDoc')}}Identificacion{{else if (eq this.name 'addressDoc')}}Comprobante de Domicilio{{else}}{{this.name}}{{/if}}</a>
+                  {{/if}}
+                {{/each}}
+                {{#unless documents}}
+                  <a href="/documents" class="btn btn-primary btn-sm mb-3">Cargar Documentos</a>
+                {{/unless}}
+              </div>
+
                 <div class="d-flex justify-content-start">
                   <a href="#!"><i class="bi bi-facebook me-3"></i></a>
                   <a href="#!"><i class="bi bi-twitter me-3"></i></a>

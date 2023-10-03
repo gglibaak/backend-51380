@@ -15,7 +15,8 @@ const mockRoutes = require('./routers/mock.routes');
 const userRoutes = require('./routers/users.routes');
 const errorHandler = require('./middlewares/error');
 
-const handlebars = require('express-handlebars');
+const exphbs = require('express-handlebars');
+const handlebars = require('handlebars');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
@@ -86,14 +87,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(compression({})); // Compresión de archivos
 app.use('/public', express.static(__dirname + '/public'));
 
+// Registra el helper eq
+handlebars.registerHelper('eq', function (a, b) {
+  return a === b;
+});
+
+// Registra el helper or
+handlebars.registerHelper('or', function () {
+  const args = Array.prototype.slice.call(arguments, 0, -1);
+  return args.some(Boolean);
+});
+
 //Usando el engine handlerbars para plantilla
 app.engine(
   'handlebars',
-  handlebars.engine({
+  exphbs.engine({
     layoutsDir: __dirname + '/views/layouts',
     partialsDir: __dirname + '/views/partials',
   })
 );
+
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 

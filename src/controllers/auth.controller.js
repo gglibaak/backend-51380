@@ -19,6 +19,7 @@ class authController {
     req.session.cartID = req.user.cartID;
     req.session.orders = req.user.orders;
     req.session._id = req.user._id;
+    req.session.documents = req.user.documents;
 
     return res.redirect('/products');
   };
@@ -33,6 +34,8 @@ class authController {
     req.session.age = age;
     req.session.cartID = req.user.cartID;
     req.session.orders = req.user.orders;
+    req.session._id = req.user._id;
+    req.session.documents = req.user.documents;
     return res.redirect('/products');
   };
 
@@ -62,6 +65,7 @@ class authController {
       age: req.session.age,
       cartid: req.session.cartID,
       orders: req.session.orders,
+      documents: req.session.documents,
     });
   };
 
@@ -74,6 +78,7 @@ class authController {
     req.session.cartID = req.user.cartID;
     req.session.orders = req.user.orders;
     req.session._id = req.user._id;
+    req.session.documents = req.user.documents;
     return res.redirect('/products');
   };
 
@@ -85,6 +90,8 @@ class authController {
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
     req.session.orders = req.user.orders;
+    req.session._id = req.user._id;
+    req.session.documents = req.user.documents;
     return res.redirect('/products');
   };
 
@@ -96,6 +103,8 @@ class authController {
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
     req.session.orders = req.user.orders;
+    req.session._id = req.user._id;
+    req.session.documents = req.user.documents;
     return res.redirect('/products');
   };
   getPasswordRecovery = (req, res) => {

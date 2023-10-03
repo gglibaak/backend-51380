@@ -59,8 +59,10 @@ const initPassport = () => {
           req.session.age = user.age;
           req.session.cartID = user.cartID;
           req.session.orders = user.orders;
+          req.session.documents = user.documents;
           req.session._id = user._id.toString();
 
+          // console.log(req.session.documents);
           return done(null, user);
         } catch (error) {
           return done(new Error(error));
@@ -116,6 +118,7 @@ const initPassport = () => {
           req.session.cartID = cartID;
           req.session.orders = [];
           req.session._id = user._id.toString();
+          req.session.documents = user.documents;
 
           return done(null, response);
         } catch (error) {

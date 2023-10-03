@@ -1,3 +1,6 @@
+const UserServices = require('../services/users.services');
+const userService = new UserServices();
+
 const isUser = (req, res, next) => {
   if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
     return next();
@@ -67,4 +70,39 @@ const isCartOwner = (req, res, next) => {
   return res.status(403).render('error', { error: 'Error de autorización.' });
 };
 
-module.exports = { isUser, isAdmin, isLogged, redirectIfLoggedIn, isNotAdmin, isCartOwner, hasPrivileges };
+const checkDocuments = async (req, res, next) => {
+  try {
+    // if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
+    //   return next();
+    // }
+
+    const user = await userService.getProfile({ _id: req.params.uid });
+
+    if (!user) {
+      return res.status(403).render('error', { error: 'Error de autorización.' });
+    }
+
+    const documents = user.result.payload.documents;
+
+    if (!documents || documents.length === 0)
+      return res.status(403).render('error', {
+        error: 'Uno o mas documentos no estan cargados en nuestro sistema, por favor actualice antes de continuar.',
+      });
+
+    const checkData =
+      documents.some((doc) => doc.name === 'idDoc') &&
+      documents.some((doc) => doc.name === 'addressDoc') &&
+      documents.some((doc) => doc.name === 'accDoc');
+
+    if (!checkData)
+      return res.status(403).render('error', {
+        error: 'Uno o mas documentos no estan cargados en nuestro sistema, por favor actualice antes de continuar.',
+      });
+
+    return next();
+  } catch (error) {
+    return res.status(403).render('error', { error /* : 'Error de autorización..' */ });
+  }
+};
+
+module.exports = { isUser, isAdmin, isLogged, redirectIfLoggedIn, isNotAdmin, isCartOwner, hasPrivileges, checkDocuments };

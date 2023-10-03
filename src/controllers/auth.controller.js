@@ -18,6 +18,7 @@ class authController {
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
     req.session.orders = req.user.orders;
+    req.session._id = req.user._id;
 
     return res.redirect('/products');
   };
@@ -53,6 +54,7 @@ class authController {
     const role =
       req.session.role === 'admin' ? 'Administrador' : req.session.role === 'premium' ? '📯 Usuario Premium' : 'Usuario Estándar';
     return res.render('profile', {
+      userId: req.session._id,
       firstname: req.session.first_name,
       lastname: req.session.last_name,
       email: req.session.email,
@@ -71,6 +73,7 @@ class authController {
     req.session.age = req.user.age;
     req.session.cartID = req.user.cartID;
     req.session.orders = req.user.orders;
+    req.session._id = req.user._id;
     return res.redirect('/products');
   };
 

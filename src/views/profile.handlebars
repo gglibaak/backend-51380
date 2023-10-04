@@ -7,14 +7,24 @@
         <div class="row g-0">
           <div style="background-color: #0B6EFD;" class="col-md-4 text-center text-white"
             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-            <img
+            {{!-- <img
               src="https://e7.pngegg.com/pngimages/328/599/png-clipart-male-avatar-user-profile-profile-heroes-necktie.png"
-              alt="Avatar" class="img-fluid my-5 rounded-3" style="width: 100px;" />
+              alt="Avatar" class="img-fluid mt-5 rounded-3" style="width: 150px;" />
+            <button class="btn btn-outline-light btn-sm my-3 bi bi-pencil-square" type="button"> Upload new image</button> --}}
+
+            <div class="avatar-container">
+                <img src="\public\uploads\profiles\6493bf55251bd71c44c120ab_sosbolu.png" alt="Avatar" class="img-fluid mt-5 rounded-3" style="width: 150px;">
+                <form id="avatar-form" action="/api/users/{{userId}}/documents" method="post" enctype="multipart/form-data">
+                    <input type="file" name="profiles" id="avatar-input" style="display: none;">
+                    <label for="avatar-input" class="btn btn-outline-light btn-sm my-3 bi bi-pencil-square"> Upload new image</label>
+                </form>
+            </div>
+
             <h5>{{firstname}} {{lastname}}</h5>
             <p>{{isadmin}}</p>
             <a href="/api/users/premium/{{userId}}" class="btn btn-warning btn-sm mb-3">Cambiar de Rol</a>
             {{#if documents}}
-            <a href="/documents" class="btn btn-light btn-sm mb-3">Actualizar Documentos</a>
+            <a href="/api/users/{{userId}}/documents" class="btn btn-light btn-sm mb-3">Actualizar Documentos</a>
             {{/if}}
             <i class="far fa-edit mb-5"></i>
           </div>
@@ -65,11 +75,11 @@
                 <h6>Documentos</h6>
                 {{#each documents}}
                   {{#if (or (eq this.name 'accDoc') (eq this.name 'addressDoc') (eq this.name 'idDoc'))}}
-                    <a href="#" class="btn btn-outline-primary btn-sm mb-3"><b>Documento Cargado:</b> {{#if (eq this.name 'accDoc')}}Comprobante de Estado de Cuenta{{else if (eq this.name 'idDoc')}}Identificacion{{else if (eq this.name 'addressDoc')}}Comprobante de Domicilio{{else}}{{this.name}}{{/if}}</a>
+                    <a href="#!" class="btn btn-outline-primary btn-sm mb-3"><b>Documento Cargado:</b> {{#if (eq this.name 'accDoc')}}Comprobante de Estado de Cuenta{{else if (eq this.name 'idDoc')}}Identificacion{{else if (eq this.name 'addressDoc')}}Comprobante de Domicilio{{else}}{{this.name}}{{/if}}</a>
                   {{/if}}
                 {{/each}}
                 {{#unless documents}}
-                  <a href="/documents" class="btn btn-primary btn-sm mb-3">Cargar Documentos</a>
+                  <a href="/api/users/{{userId}}/documents" class="btn btn-primary btn-sm mb-3">Cargar Documentos</a>
                 {{/unless}}
               </div>
 
@@ -85,3 +95,8 @@
       </div>
     </div>
   </div>
+  <script>
+document.getElementById('avatar-input').addEventListener('change', function() {
+    document.getElementById('avatar-form').submit();
+});
+</script>

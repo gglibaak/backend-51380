@@ -1,0 +1,31 @@
+<h2 class="text-center my-4 pt-5">Actualizar Documentos</h2>
+{{> nav}}
+
+<div class="container">
+  <div class="row justify-content-center">
+   <div class="col-md-9">
+    {{#each documents}}
+        {{#if (or (eq this.name 'accDoc') (eq this.name 'addressDoc') (eq this.name 'idDoc'))}}
+        <a href="#!" class="btn btn-success btn-sm mb-3"><b>Documento Cargado:</b> {{#if (eq this.name 'accDoc')}}Comprobante de Estado de Cuenta{{else if (eq this.name 'idDoc')}}Identificacion{{else if (eq this.name 'addressDoc')}}Comprobante de Domicilio{{else}}{{this.name}}{{/if}}</a>
+        {{/if}}
+    {{/each}}
+   </div>
+    <div class="col-md-8">
+      <form action="/api/users/{{userId}}/documents" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="bankStatement" class="form-label">Comprobante de Cuenta</label>
+          <input type="file" class="form-control" id="bankStatement" name="accDoc">
+        </div>
+        <div class="mb-3">
+          <label for="identification" class="form-label">Identificación</label>
+          <input type="file" class="form-control" id="identification" name="idDoc">
+        </div>
+        <div class="mb-3">
+          <label for="addressDocument" class="form-label">Comprobante de Domicilio</label>
+          <input type="file" class="form-control" id="addressDocument" name="addressDoc">
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </div>
+  </div>
+</div>

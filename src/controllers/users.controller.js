@@ -26,14 +26,26 @@ class usersController {
         return res.status(200).render('error', { error: 'No tiene permisos para acceder a esta página' });
       } */
 
-      console.log('Flag controller', uploadedFiles);
+      await userService.saveDocument(uid, uploadedFiles);
 
-      const updateDocuments = await userService.saveDocument(uid, uploadedFiles);
+      const user = await userService.getProfile({ _id: uid });
+      const documents = user.result.payload.documents;
+      req.session.documents = documents;
+      const userId = user.result.payload._id;
 
-      // console.log(updateDocuments);
+      res.render('documents', { documents, userId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      // req.logger.debug(uploadedFiles);
-      res.send('test: Files uploaded successfully');
+  getDocuments = async (req, res) => {
+    try {
+      const { uid } = req.params;
+      const user = await userService.getProfile({ _id: uid });
+      const documents = user.result.payload.documents;
+      const userId = user.result.payload._id;
+      res.render('documents', { documents, userId });
     } catch (error) {
       console.log(error);
     }

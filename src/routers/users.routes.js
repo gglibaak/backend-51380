@@ -9,4 +9,6 @@ userRoutes.get('/premium/:uid', checkDocuments, usersController.getPremium);
 
 userRoutes.post('/:uid/documents', upload, usersController.uploadDocuments);
 
+userRoutes.get('/:uid/documents', usersController.getDocuments);
+
 module.exports = userRoutes;

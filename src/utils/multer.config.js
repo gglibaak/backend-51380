@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     let folder = '';
     switch (file.fieldname) {
       case 'profiles':
-        folder = __dirname + '/../public/uploads/profiles/';
+        folder = '/../public/uploads/profiles/';
         break;
       case 'products':
         folder = __dirname + '/../public/uploads/products/';

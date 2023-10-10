@@ -11,4 +11,6 @@ userRoutes.post('/:uid/documents', upload, usersController.uploadDocuments);
 
 userRoutes.get('/:uid/documents', usersController.getDocuments);
 
+userRoutes.get('/', usersController.getUsers);
+
 module.exports = userRoutes;

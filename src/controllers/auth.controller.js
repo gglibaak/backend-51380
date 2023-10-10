@@ -54,6 +54,11 @@ class authController {
   };
 
   getProfile = async (req, res) => {
+    const profilesDoc = req.session.documents.find((doc) => doc.name === 'profiles');
+
+    let profileAvatar;
+    profilesDoc ? (profileAvatar = profilesDoc?.reference.split('src')[1]) : (profileAvatar = '/public/img/avatar_default.png');
+
     const role =
       req.session.role === 'admin' ? 'Administrador' : req.session.role === 'premium' ? '📯 Usuario Premium' : 'Usuario Estándar';
     return res.render('profile', {
@@ -66,6 +71,7 @@ class authController {
       cartid: req.session.cartID,
       orders: req.session.orders,
       documents: req.session.documents,
+      profileAvatar,
     });
   };
 

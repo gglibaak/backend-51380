@@ -226,6 +226,24 @@ class UsersService {
       };
     }
   }
+
+  async getAllUsers() {
+    try {
+      const users = await usersDAO.getAll();
+      return {
+        status: 200,
+        hbpage: 'users',
+        result: { status: 'success', payload: users },
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        status: 500,
+        hbpage: 'error',
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
+      };
+    }
+  }
 }
 
 module.exports = UsersService;

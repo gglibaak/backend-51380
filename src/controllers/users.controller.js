@@ -1,5 +1,6 @@
 const UserServices = require('../services/users.services');
 const userService = new UserServices();
+const userDTO = require('../model/DTO/user.dto');
 
 class usersController {
   getPremium = async (req, res) => {
@@ -46,6 +47,18 @@ class usersController {
       const documents = user.result.payload.documents;
       const userId = user.result.payload._id;
       res.render('documents', { documents, userId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  getUsers = async (req, res) => {
+    try {
+      const users = await userService.getAllUsers();
+      // return res.status(users.status).render(users.hbpage, users.result);
+      // Aplicar el DTO a cada usuario individual
+      const usersDTO = users.result.payload.map((user) => new userDTO(user));
+      return res.json(usersDTO);
     } catch (error) {
       console.log(error);
     }

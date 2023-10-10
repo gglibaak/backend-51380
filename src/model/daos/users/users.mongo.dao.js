@@ -19,6 +19,15 @@ class UserDAO {
       console.log(error);
     }
   }
+
+  async getAll() {
+    try {
+      const users = await UserSchemas.find().lean();
+      return users;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = UserDAO;

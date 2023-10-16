@@ -17,6 +17,7 @@ const FACEBOOK_CLIENT_ID = env.FACEBOOK_CLIENT_ID;
 const FACEBOOK_CLIENT_SECRET = env.FACEBOOK_CLIENT_SECRET;
 const GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = env.GOOGLE_CLIENT_SECRET;
+const PROJECT_URL = env.PROJECT_URL;
 
 const initPassport = () => {
   //############## Local Strategy ##############
@@ -136,7 +137,7 @@ const initPassport = () => {
       {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: 'http://localhost:8080/auth/github/callback',
+        callbackURL: PROJECT_URL + '/auth/github/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
         //console.log(profile); // Información que nos devuelve GitHub

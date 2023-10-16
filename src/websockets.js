@@ -2,6 +2,9 @@ const Products = require('./services/products.services');
 const productsServices = new Products();
 const Messages = require('./services/messages.services');
 const messagesServices = new Messages();
+const User = require('./services/users.services');
+const userServices = new User();
+const { sendMailInfo } = require('../src/controllers/mail.controller');
 
 const { logger } = require('./utils/logger.config');
 
@@ -37,6 +40,20 @@ module.exports = (io) => {
           if (findProd.result.payload.owner !== email) {
             socket.emit('error', 'No tienes permisos para eliminar productos que no creaste');
             return;
+          }
+        }
+
+        if (role === 'admin') {
+          const findProd = await productsServices.getProductById(delProd);
+          const productMail = findProd.result.payload.owner;
+          const user = await userServices.getProfile({ email: productMail });
+
+          if (user.result.payload?.role === 'premium') {
+            const mail = user.result.payload.email;
+            const name = user.result.payload.first_name;
+            const subject = 'Eliminación de producto';
+            const type = 'premium';
+            await sendMailInfo({ email: mail, first_name: name }, subject, type);
           }
         }
 

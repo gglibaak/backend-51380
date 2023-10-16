@@ -1,28 +1,25 @@
 <div class="container">
   {{> nav}}
 
-  <h2 class="text-center pt-5 mt-4">Chat Handlebars with Sockets</h2>
+  <h2 class="text-center pt-5 mt-4">Sala de Chat</h2>
 
   <div class="row">
     <div class="col-md-8">
-      <div
-        class="card mb-3"
-        style="
+      <div class="card mb-3" style="
             max-width: 1280px;
             margin: 50px auto;
             height: auto;
             overflow: hidden;
-            "
-      >
+            ">
         <div class="row">
 
           <div class="row p-3">
             <div id="divChat">
               {{#each messages}}
-                <div class="messages">
-                  <span><b>{{user}} :</b></span><br />
-                  <span>{{message}}</span>
-                </div>
+              <div class="messages">
+                <span><b>{{user}} :</b></span><br />
+                <span>{{message}}</span>
+              </div>
               {{/each}}
             </div>
           </div>
@@ -32,33 +29,18 @@
     </div>
     <div class="col-md-4">
       <div class="row chat-input">
-        <form
-          id="chat-form"
-          style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    "
-        >
+        <form id="chat-form" style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          ">
           <strong>Bienvenido al Chat</strong>
           <br />
           <label for="nombre"> Ingrese su Email: </label>
-          <input
-            type="email"
-            name="nombre"
-            id="user-input"
-            style="margin-bottom: 16px"
-            class="input-file"
-            required
-            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-          />
+          <input type="email" name="nombre" id="user-input" style="margin-bottom: 16px" class="input-file" required
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
           <label for="nombre"> Escriba su mensaje: </label>
-          <textarea
-            name="textInput"
-            id="text-input"
-            style="height: 150px; resize: none;"
-            required
-          ></textarea>
+          <textarea name="textInput" id="text-input" style="height: 150px; resize: none;" required></textarea>
           <br />
           <input type="submit" value="Enviar Mensaje" class="btn btn-primary" />
         </form>

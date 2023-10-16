@@ -3,6 +3,8 @@ const usersDAO = new UsersDAO();
 const { generateTokens, decodeTokens } = require('../utils/jwt.tokens');
 const { sendMailResetPassword } = require('../controllers/mail.controller');
 const { isValidPassword, createHash } = require('../utils/bcrypt.config');
+const mongoose = require('mongoose');
+const { sendMailInfo } = require('../controllers/mail.controller');
 
 class UsersService {
   async sendMailResetPassword(email) {
@@ -124,7 +126,7 @@ class UsersService {
     };
   }
 
-  async changeRole(uid) {
+  async changeRole(uid, getAdmin = false) {
     const user = await usersDAO.getBy({ _id: uid });
 
     if (!user) {
@@ -134,8 +136,10 @@ class UsersService {
         result: { error: 'El usuario no existe' },
       };
     }
+    getAdmin == 'true'
+      ? (user.role = user.role === 'admin' ? 'user' : 'admin')
+      : (user.role = user.role === 'user' ? 'premium' : 'user');
 
-    user.role = user.role === 'user' ? 'premium' : 'user';
     await usersDAO.update(user._id, user);
 
     const newRole = user.role === 'admin' ? 'Administrador' : user.role === 'premium' ? 'Usuario Premium' : 'Usuario Estándar';
@@ -148,6 +152,7 @@ class UsersService {
         info: 'Ya puede ingresar con su nuevo rol.',
         button: `Nuevo rol asignado: ${newRole}`,
         link: '/auth/logout',
+        role: user.role,
       },
     };
   }
@@ -240,6 +245,70 @@ class UsersService {
       return {
         status: 500,
         hbpage: 'error',
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
+      };
+    }
+  }
+
+  async deleteUser(uid) {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(uid)) {
+        return {
+          status: 400,
+          result: {
+            status: 'error',
+            error: `🛑 Invalid user ID.`,
+          },
+        };
+      }
+
+      const userFiltered = await usersDAO.getBy({ _id: uid });
+
+      if (!userFiltered) {
+        return {
+          status: 400,
+          result: {
+            status: 'error',
+            error: `🛑 User not found.`,
+          },
+        };
+      }
+
+      const user = await usersDAO.delete(uid);
+
+      return {
+        status: 200,
+        result: { status: 'success', payload: user },
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        status: 500,
+        result: { status: 'error', msg: 'Internal Server Error', payload: {} },
+      };
+    }
+  }
+
+  async deleteInactiveUsers() {
+    try {
+      const users = await usersDAO.getAll();
+      let time = process.env.NODE_ENV === 'DEVELOPMENT' ? 30 : 2880; // Modo DEV = 30 min, PROD = 48 hs (dos días)
+      const inactiveDate = new Date(Date.now() - time * 60 * 1000);
+      const usersFiltered = users.filter((user) => user.last_connection < inactiveDate);
+
+      await Promise.all([
+        ...usersFiltered.map((user) => usersDAO.delete(user._id)),
+        ...usersFiltered.map((user) => sendMailInfo(user, 'Cuenta eliminada', 'delete')),
+      ]);
+
+      return {
+        status: 200,
+        result: { status: 'success', payload: usersFiltered },
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        status: 500,
         result: { status: 'error', msg: 'Internal Server Error', payload: {} },
       };
     }

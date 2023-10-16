@@ -76,6 +76,11 @@ const checkDocuments = async (req, res, next) => {
     //   return next();
     // }
 
+    if (req.session?.role == 'admin') {
+      //Permite que el admin pueda modificar el perfil de cualquier usuario
+      return next();
+    }
+
     const user = await userService.getProfile({ _id: req.params.uid });
 
     if (!user) {

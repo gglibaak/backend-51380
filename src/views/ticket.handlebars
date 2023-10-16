@@ -2,38 +2,41 @@
 
 {{> nav}}
 
-<div
-    class="table-responsive mx-auto my-4 text-center"
-    style="max-width: 800px;"
-  >
+<div class="table-responsive mx-auto my-4 text-center" style="max-width: 800px;">
 
 
-<p>Codigo del ticket: <b>#{{ticket.payload.code}}</b></p>
-<p>Fecha y hora de la compra: {{ticket.payload.purchase_datetime}}</p>
+  <p>Codigo del ticket: <b>#{{ticket.payload.code}}</b></p>
+  <p>Fecha y hora de la compra: {{ticket.payload.purchase_datetime}}</p>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Productos</th>
-      <th>Categoria</th>
-      <th>Cantidad</th>
-      <th>Precio Unitario</th>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Productos</th>
+        <th>Categoria</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
 
-    </tr>
-  </thead>
-  <tbody>
-    {{#each ticket.payload.products}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each ticket.payload.products}}
       <tr>
         <td>{{this.id.title}}</td>
         <td>{{this.id.category}}</td>
         <td>{{this.quantity}}</td>
         <td>${{this.id.price}}</td>
       </tr>
-    {{/each}}
-  </tbody>
-</table>
+      {{/each}}
+    </tbody>
+  </table>
 
-<p><b>TOTAL ABONADO</b>: ${{ticket.payload.amount}}</p>
+  <p><b>TOTAL ABONADO</b>: ${{ticket.payload.amount}}</p>
+
+  <div class="text-center pt-5">
+    <a href="/products" class="btn btn-warning">
+      Volver a la tienda
+    </a>
+  </div>
 
 </div>
 <script src="/public/js/index2.js"></script>

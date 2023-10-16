@@ -4,17 +4,11 @@
 
 {{#if cart.result.payload.products}}
 <div class="text-center my-4">
-  <button
-    type="button"
-    class="btn btn-warning btn-sm"
-    onclick="deleteCartItems('{{cart.result.payload._id}}')"
-  >Vaciar Carrito
-  <i class="bi bi-trash-fill"></i>
+  <button type="button" class="btn btn-warning btn-sm" onclick="deleteCartItems('{{cart.result.payload._id}}')">Vaciar
+    Carrito
+    <i class="bi bi-trash-fill"></i>
   </button>
-  <div
-    class="table-responsive mx-auto my-4 text-center"
-    style="max-width: 800px;"
-  >
+  <div class="table-responsive mx-auto my-4 text-center" style="max-width: 800px;">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -26,28 +20,22 @@
       </thead>
       <tbody>
         {{#each cart.result.payload.products}}
-          <tr>
-            <td>{{this.id.title}}</td>
-            <td>{{this.id.category}}</td>
-            <td>{{this.quantity}}</td>
-            <td>{{this.id.price}}</td>
-          </tr>
+        <tr>
+          <td>{{this.id.title}}</td>
+          <td>{{this.id.category}}</td>
+          <td>{{this.quantity}}</td>
+          <td>{{this.id.price}}</td>
+        </tr>
         {{/each}}
       </tbody>
     </table>
-    <button
-      type="button"
-      class="btn btn-danger my-4"
-      onclick="purchaseCart('{{cart.result.payload._id}}')"
-    >Confirmar Compra</button>
+    <button type="button" class="btn btn-danger my-4" onclick="purchaseCart('{{cart.result.payload._id}}')">Confirmar
+      Compra</button>
   </div>
-{{else}}
+  {{else}}
   <div class="text-center my-4">
     <p>No hay productos en el carrito</p>
   </div>
-{{/if}}
-<script
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/toastify-js"
-></script>
-<script src="/public/js/index2.js"></script>
+  {{/if}}
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="/public/js/index2.js"></script>

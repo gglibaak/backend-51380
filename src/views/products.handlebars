@@ -1,71 +1,35 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="" href="/products">
-      <img
-        src="https://i.postimg.cc/vB4Vkc4D/ecommerce-2.gif"
-        alt="logo"
-        width="100px"
-        style="margin-left: 1.4rem;"
-      />
+      <img src="https://i.postimg.cc/vB4Vkc4D/ecommerce-2.gif" alt="logo" width="100px" style="margin-left: 1.4rem;" />
     </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#main_nav"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="main_nav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a
-            class="nav-link cart-link"
-            style="color:azure;"
-            {{#if cartid}}
-            href="/carts/{{cartid}}"
-            {{else}}
-            href="/auth/login"
-            {{/if}}
-          >
+        <li class="nav-item"><a class="nav-link cart-link" style="color:azure;" {{#if cartid}} href="/carts/{{cartid}}"
+            {{else}} href="/auth/login" {{/if}}>
             Ver Cart
             <i class="bi bi-cart-fill"></i>
           </a></li>
         {{#if isadmin}}
-          <li class="nav-item"><a
-              class="nav-link btn btn-light btn-sm"
-              style="color:black;"
-              href="/realtimeproducts"
-            > Crear Producto </a></li>
+        <li class="nav-item"><a class="nav-link btn btn-warning btn-sm" style="color:white;" href="/realtimeproducts">
+            Crear Producto </a></li>
 
         {{/if}}
 
         {{#if email}}
-          <li class="nav-item "><a
-              class="nav-link cartInfo"
-              id="{{cartid}}"
-              style="color:azure;"
-              href="/auth/profile"
-            > Ver Perfil </a></li>
+        <li class="nav-item "><a class="nav-link cartInfo" id="{{cartid}}" style="color:azure;" href="/auth/profile">
+            Ver Perfil </a></li>
         {{else}}
-          <li class="nav-item"><a
-              class="nav-link"
-              style="color:azure;"
-              href="/auth/register"
-            > Registrarse </a></li>
+        <li class="nav-item"><a class="nav-link" style="color:azure;" href="/auth/register"> Registrarse </a></li>
         {{/if}}
 
         {{#if email}}
-          <li class="nav-item"><a
-              class="nav-link"
-              style="color:azure;"
-              href="/auth/logout"
-            > Log Out </a></li>
+        <li class="nav-item"><a class="nav-link" style="color:azure;" href="/auth/logout"> Log Out </a></li>
         {{else}}
-          <li class="nav-item"><a
-              class="nav-link"
-              style="color:azure;"
-              href="/auth/login"
-            > Log In </a></li>
+        <li class="nav-item"><a class="nav-link" style="color:azure;" href="/auth/login"> Log In </a></li>
         {{/if}}
       </ul>
     </div>
@@ -75,9 +39,10 @@
 
 <h2 class="text-center my-4 pt-5">Productos</h2>
 {{#if name}}
-  <h4 class="text-center my-4 pt-1">Bienvenido
-    {{name}},
-    <p style="font-size: 1.1rem; font-style: italic; color: #b5b5b5">({{email}})</p></h4>
+<h4 class="text-center my-4 pt-1">Bienvenido
+  {{name}},
+  <p style="font-size: 1.1rem; font-style: italic; color: #b5b5b5">({{email}})</p>
+</h4>
 {{/if}}
 
 <div class="container my-5">
@@ -93,10 +58,10 @@
       </div>
       <div class="text-center">
         {{#if prevLink}}
-          <a href="{{prevLink}}" class="btn btn-primary">Página Anterior</a>
+        <a href="{{prevLink}}" class="btn btn-primary">Página Anterior</a>
         {{/if}}
         {{#if nextLink}}
-          <a href="{{nextLink}}" class="btn btn-primary">Siguiente Página</a>
+        <a href="{{nextLink}}" class="btn btn-primary">Siguiente Página</a>
         {{/if}}
       </div>
     </div>
@@ -106,36 +71,26 @@
 
 <div class="row justify-content-center mx-5">
   {{#each products.result.payload}}
-    <div class="col-sm-2 mb-4">
-      <div class="card h-100" style="width: 16rem;">
-        <img
-          class="card-img-top"
-          src="{{this.thumbnails}}"
-          alt="Card image cap"
-        />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{this.title}}</h5>
-          <p>ID: {{this.id}}</p>
-          <p>{{this.description}}</p>
-          <p>Price: ${{this.price}}</p>
-          <p>Code: {{this.code}}</p>
-          <p>Stock: {{this.stock}}</p>
-          <p>Category: {{this.category}}</p>
-          <div class="mt-auto d-flex justify-content-center">
-            <a
-              href="#!"
-              class="btn btn-primary w-100 {{#if this.stock}}btn-primary{{else}}btn-danger disabled{{/if}}"
-              onclick="AddtoCart('{{this.id}}')"
-            >{{#if this.stock}}Agregar al Carro{{else}}AGOTADO{{/if}}</a>
-          </div>
-
+  <div class="col-sm-2 mb-4">
+    <div class="card h-100" style="width: 16rem;">
+      <img class="card-img-top" src="{{this.thumbnails}}" alt="Card image cap" />
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p>ID: {{this.id}}</p>
+        <p>{{this.description}}</p>
+        <p>Price: ${{this.price}}</p>
+        <p>Code: {{this.code}}</p>
+        <p>Stock: {{this.stock}}</p>
+        <p>Category: {{this.category}}</p>
+        <div class="mt-auto d-flex justify-content-center">
+          <a href="#!" class="btn btn-primary w-100 {{#if this.stock}}btn-primary{{else}}btn-danger disabled{{/if}}"
+            onclick="AddtoCart('{{this.id}}')">{{#if this.stock}}Agregar al Carro{{else}}AGOTADO{{/if}}</a>
         </div>
+
       </div>
     </div>
+  </div>
   {{/each}}
 </div>
-<script
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/toastify-js"
-></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="public/js/index2.js"></script>

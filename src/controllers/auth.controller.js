@@ -54,7 +54,7 @@ class authController {
   };
 
   getProfile = async (req, res) => {
-    const profilesDoc = req.session.documents.find((doc) => doc.name === 'profiles');
+    const profilesDoc = req.session.documents?.find((doc) => doc.name === 'profiles');
 
     let profileAvatar;
     profilesDoc ? (profileAvatar = profilesDoc?.reference.split('src')[1]) : (profileAvatar = '/public/img/avatar_default.png');

@@ -58,7 +58,13 @@ class mailController {
 
         try {
           await transport.sendMail(mailOptions);
-          res.status(200).json({ email_success: req.body }); //TODO cambiar a render de vista de exito
+          res.status(200).render('info', {
+            title: 'Envio de Mail',
+            subtitle: '🚀 Mail enviado con éxito!',
+            info: `Se ha enviado un mail a la casilla de correo ${email}`,
+            button: 'Regresar',
+            link: '/mail',
+          });
         } catch (error) {
           res.status(500).render('error', { error: 'Error al enviar el correo electrónico' });
         }
@@ -107,6 +113,50 @@ class mailController {
       logger.debug('Email de recuperación enviado');
     } catch (error) {
       logger.error(error);
+    }
+  }
+
+  async sendMailInfo(user, subject, type = '') {
+    const { email, first_name } = user;
+
+    let html = {};
+
+    // console.log(type);
+
+    if (type === 'delete') {
+      html = `<h1>Estimado ${first_name},</h1>
+    <p>Le informamos que su cuenta ha sido eliminada por inactividad.</p>
+    <p>Si desea volver a utilizar nuestros servicios, por favor, vuelva a registrarse.</p>
+    <p>Saludos cordiales,</p>
+    <p>Equipo de Soporte de Coder-Ecommerce</p>`;
+    } else if (type === 'premium') {
+      html = `<h1>Estimado ${first_name},</h1>
+    <p>Le informamos que su producto ha sido eliminado por un Administrador.</p>
+    <p>Ante cualquier duda o consulta no dude en contactarnos.</p>
+    <p>Saludos cordiales,</p>
+    <p>Equipo de Soporte de Coder-Ecommerce</p>`;
+    }
+
+    const mailOptions = {
+      from: env.GOOGLE_EMAIL,
+      to: email,
+      subject,
+      html,
+    };
+
+    const transport = nodemailer.createTransport({
+      service: 'gmail',
+      port: 587,
+      auth: {
+        user: env.GOOGLE_EMAIL,
+        pass: env.GOOGLE_PASSWORD,
+      },
+    });
+
+    try {
+      await transport.sendMail(mailOptions);
+    } catch (error) {
+      console.log('Error al enviar el mail', error);
     }
   }
 }

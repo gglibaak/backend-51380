@@ -13,4 +13,8 @@ userRoutes.get('/:uid/documents', usersController.getDocuments);
 
 userRoutes.get('/', usersController.getUsers);
 
+userRoutes.delete('/:uid', usersController.deleteUser);
+
+userRoutes.get('/view', usersController.getUserView); //TODO middlewares de acceso
+
 module.exports = userRoutes;

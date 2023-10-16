@@ -104,7 +104,6 @@ const deleteCartItems = (cartId) => {
 };
 
 const purchaseCart = (cartId) => {
-  //get cartId from fetch
   fetch(`/api/carts/${cartId}`, {
     method: 'GET',
     headers: {
@@ -113,7 +112,6 @@ const purchaseCart = (cartId) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      // console.log(data.payload.products);
       const products = data.payload.products;
       const formatProduct = products.map((product) => {
         return {
@@ -121,7 +119,6 @@ const purchaseCart = (cartId) => {
           quantity: product.quantity,
         };
       });
-      // console.log('desde front', formatProduct);
 
       fetch(`/api/carts/${cartId}/purchase`, {
         method: 'PUT',
@@ -146,4 +143,49 @@ const purchaseCart = (cartId) => {
         .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
+};
+const role = document.getElementById('role');
+//TODO ARREGLAR ESTO
+function changeRoleOnClick(id, admin = false) {
+  fetch(`/api/users/premium/${id}?api=true&admin=${admin}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data === 'premium') {
+        role.classList.add('text-success');
+        role.classList.remove('text-info');
+        role.classList.remove('text-danger');
+        data = 'Usuario Premium';
+      } else if (data === 'user') {
+        role.classList.add('text-info');
+        role.classList.remove('text-success');
+        role.classList.remove('text-danger');
+        data = 'Usuario Standard';
+      } else if (data === 'admin') {
+        role.classList.add('text-danger');
+        role.classList.remove('text-info');
+        role.classList.remove('text-success');
+        data = 'Usuario Administrador';
+      }
+
+      role.innerHTML = data;
+
+      showMsg(`✔️ El usuario a cambiado a ${data}.`, 2000);
+    })
+    .catch((error) => console.error('Error:', error));
+}
+
+deleteUser = (id, checkAllusers = false) => {
+  fetch(`/api/users/${id}?checkall=${checkAllusers}`, {
+    method: 'DELETE',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+      checkAllusers === true
+        ? showMsg2(`✔️ Todos los usuarios inactivos seran eliminados.`, 2000, '#ff3352')
+        : showMsg2(`✔️ El usuario con el id: ${id} ha sido eliminado.`, 2000, '#ff3352');
+    })
+    .catch((error) => console.error('Error:', error));
 };

@@ -28,6 +28,15 @@ class UserDAO {
       console.log(error);
     }
   }
+
+  async delete(id) {
+    try {
+      const deletedUser = await UserSchemas.deleteOne({ _id: id });
+      return deletedUser;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = UserDAO;

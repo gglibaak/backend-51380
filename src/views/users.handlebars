@@ -1,0 +1,56 @@
+<div class="container">
+  <h2 class="text-center my-4 pt-5">Dashboard</h2>
+
+
+
+
+  {{> nav}}
+
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <ul class="list-group">
+        <button type="button" class="btn btn-warning btn-sm  mb-2" onclick="deleteUser(null, true)"><i
+            class="bi bi-binoculars-fill"></i> </i>Limpiar usuarios inactivos</button>
+        {{#each payload}}
+        <li class="list-group-item list-group-item-action d-flex justify-content-between">
+
+          <div class="d-flex align-items-center">
+            <img src="\public\img\avatar_default.png" class="rounded-circle me-2" style="width: 50px;" alt="Avatar" />
+            <div class="ml-3">
+              <div id="role" class="d-flex flex-column text-info">
+                {{#if (eq this.role 'premium')}}
+                <span class="text-success">Usuario Premium</span>
+                {{else if (eq this.role 'user')}}
+                <span class="text-info">Usuario Standard</span>
+                {{else if (eq this.role 'admin')}}
+                <span class="text-danger">Usuario Administrador</span>
+                {{else}}
+                <span class="text-muted">Rol desconocido</span>
+                {{/if}}
+              </div>
+              {{this.first_name}} {{this.last_name}}
+              <span class="text-black-50"> {{this.email}}</span>
+            </div>
+          </div>
+
+          <div class="dropdown btn-group">
+            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Seleccionar Rol
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#!" onclick="changeRoleOnClick('{{_id}}')">Premium / User</a></li>
+              <li><a class="dropdown-item" href="#!" onclick="changeRoleOnClick('{{_id}}', true)">Obtener Admin</a></li>
+            </ul>
+            <button type="button" class="btn btn-danger btn-sm ms-2" onclick="deleteUser('{{_id}}')"><i
+                class="bi bi-trash3-fill"></i></button>
+          </div>
+        </li>
+        {{/each}}
+
+      </ul>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/public/js/index2.js"></script>

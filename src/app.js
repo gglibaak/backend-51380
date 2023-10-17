@@ -136,7 +136,6 @@ app.use('/chat', messagesRoutes);
 app.use('/auth', authRoutes);
 app.use('/mail', mailRoutes);
 app.use('/api/users', userRoutes);
-// Deberia estar todo de la misma ruta (api) ??
 app.use('/api/sessions/current', (req, res) => {
   const infoUser = new userDTO(req.session);
   res.json({ user: infoUser });

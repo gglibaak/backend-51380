@@ -18,11 +18,9 @@ const AddtoCart = (id) => {
         showMsg2(`${data.error} - El producto con el id: ${id} no puede ser agregado.`, 1000, '#f74020');
         return;
       }
-      // console.log(`Producto con el id: ${id} se agregó al cart con id: ${cartIdValue}`);
       showMsg(`🛒 Producto agregado al carro con el id: ${id}.`, 3000);
     })
     .catch((err) => {
-      // console.log(err);
       showMsg2(`⚠ El producto con el id: ${id} no puede ser agregado.`, 1000, '#f74020');
     });
 };
@@ -129,7 +127,6 @@ const purchaseCart = (cartId) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data);
           const id = data.payload._id;
           setTimeout(() => {
             window.location.href = `/api/carts/purchase/${id}`;

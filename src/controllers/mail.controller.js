@@ -107,8 +107,6 @@ class mailController {
         html: messageFiltered,
       };
 
-      // console.log(mailOptions);
-
       await transport.sendMail(mailOptions);
       logger.debug('Email de recuperación enviado');
     } catch (error) {
@@ -120,8 +118,6 @@ class mailController {
     const { email, first_name } = user;
 
     let html = {};
-
-    // console.log(type);
 
     if (type === 'delete') {
       html = `<h1>Estimado ${first_name},</h1>

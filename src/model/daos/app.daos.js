@@ -19,7 +19,7 @@ switch (envConfig.PERSISTENCE) {
     break;
 
   case 'FILESYSTEM':
-    console.log('🍕Persistance with FileSystem');
+    logger.info('🍕Persistance with FileSystem');
 
     MessagesDAO = require('./messages/messages.fs.dao');
     CartsDAO = require('./carts/carts.fs.dao');

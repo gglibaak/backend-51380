@@ -15,7 +15,6 @@ class productController {
   };
 
   addProduct = async (req, res, next) => {
-    //TODO  VALIDACIONES EN PROCESO
     try {
       const newProduct = req.body;
       const response = await Services.addProduct(newProduct);

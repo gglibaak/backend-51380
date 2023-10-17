@@ -38,7 +38,7 @@ const initPassport = () => {
           }
 
           const user = await UserModel.findOne({ email: username });
-          // console.log(user);
+
           if (!user) {
             req.flash('error', 'Por favor indique su email y password.');
             return done(null, false);
@@ -49,7 +49,7 @@ const initPassport = () => {
             return done(null, false);
           }
 
-          //actualiza la ultima conexion
+          //Actualiza la ultima conexion
           user.last_connection = new Date();
           await user.save();
 
@@ -63,7 +63,6 @@ const initPassport = () => {
           req.session.documents = user.documents;
           req.session._id = user._id.toString();
 
-          // console.log(req.session.documents);
           return done(null, user);
         } catch (error) {
           return done(new Error(error));
@@ -118,7 +117,6 @@ const initPassport = () => {
           req.session.age = age;
           req.session.cartID = cartID;
           req.session.orders = [];
-          // req.session._id = user._id.toString();
           req.session.documents = [];
 
           return done(null, response);
@@ -140,7 +138,6 @@ const initPassport = () => {
         callbackURL: PROJECT_URL + '/auth/github/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
-        //console.log(profile); // Información que nos devuelve GitHub
         try {
           const res = await fetch('https://api.github.com/user/emails', {
             headers: {
@@ -188,7 +185,6 @@ const initPassport = () => {
             return done(null, user);
           }
         } catch (error) {
-          // console.log('Error en auth github');
           console.log(error);
           return done(new Error(error));
         }
@@ -217,17 +213,6 @@ const initPassport = () => {
             const lastName = displayName[1] || 'nolastname';
             const firstName = displayName[0] || 'noname';
 
-            /* console.log(
-              "Nombre: ",
-              firstName,
-              "Apellido: ",
-              lastName,
-              "Email: ",
-              email
-            ); */
-
-            // console.log("No existe el usuario. Se crearà uno nuevo");
-
             const userCreated = await UserModel.create({
               first_name: firstName,
               last_name: lastName,
@@ -240,14 +225,12 @@ const initPassport = () => {
               documents: [],
               last_connection: new Date(),
             });
-            // console.log("Usuario creado correctamente:", userCreated);
+
             return done(null, userCreated);
           } else {
-            // console.log("Usuario ya existe");
             return done(null, user);
           }
         } catch (error) {
-          // console.log('Error en auth facebook');
           console.log(error);
           return done(new Error(error));
         }
@@ -264,7 +247,6 @@ const initPassport = () => {
         callbackURL: PROJECT_URL + '/auth/google/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
-        // console.log(profile);
         try {
           const { email, given_name, family_name } = profile._json;
           let user = await UserModel.findOne({ email: email });
@@ -272,7 +254,6 @@ const initPassport = () => {
             const newCart = await Services.addCart();
             const cartID = newCart.result.payload._id.toString();
 
-            // console.log("No existe el usuario. Se crearà uno nuevo");
             const userCreated = await UserModel.create({
               first_name: given_name,
               last_name: family_name,
@@ -285,14 +266,11 @@ const initPassport = () => {
               documents: [],
               last_connection: new Date(),
             });
-            // console.log("Usuario creado correctamente:", userCreated);
             return done(null, userCreated);
           } else {
-            // console.log("Usuario ya existe");
             return done(null, user);
           }
         } catch (error) {
-          console.log('Error en auth google');
           console.log(error);
           return done(new Error(error));
         }

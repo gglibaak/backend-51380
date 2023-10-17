@@ -21,7 +21,6 @@ module.exports = (err, req, res, next) => {
         status: 'error',
         message: 'Internal Server Error',
         payload: error,
-        // stack: error.stack,
       });
       break;
   }

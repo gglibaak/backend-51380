@@ -10,7 +10,6 @@ class MongoProducts {
   async getProductAll(queryParams = {}, hasNoLimit = false) {
     try {
       const { limit, page, sort, query, status } = queryParams;
-      // const products = await ProductModel.find({}).limit(limit)
       const filter = query ? { category: { $regex: query, $options: 'i' } } : {};
 
       let statusIsAvailable = status === 'available' ? true : false;

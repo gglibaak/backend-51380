@@ -59,8 +59,6 @@ class MongoTickets {
       const productsNotPurchased = [];
       const productToPurchase = [];
 
-      // console.log('Lista de compras:', cartList);
-
       const asyncOperations = cartList.map(async (CartProduct) => {
         const checkStock = await productDAO.getById(CartProduct.id);
 
@@ -80,15 +78,11 @@ class MongoTickets {
 
       await Promise.all(asyncOperations); // Espera a que todas las operaciones asincronicas terminen
 
-      // console.log('FLAG: Products not purchased: ', productsNotPurchased);
-
       // Calcula el total de la compra
       const totalAmount = productToPurchase.reduce((acc, p) => {
         acc += p.product.price * p.quantity;
         return acc;
       }, 0);
-
-      // console.log('FLAG: Total amount: ', totalAmount);
 
       // Formatea los productos que se pueden comprar para el ticket
       const productFormat = productToPurchase.map((p) => ({
@@ -103,8 +97,6 @@ class MongoTickets {
         purchaser: userMail,
         products: productFormat,
       };
-
-      // console.log('FLAG: New order: ', newOrder);
 
       //Creacion de ticket en DB
       const orderCreated = await ticketsDAO.add(newOrder);
@@ -121,7 +113,6 @@ class MongoTickets {
       //Agrega los productos no comprados al carrito original
       if (productsNotPurchased.length > 0) {
         await Services.updateCart(userCartId, productsNotPurchased);
-        // console.log('FLAG Productos no comprados: ', productsNotPurchased);
       }
 
       return {

@@ -211,10 +211,8 @@ class UsersService {
           if (documentExistsIndex !== -1) {
             // El documento ya existe, actualizar referencia
             user.documents[documentExistsIndex].reference = newDocument.reference;
-            console.log('El documento se actualizó en la base de datos');
           } else {
             user.documents.push(newDocument);
-            console.log('El documento no existe, se agregó a la base de datos');
           }
         }
       }

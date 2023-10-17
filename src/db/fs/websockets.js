@@ -19,10 +19,8 @@ module.exports = (io) => {
     socket.on('delete-product', async (delProd) => {
       try {
         let id = parseInt(delProd);
-        // console.log(id)
-        // console.log(typeof id)
         await data.deleteProduct(id);
-        // Actualizando lista despues de agregar producto nuevo
+
         const productsList = await data.getProducts();
 
         io.emit('products', productsList);

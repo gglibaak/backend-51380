@@ -72,9 +72,9 @@ const isCartOwner = (req, res, next) => {
 
 const checkDocuments = async (req, res, next) => {
   try {
-    // if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
-    //   return next();
-    // }
+    if (process.env.NODE_ENV === 'DEVELOPMENT' && !req.isAuthenticated()) {
+      return next();
+    }
 
     if (req.session?.role == 'admin') {
       //Permite que el admin pueda modificar el perfil de cualquier usuario

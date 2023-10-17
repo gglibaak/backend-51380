@@ -6,14 +6,9 @@ module.exports = (err, req, res, next) => {
 
   console.log(error.cause);
 
-  // if (process.env.NODE_ENV === 'DEVELOPMENT') {
-  //   console.log(error.stack);
-  // }
-
   switch (error.code) {
     case EErros.PRODUCT_ALREADY_EXISTS:
     case EErros.INVALID_TYPES_ERROR:
-      // console.log('Flag: LLEGA', isJson);
       isJson
         ? res.status(400).render('error', { error: err.name, cause: err.cause, error_code: err.code })
         : res.status(400).json({ status: 'error', error: err.name, cause: err.cause });

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const env = require('../config/env.config');
 const { logger } = require('../utils/logger.config');
 
-env.NODE_ENV === 'DEVELOPMENT' ? (expirationTime = '3m') : (expirationTime = '60m');
+env.NODE_ENV === 'DEVELOPMENT' ? (expirationTime = '3m') : (expirationTime = '5m');
 
 process.env.ACCESS_TOKEN_EXPIRATION = expirationTime;
 
@@ -20,7 +20,6 @@ const generateTokens = (email) => {
 const decodeTokens = (token) => {
   try {
     const decodedToken = jwt.verify(token, env.ACCESS_TOKEN_SECRET);
-    // logger.debug(decodedToken);
     return decodedToken;
   } catch (error) {
     logger.error(error);

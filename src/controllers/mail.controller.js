@@ -87,7 +87,7 @@ class mailController {
                 <p>Estimado ${first_name}, hemos recibido una solicitud de recuperación de contraseña. </p>
                 <p>Para continuar con el proceso de recuperación de contraseña, por favor haga click en el siguiente enlace: </p>
 
-                <a href="http://localhost:8080/auth/password-recovery/${token}">Recuperar Contraseña</a>
+                <a href="${env.PROJECT_URL}/auth/password-recovery/${token}">Recuperar Contraseña</a>
             </div>
         `;
 

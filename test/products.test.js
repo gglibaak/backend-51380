@@ -4,7 +4,7 @@ const { faker } = require('@faker-js/faker/locale/es');
 
 const expect = chai.expect;
 
-const requester = supertest('http://localhost:8080');
+const requester = supertest(process.env.PROJECT_URL);
 
 describe('Testing Products endpoint', () => {
   it('Check get all products -> GET /api/products', async () => {

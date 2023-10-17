@@ -201,7 +201,7 @@ const initPassport = () => {
       {
         clientID: FACEBOOK_CLIENT_ID,
         clientSecret: FACEBOOK_CLIENT_SECRET,
-        callbackURL: 'http://localhost:8080/auth/facebook/callback',
+        callbackURL: PROJECT_URL + '/auth/facebook/callback',
         profileFields: ['id', 'displayName', 'email'],
       },
       async (accessToken, refreshToken, profile, done) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 const { Server: HttpServer } = require('http');
 const { Server: SocketServer } = require('socket.io');
-
+const path = require('path');
 const env = require('./config/env.config');
 const { addLogger, logger } = require('./utils/logger.config');
 const productRoutes = require('./routers/products.routes');
@@ -15,9 +15,7 @@ const mockRoutes = require('./routers/mock.routes');
 const userRoutes = require('./routers/users.routes');
 const errorHandler = require('./middlewares/error');
 
-const exphbs = require('express-handlebars');
-const handlebars = require('handlebars');
-const path = require('path');
+const handlebarsConfig = require('./utils/handlebars.config');
 const session = require('express-session');
 const passport = require('passport');
 const compression = require('compression');
@@ -27,6 +25,8 @@ const connectMongo = require('./utils/mongo.connect');
 const initPassport = require('./config/passport-config');
 const flash = require('connect-flash');
 const userDTO = require('./model/DTO/user.dto');
+const swaggerUI = require('swagger-ui-express');
+const swaggerSpecs = require('./utils/swagger.config');
 
 const PORT = env.PORT || 8080;
 const SESSION_SECRET = env.SESSION_SECRET;
@@ -34,9 +34,6 @@ const MONGO_URL = env.MONGO_URL;
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
-
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUI = require('swagger-ui-express');
 
 const serverConnected = httpServer.listen(PORT, () => {
   // Conexión a DB Atlas.
@@ -53,31 +50,8 @@ const serverConnected = httpServer.listen(PORT, () => {
 
 serverConnected.on('error', (error) => logger.error(`Server error: ${error}`));
 
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.1',
-    info: {
-      title: 'Documentation CoderEcommerce API REST',
-      description: 'Example of a documentation for the Ecommerce API using Swagger.',
-      version: '1.0.2',
-      contact: {
-        name: 'Gabriel GL',
-        url: 'https://coder-ecommerce-app.onrender.com',
-        email: 'ggldevelopertest@gmail.com',
-      },
-    },
-    servers: [
-      {
-        url: `${process.env.PROJECT_URL}/api`,
-        description: 'Development server',
-      },
-    ],
-  },
-  apis: [`${__dirname}/docs/**/*.yaml`],
-};
-
-const specs = swaggerJSDoc(swaggerOptions);
-app.use('/apidocs', swaggerUI.serve, swaggerUI.setup(specs));
+// Configuración de Swagger
+app.use('/apidocs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
 // Middlewares
 app.use(addLogger);
@@ -87,26 +61,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(compression({})); // Compresión de archivos
 app.use('/public', express.static(__dirname + '/public'));
 
-// Registra el helper eq
-handlebars.registerHelper('eq', function (a, b) {
-  return a === b;
-});
-
-// Registra el helper or
-handlebars.registerHelper('or', function () {
-  const args = Array.prototype.slice.call(arguments, 0, -1);
-  return args.some(Boolean);
-});
-
-//Usando el engine handlerbars para plantilla
-app.engine(
-  'handlebars',
-  exphbs.engine({
-    layoutsDir: __dirname + '/views/layouts',
-    partialsDir: __dirname + '/views/partials',
-  })
-);
-
+//Usando la configuración de Handlebars importada
+app.engine('handlebars', handlebarsConfig);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
